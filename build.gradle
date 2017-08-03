@@ -1,0 +1,43 @@
+description = 'simple RESTful application with memory cache (hazelcast)'
+
+
+ext{
+    gradleVersion = '3.4.1'
+    javaVersion = '1.8.0_73'
+    projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.0']
+}
+
+version = projectIds.version
+
+allprojects {
+
+    group = projectIds.group
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+
+subprojects{
+
+    apply plugin: 'java'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    ext{
+        junitVersion = '4.12'
+        LogbackVersion = '1.2.3'
+        slf4jVersion =  '1.5.8'
+    }
+
+    dependencies {
+        testCompile "junit:junit:$junitVersion"
+    }
+
+    task wrapper(type: Wrapper) {
+        gradleVersion = '$gradleVersion'
+    }
+}

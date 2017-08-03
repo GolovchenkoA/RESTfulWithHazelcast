@@ -1,0 +1,5 @@
+rootProject.name = 'webserver'
+
+include 'web'
+include 'hazelcast-server'
+
