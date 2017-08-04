@@ -1,6 +1,5 @@
 description = 'simple RESTful application with memory cache (hazelcast)'
 
-
 ext{
     gradleVersion = '3.4.1'
     javaVersion = '1.8.0_73'
@@ -33,11 +32,59 @@ subprojects{
         slf4jVersion =  '1.5.8'
     }
 
-    dependencies {
-        testCompile "junit:junit:$junitVersion"
+    repositories {
+        mavenCentral()
+        jcenter()
     }
 
-    task wrapper(type: Wrapper) {
-        gradleVersion = '$gradleVersion'
+    dependencies {
+        //testCompile "junit:junit:$junitVersion"
+		testImplementation 'junit:junit:4.12'
     }
+
+
+
+/* Addition settings for testing in footer
+	Example
+	--------------------------------------------------------------------
+	|  Results: SUCCESS (1 tests, 1 successes, 0 failures, 0 skipped)  |
+	--------------------------------------------------------------------
+	*/
+    tasks.withType(Test) {
+        group ='testing'
+        description= 'show addition information after all tests'
+
+        testLogging {
+            // set options for log level LIFECYCLE
+            events "passed", "skipped", "failed", "standardOut"
+            showExceptions true
+            exceptionFormat "full"
+            showCauses true
+            showStackTraces true
+            showStandardStreams = true
+
+            // set options for log level DEBUG and INFO
+            debug {
+                events "started", "passed", "skipped", "failed", "standardOut", "standardError"
+                exceptionFormat "full"
+            }
+            info.events = debug.events
+            info.exceptionFormat = debug.exceptionFormat
+
+            afterSuite { desc, result ->
+                if (!desc.parent) { // will match the outermost suite
+                    def output = "Results: ${result.resultType} (${result.testCount} tests, ${result.successfulTestCount} successes, ${result.failedTestCount} failures, ${result.skippedTestCount} skipped)"
+                    def startItem = '|  ', endItem = '  |'
+                    def repeatLength = startItem.length() + output.length() + endItem.length()
+                    println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength))
+                }
+            }
+
+
+        }
+    }
+
+/*    task wrapper(type: Wrapper) {
+        gradleVersion = $gradleVersion
+    }*/
 }
