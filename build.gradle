@@ -4,6 +4,7 @@ ext{
     gradleVersion = '3.4.1'
     javaVersion = '1.8.0_73'
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.0']
+    jacocoVersion = '0.7.9'
 }
 
 version = projectIds.version
@@ -22,6 +23,7 @@ allprojects {
 subprojects{
 
     apply plugin: 'java'
+    apply plugin: "jacoco"
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -39,7 +41,8 @@ subprojects{
 
     dependencies {
         //testCompile "junit:junit:$junitVersion"
-		testImplementation 'junit:junit:4.12'
+		//testImplementation 'junit:junit:4.12'
+		testImplementation 'junit:junit:$junitVersion'
     }
 
 
@@ -87,4 +90,30 @@ subprojects{
 /*    task wrapper(type: Wrapper) {
         gradleVersion = $gradleVersion
     }*/
+
+/*    jacocoTestReport {
+        afterEvaluate {
+            classDirectories = files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: ['**//*MyTest.class',])
+            })
+        }
+    }
+
+    jacocoTestReport.dependsOn(test)
+    test.finalizedBy(project.tasks.jacocoTestReport)
+    build.dependsOn(jacocoTestReport)*/
+
+    jacoco {
+        toolVersion = '$jacocoVersion'
+        reportsDir = file("$buildDir/customJacocoReportDir")
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.destination "${buildDir}/jacocoHtml"
+        }
+    }
+
 }
