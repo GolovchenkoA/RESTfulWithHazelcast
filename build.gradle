@@ -17,6 +17,7 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
+
 }
 
 
@@ -36,13 +37,17 @@ subprojects{
 
     repositories {
         mavenCentral()
-        jcenter()
+        //jcenter()
     }
 
     dependencies {
         //testCompile "junit:junit:$junitVersion"
 		//testImplementation 'junit:junit:4.12'
 		testImplementation 'junit:junit:$junitVersion'
+        //runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
+        //compile group: 'ch.qos.logback', name: 'logback-classic', "$LogbackVersion"
+      /*  compile 'ch.qos.logback:logback-classic:$LogbackVersion'
+        runtime "org.slf4j:slf4j-api:$slf4jVersion"*/
     }
 
 
@@ -115,5 +120,12 @@ subprojects{
             html.destination "${buildDir}/jacocoHtml"
         }
     }
+
+    //source https://gist.github.com/uarun/4375219
+    /*    configurations.all {
+            resolutionStrategy {
+                failOnVersionConflict()
+            }
+        }*/
 
 }
