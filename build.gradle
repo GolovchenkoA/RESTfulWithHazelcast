@@ -10,6 +10,10 @@ ext{
 version = projectIds.version
 
 allprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 
     group = projectIds.group
 
@@ -25,9 +29,6 @@ subprojects{
 
     apply plugin: 'java'
     apply plugin: "jacoco"
-
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
 
     ext{
         junitVersion = '4.12'
@@ -129,3 +130,16 @@ subprojects{
         }*/
 
 }
+
+
+ /*Root Project dependencies  */
+
+/*
+project('game'){
+    version = '1.0.0.SNAPSHOT'
+    description = 'Root Project'
+
+    dependencies{
+        compile project(':cache-server')
+    }
+}*/
