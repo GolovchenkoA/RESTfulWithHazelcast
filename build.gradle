@@ -9,6 +9,7 @@ ext{
 
 version = projectIds.version
 
+
 allprojects {
     apply plugin: 'java'
 

@@ -5,7 +5,6 @@ package ua.golovchenko.artem.game;
  */
 public class ServerManager {
 
-
     public ServerManager(){
         
     }

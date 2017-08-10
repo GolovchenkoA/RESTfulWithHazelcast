@@ -11,8 +11,18 @@ import java.util.Map;
  * Created by Artem on 05.08.2017.
  */
 public class CacheServer {
+    private HazelcastInstance instance;
 
-    public static void main(String[] args) {
+
+    public CacheServer() {
+        instance = Hazelcast.newHazelcastInstance();
+    }
+
+    public HazelcastInstance getInstance(){
+        return instance;
+    }
+
+    /*    public static void main(String[] args) {
         Config config = new Config();
         config.getNetworkConfig().setPort( 5900 );
 
@@ -24,5 +34,5 @@ public class CacheServer {
 
         HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance( config );
         Map<Integer, String> customers = hazelcastInstance.getMap( "users" );
-    }
+    }*/
 }
