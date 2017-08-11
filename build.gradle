@@ -5,11 +5,18 @@ ext{
     javaVersion = '1.8.0_73'
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.0']
     jacocoVersion = '0.7.9'
+    LogbackVersion = '1.2.3'
+    slf4jVersion =  '1.5.8'
 }
 
 version = projectIds.version
 
+
 allprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 
     group = projectIds.group
 
@@ -17,6 +24,15 @@ allprojects {
         mavenLocal()
         mavenCentral()
     }
+
+    dependencies{
+        compile project(':config')
+        compile group: 'org.jacoco', name: 'org.jacoco.agent', version: "$jacocoVersion"
+        runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: "$LogbackVersion"
+        runtime "org.slf4j:slf4j-api:$slf4jVersion"
+    }
+
 }
 
 
@@ -24,9 +40,6 @@ subprojects{
 
     apply plugin: 'java'
     apply plugin: "jacoco"
-
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
 
     ext{
         junitVersion = '4.12'
@@ -36,13 +49,17 @@ subprojects{
 
     repositories {
         mavenCentral()
-        jcenter()
+        //jcenter()
     }
 
     dependencies {
         //testCompile "junit:junit:$junitVersion"
 		//testImplementation 'junit:junit:4.12'
 		testImplementation 'junit:junit:$junitVersion'
+        //runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
+        //compile group: 'ch.qos.logback', name: 'logback-classic', "$LogbackVersion"
+      /*  compile 'ch.qos.logback:logback-classic:$LogbackVersion'
+        runtime "org.slf4j:slf4j-api:$slf4jVersion"*/
     }
 
 
@@ -116,4 +133,24 @@ subprojects{
         }
     }
 
+    //source https://gist.github.com/uarun/4375219
+    /*    configurations.all {
+            resolutionStrategy {
+                failOnVersionConflict()
+            }
+        }*/
+
 }
+
+
+ /*Root Project dependencies  */
+
+/*
+project('game'){
+    version = '1.0.0.SNAPSHOT'
+    description = 'Root Project'
+
+    dependencies{
+        compile project(':cache-server')
+    }
+}*/
