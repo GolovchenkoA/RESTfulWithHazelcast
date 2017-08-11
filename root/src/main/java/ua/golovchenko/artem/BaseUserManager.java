@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.web;
+package ua.golovchenko.artem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,6 @@ import ua.golovchenko.artem.model.UserBase;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by Artem on 11.08.2017.

@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.web;
+package ua.golovchenko.artem;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +21,11 @@ public class StringUserManager implements UsersManager<String> {
     ObjectMapper mapper = new ObjectMapper();
     JSONObject json = new JSONObject();
 
-    StringUserManager(){
+    public StringUserManager(){
        usersManager = new BaseUserManager();
     }
 
-    StringUserManager(BaseUserManager baseUserManager){
+    public StringUserManager(BaseUserManager baseUserManager){
        this.usersManager = baseUserManager;
     }
 

@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.web;
+package ua.golovchenko.artem;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import ua.golovchenko.artem.model.User;

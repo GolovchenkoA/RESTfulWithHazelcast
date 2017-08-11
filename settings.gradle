@@ -4,6 +4,6 @@ include 'web-api'
 include 'cache-server'
 include 'application-server'
 include 'models'
-
 include 'config'
+include 'root'
 

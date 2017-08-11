@@ -1,13 +1,8 @@
-package ua.golovchenko.artem.game;
+package ua.golovchenko.artem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.web.WebServerApi;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import static java.net.InetAddress.getLocalHost;
+import ua.golovchenko.artem.game.Context;
 
 /**
  * Created by Artem on 07.08.2017.

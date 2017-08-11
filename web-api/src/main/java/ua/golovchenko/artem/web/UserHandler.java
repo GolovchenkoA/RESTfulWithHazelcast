@@ -1,21 +1,16 @@
 package ua.golovchenko.artem.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.security.provider.certpath.OCSPResponse;
-import ua.golovchenko.artem.game.Context;
-import ua.golovchenko.artem.model.User;
+import ua.golovchenko.artem.StringUserManager;
+import ua.golovchenko.artem.UsersManager;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.util.*;
 
 /**
