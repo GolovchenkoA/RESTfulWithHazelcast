@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.config.Config;
-
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -43,10 +42,10 @@ public class WebServerApi {
     public void stop(int i) {
         try {
             server.stop(i);
+            logger.info("Web API server stopped. port: {}",port );
         } catch (Exception e) {
             logger.info("Failed start web API server. StackTrace: {}",e);
         }
     }
-
 
 }
