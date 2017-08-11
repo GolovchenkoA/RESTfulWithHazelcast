@@ -20,6 +20,11 @@ public class CacheServer {
         return instance;
     }
 
+    public void stop() {
+        instance.shutdown();
+
+    }
+
     /*    public static void main(String[] args) {
         Config config = new Config();
         config.getNetworkConfig().setPort( 5900 );

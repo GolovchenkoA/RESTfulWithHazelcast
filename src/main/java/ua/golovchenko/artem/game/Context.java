@@ -18,12 +18,10 @@ public final class Context {
     private static Config config;
     private static CacheServer cacheServer;
     private static Web webApiServer;
-    private static DataManager dataManager;
 
     private static final String CACHE_SERVER = "cache_server.enable";
     private static final String CACHE_SERVER_CONFIG_FILE = "cache_server.configFile";
     private static final String WEB_API_SERVER = "web_api_server.enable";
-    //private static final String WEB_API_SERVER_CONFIG_FILE = "web_api_server.configFile";
 
     private Context() {
     }
@@ -55,26 +53,13 @@ public final class Context {
 
         // Web API Server Configuration
         if (config.hasKey(WEB_API_SERVER) && config.getBoolean(WEB_API_SERVER)) {
-            logger.info("Config. Web API server: enabled");
-/*            String conifigFile = config.getString(WEB_API_SERVER_CONFIG_FILE);
-            config = new Config();*/
-
-            try {
-                //config.load(conifigFile);
+                logger.info("Config. Web API server: enabled");
                 webApiServer = new Web(config);
-            } catch (IOException e) {
-                //logger.info("Failed load web API server config file [ {} ]. StackTrace: {}",WEB_API_SERVER_CONFIG_FILE ,e);
-                logger.info("Failed load web API server. StackTrace: {}",e);
-            }
         }else {
             logger.info("Config. Web API server disabled");
         }
-
     }
 
-    public static DataManager getDataManager() {
-        return dataManager;
-    }
     public static Web getWebApiServer() {
         return webApiServer;
     }
