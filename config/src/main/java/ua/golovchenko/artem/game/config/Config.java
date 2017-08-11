@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.game;
+package ua.golovchenko.artem.game.config;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,11 +1,8 @@
 package ua.golovchenko.artem.cache;
 
-import com.hazelcast.config.Config;
-import com.hazelcast.config.MapConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-
-import java.util.Map;
+import ua.golovchenko.artem.game.config.Config;
 
 /**
  * Created by Artem on 05.08.2017.
@@ -13,8 +10,9 @@ import java.util.Map;
 public class CacheServer {
     private HazelcastInstance instance;
 
+    public CacheServer(Config config) {
 
-    public CacheServer() {
+
         instance = Hazelcast.newHazelcastInstance();
     }
 

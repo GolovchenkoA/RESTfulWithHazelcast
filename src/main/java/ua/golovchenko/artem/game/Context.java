@@ -1,16 +1,19 @@
 package ua.golovchenko.artem.game;
 
+import ua.golovchenko.artem.cache.CacheServer;
 import ua.golovchenko.artem.game.ServerManager;
-
-import javax.xml.crypto.Data;
+import ua.golovchenko.artem.game.config.Config;
+import ua.golovchenko.artem.web.Web;
 
 /**
  * Created by Artem on 07.08.2017.
  */
 public final class Context {
+    private static final logger
 
     private static Config config;
-    private static ServerManager serverManager;
+    private static CacheServer cacheServer;
+    private static Web webServer;
     private static DataManager dataManager;
 
     private Context() {
@@ -24,12 +27,12 @@ public final class Context {
         config = new Config();
         config.load(file);
 
-        
 
-    }
+        if (config.hasKey("cache_server.enable") && config.hasKey("cache_server.configFile")) {
 
-    public static ServerManager getServerManager() {
-        return serverManager;
+            cacheServer = new CacheServer(config);
+        }
+
     }
 
     public static DataManager getDataManager() {
