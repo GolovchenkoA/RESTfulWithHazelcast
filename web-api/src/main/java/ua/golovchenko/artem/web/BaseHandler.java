@@ -2,6 +2,7 @@ package ua.golovchenko.artem.web;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
