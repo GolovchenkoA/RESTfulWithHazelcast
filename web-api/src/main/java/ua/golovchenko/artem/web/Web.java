@@ -1,6 +1,7 @@
 package ua.golovchenko.artem.web;
 
 import com.sun.net.httpserver.HttpServer;
+import ua.golovchenko.artem.game.config.Config;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,6 +11,10 @@ import java.net.InetSocketAddress;
  */
 public class Web {
     public static final int PORT = 80;
+
+    public Web(Config config) {
+
+    }
 
 
     public static void main(String[] args) throws IOException {

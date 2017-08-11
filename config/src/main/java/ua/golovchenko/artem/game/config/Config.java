@@ -45,6 +45,10 @@ public class Config {
         return hasKey(key) ? getString(key) : defaultValue;
     }
 
+    public boolean getBoolean(String key) {
+        return Boolean.parseBoolean(getString(key));
+    }
+
 
     @Override
     public String toString() {

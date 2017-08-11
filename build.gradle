@@ -5,6 +5,8 @@ ext{
     javaVersion = '1.8.0_73'
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.0']
     jacocoVersion = '0.7.9'
+    LogbackVersion = '1.2.3'
+    slf4jVersion =  '1.5.8'
 }
 
 version = projectIds.version
@@ -25,6 +27,10 @@ allprojects {
 
     dependencies{
         compile project(':config')
+        compile group: 'org.jacoco', name: 'org.jacoco.agent', version: "$jacocoVersion"
+        runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: "$LogbackVersion"
+        runtime "org.slf4j:slf4j-api:$slf4jVersion"
     }
 
 }

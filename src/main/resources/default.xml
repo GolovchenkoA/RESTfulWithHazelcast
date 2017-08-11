@@ -7,4 +7,5 @@
     <!-- WEB API CONFIG -->
     <entry key='web-api.port'>80</entry>
     <entry key='cache-server.port'>5900</entry>
+    <entry key='cache-server.port'>5900</entry>
 </properties>

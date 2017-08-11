@@ -13,5 +13,6 @@
     -->
 
     <entry key="config.default">./default.xml</entry>
-
+    <entry key="cache_server.enable">false</entry>
+    <entry key="web_api_server.enable">false</entry>
 </properties>
