@@ -1,6 +1,8 @@
 package ua.golovchenko.artem.model;
 
 
+import java.io.Serializable;
+
 /**
  * Created by головченко on 04.08.2017.
  *
@@ -9,7 +11,7 @@ package ua.golovchenko.artem.model;
  * @author Golovchenko Artem
  * @see ua.golovchenko.artem.model.User
  */
-public class UserBase implements User{
+public class UserBase implements User, Serializable{
     private Long id;
     private String email;
     private String name;

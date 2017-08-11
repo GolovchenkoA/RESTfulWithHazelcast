@@ -3,15 +3,26 @@ package ua.golovchenko.artem.cache;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import ua.golovchenko.artem.game.config.Config;
+import ua.golovchenko.artem.model.User;
+import ua.golovchenko.artem.model.UserBase;
+
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by Artem on 05.08.2017.
  */
 public class CacheServer {
+    ConcurrentMap<Long, User> users;
+
     private HazelcastInstance instance;
 
     public CacheServer() {
+
         instance = Hazelcast.newHazelcastInstance();
+        users = instance.getMap("users");
+        User user = new UserBase("email@com.com","user2","nick2");
+        user.setId(2L);
+        users.put(user.getId(), user);
     }
 
     public HazelcastInstance getInstance(){
