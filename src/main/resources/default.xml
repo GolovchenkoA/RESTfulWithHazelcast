@@ -5,7 +5,7 @@
 <properties>
 
     <!-- WEB API CONFIG -->
-    <entry key='web-api.port'>80</entry>
-    <entry key='cache-server.port'>5900</entry>
-    <entry key='cache-server.port'>5900</entry>
+    <entry key="cache_server.enable">true</entry>
+    <entry key="web_api_server.enable">true</entry>
+    <entry key="web_api_server.port">9999</entry>
 </properties>

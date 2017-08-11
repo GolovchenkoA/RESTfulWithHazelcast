@@ -145,12 +145,29 @@ subprojects{
 
  /*Root Project dependencies  */
 
-/*
-project('game'){
+
+project('web-api'){
     version = '1.0.0.SNAPSHOT'
-    description = 'Root Project'
+    description = 'web-api Project'
 
     dependencies{
-        compile project(':cache-server')
+       compile project(':models')
+        testCompile group: 'com.sun.net.httpserver', name: 'http', version:'$HttpServer'
+        compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+        compile group: 'org.json', name: 'json', version: '20170516'
+
+
     }
-}*/
+}
+
+project('config'){
+    version = '1.0.0.SNAPSHOT'
+    description = 'config Project'
+
+    dependencies{
+       compile project(':cache-server')
+       compile project(':web-api')
+    }
+}
+
+

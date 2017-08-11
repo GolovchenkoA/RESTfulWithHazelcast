@@ -2,28 +2,30 @@ package ua.golovchenko.artem.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.security.provider.certpath.OCSPResponse;
+import ua.golovchenko.artem.game.Context;
 import ua.golovchenko.artem.model.User;
-import ua.golovchenko.artem.model.UserBase;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Artem on 05.08.2017.
  */
 public class UserHandler implements HttpHandler {
-        private Map<Long, User> users = new HashMap<>();
+        //private Map<Long, User> users = new HashMap<>();
+        UsersManager<String> userManager = new StringUserManager();
         private static final Logger logger = LoggerFactory.getLogger(UserHandler.class);
-        private static UsersManager<String> userManager = new StringUserManager();
+
 
     public void handle(HttpExchange httpExchange) throws IOException {
             String method =  httpExchange.getRequestMethod().toUpperCase();
@@ -50,24 +52,22 @@ public class UserHandler implements HttpHandler {
     }
 
     private void doPost(HttpExchange httpExchange) {
-            try(InputStream in = httpExchange.getRequestBody()){
-
+        try(InputStream in = httpExchange.getRequestBody()){
                 String userstr = IOUtils.toString(in, "UTF-8");
-                User user = getUserFromString(userstr);
-                saveUser(user);
-                respondToClient(httpExchange, "POST finish");
+                logger.debug("doPost. user: {}", userstr);
+
+                userManager.addUser(userstr);
+                respondToClient(httpExchange, "POST OK", 201);
+
             } catch (IOException e) {
                     logger.debug("Error doPost : {}", e);
+                    respondToClient(httpExchange, "POST Request failed", 400);
             }
 
     }
 
-    private User getUserFromString(String userstr) {
 
-
-    }
-
-    private void saveUser(User user) {
+/*    private void saveUser(User user) {
         Long id = user.getId();
         if(id != null){
             this.users.put((id), user);
@@ -75,23 +75,31 @@ public class UserHandler implements HttpHandler {
             throw new IllegalArgumentException("User id is null");
         }
 
-    }
+    }*/
 
     private void doGet(HttpExchange httpExchange) {
 /*                User user = new UserBase("user@email.com", "user_name", "user_nick");
                 user.setId(1L);*/
         try {
-            respondToClient(httpExchange, this.getJsonUsers());
-        } catch (JsonProcessingException e) {
-            logger.debug("Error get all users : {}", e);
+            List<String> users = new ArrayList<String>(userManager.findAll().values());
+            logger.info("doGet: users: {}",users);
+            respondToClient(httpExchange,users.toString(),200);
+        } catch (IOException e) {
+            logger.info("Request failed. StrackTrace: {}", e);
+            respondToClient(httpExchange, "GET Request failed", 400);
         }
+
+
     }
 
-     private void respondToClient(HttpExchange httpExchange, String result) {
+     private void respondToClient(HttpExchange httpExchange, String result, int response_code) {
         try(InputStream is = httpExchange.getRequestBody(); OutputStream out = httpExchange.getResponseBody()) {
                 is.read(); // .. read the request body
-                String response = result;
-                httpExchange.sendResponseHeaders(200, response.length());
+            String response = result;
+
+            logger.debug("responseToClient: response text: {}",response);
+
+                httpExchange.sendResponseHeaders(response_code, response.length());
                 out.write(response.getBytes());
         } catch (IOException e) {
                 logger.debug("Error respondToClient : {}", e);
@@ -99,8 +107,5 @@ public class UserHandler implements HttpHandler {
         }
      }
 
-    public String getJsonUsers()throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(users);
-    }
+
 }

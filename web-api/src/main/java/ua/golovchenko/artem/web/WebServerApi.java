@@ -11,43 +11,18 @@ import java.net.InetSocketAddress;
 /**
  * Created by головченко on 03.08.2017.
  */
-public class Web {
-    private static final Logger logger = LoggerFactory.getLogger(Web.class);
+public class WebServerApi {
+    private static final Logger logger = LoggerFactory.getLogger(WebServerApi.class);
     public static final String PORT_PARAM = "web_api_server.port";
     public static String port;
 
     HttpServer server;
 
-    public Web(Config config) throws IOException {
+    public WebServerApi(Config config) throws IOException {
         port = config.getString(PORT_PARAM,"80");
         server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)),0);
         server.createContext("/", new BaseHandler());
-        server.start();*/
-
-
-        new WebServerApi().start();
-
-
-    }
-
-    private void start() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT),0);
-        server.createContext("/", new BaseHandler());
         server.createContext("/useringo", new UserHandler());
-        server.setExecutor(null); // creates a default executor
-
-        if(server != null){
-            server.start();
-            logger.info("Web-API Server started on port: {}", PORT);
-        }else{
-            logger.info("Failed to start server on port: {}", PORT);
-        }
-
-
-
-
-
-
     }
 
     public void start() {

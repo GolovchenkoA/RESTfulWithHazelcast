@@ -3,9 +3,10 @@ package ua.golovchenko.artem.game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.Cache;
+
 import ua.golovchenko.artem.cache.CacheServer;
 import ua.golovchenko.artem.game.config.Config;
-import ua.golovchenko.artem.web.Web;
+import ua.golovchenko.artem.web.WebServerApi;
 
 import java.io.IOException;
 
@@ -17,11 +18,12 @@ public final class Context {
 
     private static Config config;
     private static CacheServer cacheServer;
-    private static Web webApiServer;
+    private static WebServerApi webApiServer;
 
     private static final String CACHE_SERVER = "cache_server.enable";
     //private static final String CACHE_SERVER_CONFIG_FILE = "cache_server.configFile";
     private static final String WEB_API_SERVER = "web_api_server.enable";
+    private static DataManager dataManager;
 
     private Context() {
     }
@@ -54,17 +56,21 @@ public final class Context {
         // Web API Server Configuration
         if (config.hasKey(WEB_API_SERVER) && config.getBoolean(WEB_API_SERVER)) {
                 logger.info("Config. Web API server: enabled");
-                webApiServer = new Web(config);
+                webApiServer = new WebServerApi(config);
                 webApiServer.start();
         }else {
             logger.info("Config. Web API server disabled");
         }
     }
 
-    public static Web getWebApiServer() {
+    public static WebServerApi getWebApiServer() {
         return webApiServer;
     }
     public static CacheServer getCacheServer() {
         return cacheServer;
+    }
+
+    public static DataManager getDataManager() {
+        return dataManager;
     }
 }
