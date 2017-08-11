@@ -14,26 +14,10 @@ import static java.net.InetAddress.getLocalHost;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-
     public static void main(String[] args) throws Exception {
 
         Context.init("game.xml");
-
-        if(Context.getCacheServer() != null){
-            //Context.getCacheServer().start();
-        }
-
-        if(Context.getWebApiServer() != null){
-            Context.getWebApiServer().start();
-        }
-
-
-
-        //Context.getDataManager().initCacheServer();
-        System.out.println(Context.getConfig());
-
-        /*Context.getServerManager().start();*/
-
+        logger.info("Application initialization complete. Current config: {}", Context.getConfig());
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override

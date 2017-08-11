@@ -10,9 +10,7 @@ import ua.golovchenko.artem.game.config.Config;
 public class CacheServer {
     private HazelcastInstance instance;
 
-    public CacheServer(Config config) {
-
-
+    public CacheServer() {
         instance = Hazelcast.newHazelcastInstance();
     }
 
