@@ -1,6 +1,8 @@
 package ua.golovchenko.artem.web;
 
 import com.sun.net.httpserver.HttpServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.config.Config;
 
 import java.io.IOException;
@@ -10,34 +12,42 @@ import java.net.InetSocketAddress;
  * Created by головченко on 03.08.2017.
  */
 public class Web {
-    public static final int PORT = 80;
+    private static final Logger logger = LoggerFactory.getLogger(Web.class);
+    public static final String PORT_PARAM = "web_api_server.port";
+    public static String port;
 
-    public Web(Config config) {
+    HttpServer server;
 
-    }
-
-
-    public static void main(String[] args) throws IOException {
-/*        HttpServer server = HttpServer.create(new InetSocketAddress(PORT));
-        server.createContext("/", new BaseHandler());
-        server.start();*/
-
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT),0);
+    public Web(Config config) throws IOException {
+        port = config.getString(PORT_PARAM,"80");
+        server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)),0);
         server.createContext("/", new BaseHandler());
         server.createContext("/useringo", new UserHandler());
         server.setExecutor(null); // creates a default executor
-        server.start();
     }
 
-/*    static class BaseHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange t) throws IOException {
-            String response = "This is the response 2";
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+    public void start() {
+        try {
+            server.start();
+            logger.info("Start web API server on port: {}",port );
+        } catch (Exception e) {
+            logger.info("Failed start web API server. StackTrace: {}",e);
         }
-    }*/
+    }
+
+
+    /**
+     *
+     * @param i the maximum time in seconds to wait until exchanges have finished.
+     * @see com.sun.net.httpserver.HttpServer
+     */
+    public void stop(int i) {
+        try {
+            server.stop(i);
+        } catch (Exception e) {
+            logger.info("Failed start web API server. StackTrace: {}",e);
+        }
+    }
+
 
 }

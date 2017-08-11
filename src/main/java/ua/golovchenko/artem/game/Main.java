@@ -11,6 +11,15 @@ public class Main {
 
         Context.init("game.xml");
 
+        if(Context.getCacheServer() != null){
+            //Context.getCacheServer().start();
+        }
+
+        if(Context.getWebApiServer() != null){
+            Context.getWebApiServer().start();
+        }
+
+
 
         //Context.getDataManager().initCacheServer();
         System.out.println(Context.getConfig());
