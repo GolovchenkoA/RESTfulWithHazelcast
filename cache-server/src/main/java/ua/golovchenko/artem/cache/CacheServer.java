@@ -31,9 +31,9 @@ public class CacheServer {
         user.setId(2L);
         users.put(user.getId(), user);
 
-        for(Map.Entry<Long,User> entry:users.entrySet()){
+/*        for(Map.Entry<Long,User> entry:users.entrySet()){
             System.out.println("CacheServer users: " + entry.getValue());
-        }
+        }*/
     }
 
 }
