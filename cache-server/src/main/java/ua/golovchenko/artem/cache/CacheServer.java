@@ -31,5 +31,4 @@ public class CacheServer {
         user.setId(2L);
         users.put(user.getId(), user);
     }
-
 }
