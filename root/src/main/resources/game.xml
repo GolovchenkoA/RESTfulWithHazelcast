@@ -14,7 +14,7 @@
 
     <entry key="config.default">./default.xml</entry>
 
-    <entry key="cache_server.enable">false</entry>
+    <entry key="cache_server.enable">true</entry>
     <entry key="web_api_server.enable">true</entry>
     <entry key="web_api_server.port">9999</entry>
 </properties>

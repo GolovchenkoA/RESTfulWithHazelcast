@@ -36,19 +36,13 @@ public final class Context {
         config = new Config();
         config.load(file);
 
+        logger.debug("Create DataManager");
+        dataManager = new DataManager();
 
         // Cache Server Configuration
         if (config.hasKey(CACHE_SERVER) && config.getBoolean(CACHE_SERVER)) {
             logger.info("Config. Cache server: enabled");
-           /* String conifigFile = config.getString(CACHE_SERVER_CONFIG_FILE);
-            config = new Config();
-
-            try {*/
-                //config.load(conifigFile);
-                cacheServer = new CacheServer();
-/*            } catch (IOException e) {
-                logger.info("Failed load cache server config file [ {} ]. StackTrace: {}",CACHE_SERVER_CONFIG_FILE,e);
-            }*/
+            cacheServer = new CacheServer();
         }else {
             logger.info("Config. Cache server disabled");
         }
@@ -61,6 +55,7 @@ public final class Context {
         }else {
             logger.info("Config. Web API server disabled");
         }
+
     }
 
     public static WebServerApi getWebApiServer() {

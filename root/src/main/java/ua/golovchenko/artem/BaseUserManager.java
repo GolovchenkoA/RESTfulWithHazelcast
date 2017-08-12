@@ -15,14 +15,16 @@ import java.util.Map;
  */
 public class BaseUserManager implements UsersManager<User> {
     private static final Logger logger = LoggerFactory.getLogger(StringUserManager.class);
-    private static DataManager dataManager = Context.getDataManager();
-    private static Map<Long, User> users = new HashMap<>();
+    private static DataManager dataManager; // = Context.getDataManager();
+    //private static Map<Long, User> users = new HashMap<>();
 
 
     public BaseUserManager() {
-        User user = new UserBase("email@com.com","user10","nick10");
+/*        User user = new UserBase("email@com.com","user10","nick10");
         user.setId(10L);
-        users.put(user.getId(), user);
+        users.put(user.getId(), user);*/
+        logger.debug("load DataManager");
+        dataManager = Context.getDataManager();
     }
 
     @Override
@@ -32,7 +34,9 @@ public class BaseUserManager implements UsersManager<User> {
 
     @Override
     public void addUser(User user) {
-        users.put(user.getId(), user);
+        //users.put(user.getId(), user);
+
+        dataManager.getCacheDataManager().getCacheClient().getCache().getMap("users").put(user.getId(), user);
         logger.debug("add User {}, all users: {}",user);
     }
 
@@ -48,6 +52,6 @@ public class BaseUserManager implements UsersManager<User> {
 
     @Override
     public Map<Long,User> findAll() {
-        return users;
+        return dataManager.getCacheDataManager().getCacheClient().getCache().getMap("users");
     }
 }

@@ -7,6 +7,7 @@ ext{
     jacocoVersion = '0.7.9'
     LogbackVersion = '1.2.3'
     slf4jVersion =  '1.5.8'
+    hazelcastVersion =  '3.8.3'
 }
 
 version = projectIds.version
@@ -165,6 +166,16 @@ project('config'){
     dependencies{
        compile project(':cache-server')
        compile project(':web-api')
+    }
+}
+
+project('cache-server'){
+    version = '1.0.0.SNAPSHOT'
+    description = 'cache server Project'
+
+    dependencies{
+        compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
+        compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
     }
 }
 
