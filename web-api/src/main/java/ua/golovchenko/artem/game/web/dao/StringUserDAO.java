@@ -1,8 +1,7 @@
-package ua.golovchenko.artem;
+package ua.golovchenko.artem.game.web.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.model.User;
@@ -14,24 +13,19 @@ import java.util.Map;
 
 /**
  * Created by Artem on 11.08.2017.
- * Wrapper for BaseUserManager. Processes a JSON representation of a class BaseUser
+ * Wrapper for BaseUserDAO. Processes a JSON representation of a class BaseUser
  *
  * @author Golovchenko Artem
- * @see ua.golovchenko.artem.UsersManager
+ * @see UsersManager
  */
-public class StringUserManager implements UsersManager<String> {
-    private static final Logger logger = LoggerFactory.getLogger(StringUserManager.class);
+public class StringUserDAO implements UsersManager<String> {
+    private static final Logger logger = LoggerFactory.getLogger(StringUserDAO.class);
     private static UsersManager<User> usersManager;
     ObjectMapper mapper = new ObjectMapper();
 
-    public StringUserManager(){
-       usersManager = new BaseUserManager();
+    public StringUserDAO(){
+       usersManager = new BaseUserDAO();
     }
-
-    public StringUserManager(BaseUserManager baseUserManager){
-       this.usersManager = baseUserManager;
-    }
-
 
     @Override
     public String getUser(Long id) {
@@ -39,7 +33,7 @@ public class StringUserManager implements UsersManager<String> {
     }
 
     @Override
-    public void addUser(String user) throws IOException {
+    public void addUser(String user) throws Exception {
 
         try {
             logger.debug("in addUserMethod: {}",user);
@@ -47,8 +41,8 @@ public class StringUserManager implements UsersManager<String> {
             logger.debug("User object after convert from string: {}",newUser);
             usersManager.addUser(newUser);
             logger.debug("add User {}, all usersManager: {}",user, usersManager.findAll());
-        } catch (IOException e) {
-            logger.info("Error adding new user: StackTrace: {}",e);
+        } catch (Exception e) {
+            logger.info("Error adding new user. StackTrace: {}",e);
             throw new IOException(e);
         }
 
@@ -65,12 +59,22 @@ public class StringUserManager implements UsersManager<String> {
     }
 
     @Override
-    public Map<Long, String> findAll() throws IOException {
+    public Map<Long, String> findAll() throws Exception {
         Map<Long,String> users = new HashMap<>();
+        Map<Long,User> realUsers;
 
-        for(Map.Entry<Long,User> entry:usersManager.findAll().entrySet()){
-            users.put(entry.getKey(), convertUserToJSON(entry.getValue()));
+        try {
+            realUsers = usersManager.findAll();
+
+            for(Map.Entry<Long,User> entry:realUsers.entrySet()){
+                users.put(entry.getKey(), convertUserToJSON(entry.getValue()));
+            }
+
+        } catch (Exception e) {
+            logger.info("Error getting all users. StackTrace: {}", e);
+            throw new IOException(e);
         }
+
         return users;
     }
 

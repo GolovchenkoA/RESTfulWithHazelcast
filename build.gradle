@@ -175,6 +175,7 @@ project('cache-server'){
 
     dependencies{
         compile project(':models')
+        compile project(':service')
         compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
         compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
     }

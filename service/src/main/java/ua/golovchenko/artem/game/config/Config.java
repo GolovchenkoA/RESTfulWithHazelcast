@@ -1,6 +1,8 @@
 package ua.golovchenko.artem.game.config;
 
-import java.io.FileInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -11,6 +13,7 @@ import java.util.Properties;
  * Applicationn Configuration
  */
 public class Config {
+    private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private final Properties properties = new Properties();
     private static Properties config;
 
@@ -24,11 +27,13 @@ public class Config {
         String defaultConfigFile = mainProperties.getProperty("config.default");
 
         if (defaultConfigFile != null) {
+            logger.info("Loading configuration from file: config.default");
             try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(defaultConfigFile)) {
                 properties.loadFromXML(inputStream);
             }
         }
 
+        logger.info("Loading configuration from file: {}", file);
         properties.putAll(mainProperties); // override defaults
 
     }

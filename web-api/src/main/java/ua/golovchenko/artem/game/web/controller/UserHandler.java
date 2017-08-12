@@ -1,12 +1,12 @@
-package ua.golovchenko.artem.web;
+package ua.golovchenko.artem.game.web.controller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.StringUserManager;
-import ua.golovchenko.artem.UsersManager;
+import ua.golovchenko.artem.game.web.dao.StringUserDAO;
+import ua.golovchenko.artem.game.web.dao.UsersManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,15 +19,14 @@ import java.util.*;
  * @author Golovchenko Artem
  */
 public class UserHandler implements HttpHandler {
-        //private Map<Long, User> users = new HashMap<>();
-        UsersManager<String> userManager = new StringUserManager();
+        private UsersManager<String> userManager = new StringUserDAO();
         private static final Logger logger = LoggerFactory.getLogger(UserHandler.class);
 
 
     public void handle(HttpExchange httpExchange) throws IOException {
+
             String method =  httpExchange.getRequestMethod().toUpperCase();
             logger.info("Method call: {}",method);
-
 
             if(method.equals("GET")){
                     doGet(httpExchange);
@@ -37,55 +36,46 @@ public class UserHandler implements HttpHandler {
     }
 
     private void doPost(HttpExchange httpExchange) {
+
         try(InputStream in = httpExchange.getRequestBody()){
-                String userstr = IOUtils.toString(in, "UTF-8");
-                logger.debug("doPost. user: {}", userstr);
 
-                userManager.addUser(userstr);
-                respondToClient(httpExchange, "POST OK", 201);
+            String userstr = IOUtils.toString(in, "UTF-8");
+            logger.debug("doPost. user: {}", userstr);
 
-            } catch (IOException e) {
-                    logger.debug("Error doPost : {}", e);
+            userManager.addUser(userstr);
+            respondToClient(httpExchange, "POST OK", 201);
+
+        } catch (Exception e) {
+            logger.info("Request failed. StrackTrace: {}", e);
                     respondToClient(httpExchange, "POST Request failed", 400);
             }
 
     }
 
 
-/*    private void saveUser(User user) {
-        Long id = user.getId();
-        if(id != null){
-            this.users.put((id), user);
-        }else {
-            throw new IllegalArgumentException("User id is null");
-        }
-
-    }*/
-
     private void doGet(HttpExchange httpExchange) {
-/*                User user = new UserBase("user@email.com", "user_name", "user_nick");
-                user.setId(1L);*/
+
         try {
-            List<String> users = new ArrayList<>(userManager.findAll().values());
+
+            List<String> users = new ArrayList<String>(userManager.findAll().values());
             logger.info("doGet: users: {}",users);
+
             respondToClient(httpExchange,users.toString(),200);
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             logger.info("Request failed. StrackTrace: {}", e);
             respondToClient(httpExchange, "GET Request failed", 400);
         }
-
 
     }
 
      private void respondToClient(HttpExchange httpExchange, String result, int response_code) {
         try(InputStream is = httpExchange.getRequestBody(); OutputStream out = httpExchange.getResponseBody()) {
                 is.read(); // .. read the request body
-            String response = result;
+                logger.debug("responseToClient: response text: {}",result);
 
-            logger.debug("responseToClient: response text: {}",response);
-
-                httpExchange.sendResponseHeaders(response_code, response.length());
-                out.write(response.getBytes());
+                httpExchange.sendResponseHeaders(response_code, result.length());
+                out.write(result.getBytes());
         } catch (IOException e) {
                 logger.debug("Error respondToClient : {}", e);
                 e.printStackTrace();

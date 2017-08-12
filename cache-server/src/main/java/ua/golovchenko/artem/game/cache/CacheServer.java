@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.cache;
+package ua.golovchenko.artem.game.cache;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.model.User;
 import ua.golovchenko.artem.model.UserBase;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 /**

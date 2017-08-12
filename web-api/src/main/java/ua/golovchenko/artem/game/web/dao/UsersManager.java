@@ -1,4 +1,4 @@
-package ua.golovchenko.artem;
+package ua.golovchenko.artem.game.web.dao;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public interface UsersManager<T> {
     public T getUser(Long id);
-    public void addUser(T user) throws IOException;
+    public void addUser(T user) throws Exception;
     public boolean deleteUser(Long id);
     public boolean updateUser(Long id);
-    public Map<Long,T> findAll() throws IOException;
+    public Map<Long,T> findAll() throws Exception;
 }
