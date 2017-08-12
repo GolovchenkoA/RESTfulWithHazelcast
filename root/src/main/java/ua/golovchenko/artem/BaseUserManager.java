@@ -2,9 +2,8 @@ package ua.golovchenko.artem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.game.DataManager;
 import ua.golovchenko.artem.model.User;
-import ua.golovchenko.artem.game.Context;
+
 import java.util.Map;
 
 /**

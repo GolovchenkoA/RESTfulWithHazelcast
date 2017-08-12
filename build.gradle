@@ -27,8 +27,8 @@ allprojects {
     }
 
     dependencies{
-        compile project(':config')
-        compile project(':root')
+        /*compile project(':config')*/
+/*        compile project(':root')*/
         compile group: 'org.jacoco', name: 'org.jacoco.agent', version: "$jacocoVersion"
         runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
         compile group: 'ch.qos.logback', name: 'logback-classic', version: "$LogbackVersion"
@@ -159,7 +159,7 @@ project('web-api'){
     }
 }
 
-project('config'){
+/*project('config'){
     version = '1.0.0.SNAPSHOT'
     description = 'config Project'
 
@@ -167,7 +167,7 @@ project('config'){
        compile project(':cache-server')
        compile project(':web-api')
     }
-}
+}*/
 
 project('cache-server'){
     version = '1.0.0.SNAPSHOT'
@@ -185,6 +185,8 @@ project('root'){
 
     dependencies{
        compile project(':models')
+       compile project(':cache-server')
+       compile project(':web-api')
        //compile group: 'org.json', name: 'json', version: '20170516'
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
 

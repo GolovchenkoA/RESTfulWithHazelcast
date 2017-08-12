@@ -1,8 +1,7 @@
-package ua.golovchenko.artem.game;
+package ua.golovchenko.artem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.CacheDataManager;
 
 /**
  * Created by Artem on 10.08.2017.
