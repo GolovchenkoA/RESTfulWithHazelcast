@@ -30,10 +30,6 @@ public class CacheServer {
         User user = new UserBase("email@com.com","user2","nick2");
         user.setId(2L);
         users.put(user.getId(), user);
-
-/*        for(Map.Entry<Long,User> entry:users.entrySet()){
-            System.out.println("CacheServer users: " + entry.getValue());
-        }*/
     }
 
 }
