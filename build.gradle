@@ -15,6 +15,7 @@ version = projectIds.version
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'project-report'
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -57,7 +58,7 @@ subprojects{
     dependencies {
         //testCompile "junit:junit:$junitVersion"
 		//testImplementation 'junit:junit:4.12'
-		testImplementation 'junit:junit:$junitVersion'
+		testImplementation 'junit:junit:4.12'
         //runtime group: 'ch.qos.logback', name: 'logback-core', version: "$LogbackVersion"
         //compile group: 'ch.qos.logback', name: 'logback-classic', "$LogbackVersion"
       /*  compile 'ch.qos.logback:logback-classic:$LogbackVersion'
@@ -123,7 +124,7 @@ subprojects{
     build.dependsOn(jacocoTestReport)*/
 
     jacoco {
-        toolVersion = '$jacocoVersion'
+        toolVersion = "$jacocoVersion"
         reportsDir = file("$buildDir/customJacocoReportDir")
     }
 
@@ -154,8 +155,11 @@ project('web-api'){
 
     dependencies{
        compile project(':models')
+       compile project(':service')
         testCompile group: 'com.sun.net.httpserver', name: 'http', version:'$HttpServer'
         compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+        compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
     }
 }
 
@@ -176,7 +180,6 @@ project('cache-server'){
     dependencies{
         compile project(':models')
         compile project(':service')
-        compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
         compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
     }
 }
@@ -190,7 +193,7 @@ project('root'){
        compile project(':cache-server')
        compile project(':web-api')
        //compile group: 'org.json', name: 'json', version: '20170516'
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+
 
     }
 }
