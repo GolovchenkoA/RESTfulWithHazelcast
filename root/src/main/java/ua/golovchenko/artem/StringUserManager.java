@@ -14,12 +14,15 @@ import java.util.Map;
 
 /**
  * Created by Artem on 11.08.2017.
+ * Wrapper for BaseUserManager. Processes a JSON representation of a class BaseUser
+ *
+ * @author Golovchenko Artem
+ * @see ua.golovchenko.artem.UsersManager
  */
 public class StringUserManager implements UsersManager<String> {
     private static final Logger logger = LoggerFactory.getLogger(StringUserManager.class);
     private static UsersManager<User> usersManager;
     ObjectMapper mapper = new ObjectMapper();
-    JSONObject json = new JSONObject();
 
     public StringUserManager(){
        usersManager = new BaseUserManager();
@@ -53,12 +56,12 @@ public class StringUserManager implements UsersManager<String> {
 
     @Override
     public boolean deleteUser(Long id) {
-        return false;
+        return usersManager.deleteUser(id);
     }
 
     @Override
     public boolean updateUser(Long id) {
-        return false;
+        return usersManager.updateUser(id);
     }
 
     @Override

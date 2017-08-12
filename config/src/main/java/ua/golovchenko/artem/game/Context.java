@@ -2,16 +2,16 @@ package ua.golovchenko.artem.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.Cache;
-
 import ua.golovchenko.artem.cache.CacheServer;
 import ua.golovchenko.artem.game.config.Config;
 import ua.golovchenko.artem.web.WebServerApi;
 
-import java.io.IOException;
-
 /**
  * Created by Artem on 07.08.2017.
+ *
+ * @author Golovchenko Artem
+ * Application initialization class
+ *
  */
 public final class Context {
     private static final Logger logger = LoggerFactory.getLogger(Context.class);
@@ -19,9 +19,7 @@ public final class Context {
     private static Config config;
     private static CacheServer cacheServer;
     private static WebServerApi webApiServer;
-
     private static final String CACHE_SERVER = "cache_server.enable";
-    //private static final String CACHE_SERVER_CONFIG_FILE = "cache_server.configFile";
     private static final String WEB_API_SERVER = "web_api_server.enable";
     private static DataManager dataManager;
 
@@ -64,7 +62,6 @@ public final class Context {
     public static CacheServer getCacheServer() {
         return cacheServer;
     }
-
     public static DataManager getDataManager() {
         return dataManager;
     }

@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.DataManager;
 import ua.golovchenko.artem.model.User;
 import ua.golovchenko.artem.game.Context;
-import ua.golovchenko.artem.model.UserBase;
-
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Artem on 11.08.2017.
+ *
+ * @author Golovchenko Artem
+ * The main class for working with objects of the type User
  */
 public class BaseUserManager implements UsersManager<User> {
     private static final Logger logger = LoggerFactory.getLogger(StringUserManager.class);

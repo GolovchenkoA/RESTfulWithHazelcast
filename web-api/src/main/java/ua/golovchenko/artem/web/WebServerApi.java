@@ -9,6 +9,8 @@ import java.net.InetSocketAddress;
 
 /**
  * Created by головченко on 03.08.2017.
+ *
+ * @author Golovchenko Artem
  */
 public class WebServerApi {
     private static final Logger logger = LoggerFactory.getLogger(WebServerApi.class);
@@ -29,21 +31,6 @@ public class WebServerApi {
         try {
             logger.info("Start web API server on port: {}",port );
             server.start();
-        } catch (Exception e) {
-            logger.info("Failed start web API server. StackTrace: {}",e);
-        }
-    }
-
-
-    /**
-     *
-     * @param i the maximum time in seconds to wait until exchanges have finished.
-     * @see com.sun.net.httpserver.HttpServer
-     */
-    public void stop(int i) {
-        try {
-            server.stop(i);
-            logger.info("Web API server stopped. port: {}",port );
         } catch (Exception e) {
             logger.info("Failed start web API server. StackTrace: {}",e);
         }

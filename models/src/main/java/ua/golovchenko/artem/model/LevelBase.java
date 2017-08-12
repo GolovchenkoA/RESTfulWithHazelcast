@@ -3,6 +3,8 @@ package ua.golovchenko.artem.model;
 /**
  * Created by головченко on 04.08.2017.
  *
+ * Base class implemented Level-interface
+ *
  * @author Golovchenko Artem
  * @see ua.golovchenko.artem.model.Level
  */
@@ -10,7 +12,7 @@ public class LevelBase implements Level {
     private Integer id;
     private String description;
 
-    public LevelBase(){};
+    public LevelBase(){}
     public LevelBase(Integer id, String description) {
         this.id = id;
         this.description = description;

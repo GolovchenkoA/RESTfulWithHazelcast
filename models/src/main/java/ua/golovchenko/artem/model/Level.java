@@ -1,7 +1,7 @@
 package ua.golovchenko.artem.model;
 
 /**
- * Game level class
+ * Game level interface
  *
  * Created by головченко on 04.08.2017.
  *

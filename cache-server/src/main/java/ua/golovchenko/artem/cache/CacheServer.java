@@ -12,6 +12,10 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * Created by Artem on 05.08.2017.
+ *
+ * @author Golovchenko Artem
+ * A class that contains Hazelcaste Cache Server for caching data
+ *
  */
 public class CacheServer {
     private static final Logger logger = LoggerFactory.getLogger(CacheServer.class);
@@ -32,12 +36,4 @@ public class CacheServer {
         }
     }
 
-    public HazelcastInstance getInstance(){
-        return instance;
-    }
-
-    public void stop() {
-        instance.shutdown();
-
-    }
 }

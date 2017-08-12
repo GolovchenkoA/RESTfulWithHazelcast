@@ -15,6 +15,8 @@ import java.util.*;
 
 /**
  * Created by Artem on 05.08.2017.
+ *
+ * @author Golovchenko Artem
  */
 public class UserHandler implements HttpHandler {
         //private Map<Long, User> users = new HashMap<>();
@@ -32,18 +34,6 @@ public class UserHandler implements HttpHandler {
             } else if(method.equals("POST")){
                     doPost(httpExchange);
             }
-/*        Map<String, Object> data = new HashMap<String, Object>();
-        data.put( "name", "Mars" );
-        data.put( "age", 32 );
-        data.put( "city", "NY" );
-        JSONObject json = new JSONObject();
-        json.putAll( data );
-        System.out.printf( "JSON: %s", json.toString(2) )*/
-        ;
-
-            //if(t.getRequestMethod().equals(Http))
-
-
     }
 
     private void doPost(HttpExchange httpExchange) {
@@ -76,7 +66,7 @@ public class UserHandler implements HttpHandler {
 /*                User user = new UserBase("user@email.com", "user_name", "user_nick");
                 user.setId(1L);*/
         try {
-            List<String> users = new ArrayList<String>(userManager.findAll().values());
+            List<String> users = new ArrayList<>(userManager.findAll().values());
             logger.info("doGet: users: {}",users);
             respondToClient(httpExchange,users.toString(),200);
         } catch (IOException e) {

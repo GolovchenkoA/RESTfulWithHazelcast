@@ -3,6 +3,8 @@ package ua.golovchenko.artem.model;
 /**
  * Created by головченко on 04.08.2017.
  *
+ * Base class implemented Result-interface
+ *
  * @author Golovchenko Artem
  * @see ua.golovchenko.artem.model.Result
  */

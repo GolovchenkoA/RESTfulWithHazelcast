@@ -10,6 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by Artem on 11.08.2017.
+ *
+ * @author Golovchenko Artem
+ *
+ * Class for working with the caching system
  */
 public class CacheDataManager {
     private static final Logger logger = LoggerFactory.getLogger(CacheDataManager.class);

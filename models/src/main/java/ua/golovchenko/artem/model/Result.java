@@ -2,8 +2,10 @@ package ua.golovchenko.artem.model;
 
 /**
  *
- * Class implemented Result-interface stores the result of the user and the level at which the result was obtained
  * Created by головченко on 04.08.2017.
+ *
+ * Class implemented Result-interface stores the result of the user and the level at which the result was obtained
+ * @author Golovchenko Artem
  */
 public interface Result {
 

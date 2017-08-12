@@ -10,6 +10,8 @@ import java.io.OutputStream;
 
 /**
  * Created by головченко on 05.08.2017.
+ *
+ * @author Golovchenko Artem
  */
 class BaseHandler implements HttpHandler {
     public void handle(HttpExchange t) throws IOException {
