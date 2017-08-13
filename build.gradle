@@ -6,7 +6,7 @@ ext{
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.1-SNAPSHOT']
     jacocoVersion = '0.7.9'
     LogbackVersion = '1.2.3'
-    hazelcastVersion =  '3.8.4'
+    hazelcastVersion =  '3.9-EA'
     HttpServerVersion = '20070405'
 }
 
