@@ -3,9 +3,7 @@ package ua.golovchenko.artem.game.web.server;
 import com.sun.net.httpserver.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import ua.golovchenko.artem.game.config.Config;
-import ua.golovchenko.artem.game.web.controller.BaseHandler;
 import ua.golovchenko.artem.game.web.controller.UserHandler;
 
 import java.io.IOException;
@@ -27,7 +25,9 @@ public class WebServerApi {
         port = config.getString(PORT_PARAM,"80");
         logger.info("Start configure web API server on port: {}",port );
         server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)),0);
-        server.createContext("/", new BaseHandler());
+        /*server.createContext("/", new BaseHandler());
+        server.createContext("/useringo", new UserHandler());*/
+
         server.createContext("/useringo", new UserHandler());
     }
 
