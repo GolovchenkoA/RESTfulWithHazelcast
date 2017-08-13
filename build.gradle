@@ -180,6 +180,18 @@ project('web-api'){
                     'Main-Class': "ua.golovchenko.artem.game.web.Main"
         }
     }
+
+    task JarWithDependencies(type: Jar) {
+        manifest {
+            attributes 'Implementation-Title': 'Web API',
+                    'Implementation-Version': '1.0.0-SNAPSHOT',
+                    'Main-Class': "ua.golovchenko.artem.game.web.Main"
+        }
+        baseName = project.name + '-all'
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        with jar
+    }
+
 }
 
 /*project('config'){
@@ -204,10 +216,21 @@ project('cache-server'){
 
     jar {
         manifest {
-            attributes 'Implementation-Title': 'Web API',
+            attributes 'Implementation-Title': 'Cache Server',
                     'Implementation-Version': '1.0.0-SNAPSHOT',
                     'Main-Class': "ua.golovchenko.artem.game.cache.Main"
         }
+    }
+
+    task JarWithDependencies(type: Jar) {
+        manifest {
+            attributes 'Implementation-Title': 'Cache Server',
+                    'Implementation-Version': '1.0.0-SNAPSHOT',
+                    'Main-Class': "ua.golovchenko.artem.game.cache.Main"
+        }
+        baseName = project.name + '-all'
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+        with jar
     }
 }
 
