@@ -160,8 +160,8 @@ subprojects{
 
 
 project('web-api'){
-    version = '1.0.0.SNAPSHOT'
-    description = 'web-api Project'
+    version = '1.0.0'
+    description = 'Web-API'
 
     dependencies{
        compile project(':models')
@@ -175,16 +175,16 @@ project('web-api'){
 
     jar {
         manifest {
-            attributes 'Implementation-Title': 'Web API',
-                    'Implementation-Version': '1.0.0-SNAPSHOT',
+            attributes 'Implementation-Title': "$description",
+                    'Implementation-Version': "$version",
                     'Main-Class': "ua.golovchenko.artem.game.web.Main"
         }
     }
 
     task JarWithDependencies(type: Jar) {
         manifest {
-            attributes 'Implementation-Title': 'Web API',
-                    'Implementation-Version': '1.0.0-SNAPSHOT',
+            attributes 'Implementation-Title': "$description",
+                    'Implementation-Version': "$version",
                     'Main-Class': "ua.golovchenko.artem.game.web.Main"
         }
         baseName = project.name + '-all'
@@ -194,19 +194,9 @@ project('web-api'){
 
 }
 
-/*project('config'){
-    version = '1.0.0.SNAPSHOT'
-    description = 'config Project'
-
-    dependencies{
-       compile project(':cache-server')
-       compile project(':web-api')
-    }
-}*/
-
 project('cache-server'){
-    version = '1.0.0.SNAPSHOT'
-    description = 'cache server Project'
+    version = '1.0.0'
+    description = 'Cache Server'
 
     dependencies{
         compile project(':models')
@@ -216,16 +206,16 @@ project('cache-server'){
 
     jar {
         manifest {
-            attributes 'Implementation-Title': 'Cache Server',
-                    'Implementation-Version': '1.0.0-SNAPSHOT',
+            attributes 'Implementation-Title': "$description",
+                    'Implementation-Version': "$version",
                     'Main-Class': "ua.golovchenko.artem.game.cache.Main"
         }
     }
 
     task JarWithDependencies(type: Jar) {
         manifest {
-            attributes 'Implementation-Title': 'Cache Server',
-                    'Implementation-Version': '1.0.0-SNAPSHOT',
+            attributes 'Implementation-Title': "$description",
+                    'Implementation-Version': "$version",
                     'Main-Class': "ua.golovchenko.artem.game.cache.Main"
         }
         baseName = project.name + '-all'
