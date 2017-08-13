@@ -201,6 +201,14 @@ project('cache-server'){
         compile project(':service')
         compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
     }
+
+    jar {
+        manifest {
+            attributes 'Implementation-Title': 'Web API',
+                    'Implementation-Version': '1.0.0-SNAPSHOT',
+                    'Main-Class': "ua.golovchenko.artem.game.cache.Main"
+        }
+    }
 }
 
 project('root'){

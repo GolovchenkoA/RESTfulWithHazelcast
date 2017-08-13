@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.config.Config;
-import ua.golovchenko.artem.game.web.controller.BaseHandler;
 import ua.golovchenko.artem.game.web.controller.UserHandler;
 
 import java.io.IOException;
