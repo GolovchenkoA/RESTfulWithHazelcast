@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.hazelcast.com/schema/config
+                               http://www.hazelcast.com/schema/config/hazelcast-config-3.8.xsd"
+           xmlns="http://www.hazelcast.com/schema/config">
+
+    <network>
+        <join>
+            <multicast enabled="true"/>
+        </join>
+    </network>
+
+<!--    <ringbuffer name="default">
+        <capacity>10000</capacity>
+        <backup-count>1</backup-count>
+        <async-backup-count>0</async-backup-count>
+        <time-to-live-seconds>0</time-to-live-seconds>
+        <in-memory-format>BINARY</in-memory-format>
+    </ringbuffer>-->
+
+</hazelcast>
