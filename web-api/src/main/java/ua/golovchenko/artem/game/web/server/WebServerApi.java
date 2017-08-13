@@ -23,11 +23,19 @@ public class WebServerApi {
     HttpServer server;
 
     public WebServerApi(Config config) throws IOException {
-        port = config.getString(PORT_PARAM,"80");
-        logger.info("Start configure web API server on port: {}",port );
-        server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)),0);
+        port = config.getString(PORT_PARAM, "80");
+        logger.info("Start configure web API server on port: {}", port);
+        server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
         server.createContext("/", new BaseHandler());
         server.createContext("/useringo", new UserHandler());
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("Shutdown web API server on port: {}", port);
+                server.stop(0);
+            }
+        }));
     }
 
     public void start() {

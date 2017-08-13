@@ -13,6 +13,7 @@ public class Main {
         try {
             Context.init("web-api-config.xml");
             logger.info("Web API initialization complete. Current config: {}", Context.getConfig());
+            Thread.currentThread().join();
         } catch (Exception e) {
             logger.info("Web API context initialization error. StackTrace", e);
             e.printStackTrace();
