@@ -234,18 +234,4 @@ project('cache-server'){
     }
 }
 
-project('root'){
-    version = '1.0.0.SNAPSHOT'
-    description = 'root Project'
-
-    dependencies{
-       compile project(':models')
-       compile project(':cache-server')
-       compile project(':web-api')
-       //compile group: 'org.json', name: 'json', version: '20170516'
-
-
-    }
-}
-
 
