@@ -26,7 +26,6 @@ public class WebServerApi {
         port = config.getString(PORT_PARAM,"80");
         logger.info("Start configure web API server on port: {}",port );
         server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)),0);
-        server.createContext("/", new BaseHandler());
         server.createContext("/useringo", new UserHandler());
     }
 
