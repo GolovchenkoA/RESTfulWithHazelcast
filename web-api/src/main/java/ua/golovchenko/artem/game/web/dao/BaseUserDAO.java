@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class BaseUserDAO implements UsersManager<User> {
     private static final Logger logger = LoggerFactory.getLogger(StringUserDAO.class);
-    private DataManager dataManager; // = Context.getDataManager();
+    private DataManager dataManager ; // = Context.getDataManager();
     //private static Map<Long, User> users = new HashMap<>();
 
 
@@ -24,8 +24,10 @@ public class BaseUserDAO implements UsersManager<User> {
 /*        User user = new UserBase("email@com.com","user10","nick10");
         user.setId(10L);
         users.put(user.getId(), user);*/
+        logger.debug("Class constructor");
         logger.debug("load DataManager");
         dataManager = Context.getDataManager();
+
     }
 
     @Override

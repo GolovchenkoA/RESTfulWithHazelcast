@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Properties;
 
 /**
@@ -15,12 +17,14 @@ import java.util.Properties;
 public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private final Properties properties = new Properties();
-    private static Properties config;
 
     public void load(String file) throws IOException {
         Properties mainProperties = new Properties();
 
+        if(logger.isDebugEnabled()){showClassPath();}
+
         try (InputStream inputStream =  this.getClass().getClassLoader().getResourceAsStream(file)) {
+            logger.info("Load configuration from file: {}", file);
             mainProperties.loadFromXML(inputStream);
         }
 
@@ -33,7 +37,7 @@ public class Config {
             }
         }
 
-        logger.info("Loading configuration from file: {}", file);
+//        logger.info("Loading configuration from file: {}", file);
         properties.putAll(mainProperties); // override defaults
 
     }
@@ -60,5 +64,15 @@ public class Config {
         return "Config{" +
                 "properties=" + properties +
                 '}';
+    }
+
+    private void showClassPath(){
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls) {
+            System.out.println(url.getFile());
+        }
     }
 }

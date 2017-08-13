@@ -9,6 +9,8 @@ import java.io.IOException;
 
 /**
  * Created by Artem on 12.08.2017.
+ * Cache-server context
+ * @author Golovchenko Artem
  */
 public class Context {
     private static final Logger logger = LoggerFactory.getLogger(Context.class);
@@ -35,6 +37,8 @@ public class Context {
             throw new IOException(e);
         }
 
+        dataManager = new DataManager();
+
         // Web API Server Configuration
         if (config.hasKey(WEB_API_SERVER) && config.getBoolean(WEB_API_SERVER)) {
             logger.info("Config. Web API server: enabled");
@@ -44,7 +48,6 @@ public class Context {
             logger.info("Config. Web API server disabled");
         }
 
-        dataManager = new DataManager();
     }
 
 

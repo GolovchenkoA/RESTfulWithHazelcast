@@ -6,16 +6,29 @@ ext{
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.0']
     jacocoVersion = '0.7.9'
     LogbackVersion = '1.2.3'
-    slf4jVersion =  '1.5.8'
     hazelcastVersion =  '3.8.3'
+    HttpServerVersion = '20070405'
 }
 
 version = projectIds.version
 
 
+configurations.all {
+    resolutionStrategy {
+        // fail eagerly on version conflict (includes transitive dependencies)
+        // e.g. multiple different versions of the same dependency (group and name are equal)
+        //failOnVersionConflict()
+        resolutionStrategy.preferProjectModules()
+    }
+}
+
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'project-report'
+ext{
+    slf4jVersion =  '1.7.25'
+}
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -146,9 +159,6 @@ subprojects{
 }
 
 
- /*Root Project dependencies  */
-
-
 project('web-api'){
     version = '1.0.0.SNAPSHOT'
     description = 'web-api Project'
@@ -156,10 +166,19 @@ project('web-api'){
     dependencies{
        compile project(':models')
        compile project(':service')
-        testCompile group: 'com.sun.net.httpserver', name: 'http', version:'$HttpServer'
+        testCompile group: 'com.sun.net.httpserver', name: 'http', version: "$HttpServerVersion"
         compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
         compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
         compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
+    }
+
+
+    jar {
+        manifest {
+            attributes 'Implementation-Title': 'Web API',
+                    'Implementation-Version': '1.0.0-SNAPSHOT',
+                    'Main-Class': "ua.golovchenko.artem.game.web.Main"
+        }
     }
 }
 
