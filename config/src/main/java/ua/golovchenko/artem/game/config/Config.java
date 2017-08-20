@@ -3,8 +3,7 @@ package ua.golovchenko.artem.game.config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
@@ -17,15 +16,36 @@ import java.util.Properties;
 public class Config {
     private static final Logger logger = LoggerFactory.getLogger(Config.class);
     private final Properties properties = new Properties();
+    private  Properties mainProperties = new Properties();
+
+    public Config() {}
+
+    public Config(File config) throws IOException {
+        this.load(config);
+    }
+
+    public Config(String config) throws IOException {
+        this.load(config);
+    }
+
+    public void load(File config) throws IOException{
+
+        try (InputStream inputStream =  new FileInputStream(config)) {
+            logger.info("Load configuration from file: {}", config.getAbsolutePath());
+            this.mainProperties.loadFromXML(inputStream);
+        } catch (IOException e){
+            logger.info("Error loading configuration from file : {}", config.getAbsolutePath());
+
+        }
+    }
 
     public void load(String file) throws IOException {
-        Properties mainProperties = new Properties();
 
         if(logger.isDebugEnabled()){showClassPath();}
 
         try (InputStream inputStream =  this.getClass().getClassLoader().getResourceAsStream(file)) {
             logger.info("Load configuration from file: {}", file);
-            mainProperties.loadFromXML(inputStream);
+            this.mainProperties.loadFromXML(inputStream);
         }
 
         String defaultConfigFile = mainProperties.getProperty("config.default");
@@ -42,6 +62,8 @@ public class Config {
 
     }
 
+
+
     public boolean hasKey(String key) {
         return properties.containsKey(key);
     }
@@ -54,8 +76,10 @@ public class Config {
         return hasKey(key) ? getString(key) : defaultValue;
     }
 
-    public boolean getBoolean(String key) {
-        return Boolean.parseBoolean(getString(key));
+    public boolean getBoolean(String key) {return Boolean.parseBoolean(getString(key));}
+
+    public void setKeyValue(String key, String value) {
+        properties.put(key, value);
     }
 
 

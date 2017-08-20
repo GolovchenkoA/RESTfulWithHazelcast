@@ -2,6 +2,7 @@ package ua.golovchenko.artem.game.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.golovchenko.artem.game.cache.CacheServer;
 import ua.golovchenko.artem.game.config.Config;
 import ua.golovchenko.artem.game.web.server.WebServerApi;
 
@@ -15,8 +16,10 @@ import java.io.IOException;
 public class Context {
     private static final Logger logger = LoggerFactory.getLogger(Context.class);
     private static final String WEB_API_SERVER = "web_api_server.enable";
+    private static final String CACHE_SERVER = "cache_server.enable";
     private static WebServerApi webApiServer;
-    private static DataManager dataManager;
+    private static CacheServer CacheServer;
+    //private static DataManager dataManager;
     private static Config config;
 
     private Context() {
@@ -37,7 +40,7 @@ public class Context {
             throw new IOException(e);
         }
 
-        dataManager = new DataManager();
+        //dataManager = new DataManager();
 
         // Web API Server Configuration
         if (config.hasKey(WEB_API_SERVER) && config.getBoolean(WEB_API_SERVER)) {
@@ -48,10 +51,13 @@ public class Context {
             logger.info("Config. Web API server disabled");
         }
 
+
     }
 
 
-    public static DataManager getDataManager() {
+
+
+/*    public static DataManager getDataManager() {
         return dataManager;
-    }
+    }*/
 }

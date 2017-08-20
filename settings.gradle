@@ -6,4 +6,7 @@ include 'application-server'
 include 'models'
 include 'service'
 include 'root'
+include 'dao'
+
+include 'config'
 

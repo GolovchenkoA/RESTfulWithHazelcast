@@ -6,7 +6,7 @@ ext{
     projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.1-SNAPSHOT']
     jacocoVersion = '0.7.9'
     LogbackVersion = '1.2.3'
-    hazelcastVersion =  '3.9-EA'
+    hazelcastVersion =  '3.8.4'
     HttpServerVersion = '20070405'
 }
 
@@ -157,6 +157,44 @@ subprojects{
         }*/
 
 }
+project('root'){
+    version = '1.0.0-SNAPSHOT'
+    description = 'Root Project'
+
+    dependencies{
+        compile project(':web-api')
+        compile project(':cache-server')
+        compile project(':config')
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+        compile group: 'com.hazelcast', name: 'hazelcast-all', version: "$hazelcastVersion"
+    }
+}
+
+
+project('dao'){
+    version = '1.0.0-SNAPSHOT'
+    description = 'Data Access Object'
+
+    dependencies{
+        compile project(':models')
+        compile project(':config')
+        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+        compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
+    }
+}
+
+project('service'){
+    version = '1.0.0-SNAPSHOT'
+    description = 'Service layer'
+
+    dependencies{
+        compile project(':dao')
+        compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.26-b09'
+        //compile project(':config')
+        //compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+    }
+}
+
 
 
 project('web-api'){
@@ -166,13 +204,17 @@ project('web-api'){
     dependencies{
        compile project(':models')
        compile project(':service')
-        testCompile group: 'com.sun.net.httpserver', name: 'http', version: "$HttpServerVersion"
-        compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
-        compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
-        compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
-        compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jdk-http', version: '2.26-b09'
-        compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.26-b09'
-        compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26-b09'
+       compile project(':dao')
+       compile project(':cache-server')
+       compile project(':config')
+       testCompile group: 'com.sun.net.httpserver', name: 'http', version: "$HttpServerVersion"
+       compile group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'
+
+
+       compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jdk-http', version: '2.26-b09'
+       compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.26-b09'
+       compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26-b09'
+
 
 /*
         compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-jdk-http', version: '2.4'
@@ -211,7 +253,9 @@ project('cache-server'){
 
     dependencies{
         compile project(':models')
+        compile project(':dao')
         compile project(':service')
+        compile project(':config')
         compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
     }
 

@@ -1,5 +1,7 @@
 package ua.golovchenko.artem.model;
 
+import java.util.Date;
+
 /**
  * Created by головченко on 04.08.2017.
  *
@@ -13,12 +15,14 @@ public class ResultBase implements Result {
     private String result;
     private Long userId;
     private Integer levelId;
+    private Date date;
 
     public ResultBase(){}
-    public ResultBase(String result, Long userId, Integer levelId) {
+    public ResultBase(String result, Long userId, Integer levelId, Date date) {
         this.result = result;
         this.userId = userId;
         this.levelId = levelId;
+        this.date = date;
     }
 
     public Long getId() {
@@ -53,4 +57,7 @@ public class ResultBase implements Result {
         this.levelId = levelId;
     }
 
+    public Date getDate() {return date; }
+
+    public void setDate(Date date) {this.date = date;}
 }

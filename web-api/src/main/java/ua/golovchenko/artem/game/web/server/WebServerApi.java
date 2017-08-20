@@ -1,12 +1,14 @@
 package ua.golovchenko.artem.game.web.server;
 
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.config.Config;
-import ua.golovchenko.artem.game.web.controller.BaseHandler;
-import ua.golovchenko.artem.game.web.controller.UserHandler;
+import ua.golovchenko.artem.game.web.controller.jaxrs.JaxRsApplication;
 
+import javax.ws.rs.ext.RuntimeDelegate;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -17,17 +19,43 @@ import java.net.InetSocketAddress;
  */
 public class WebServerApi {
     private static final Logger logger = LoggerFactory.getLogger(WebServerApi.class);
-    public static final String PORT_PARAM = "web_api_server.port";
-    public static String port;
+    private static final String PORT_PARAM = "web_api_server.port";
+    private static final String DEFAULT_PORT = "80";
+    private static String port;
+    private Config config;
 
-    HttpServer server;
+    private HttpServer server;
+
+    public WebServerApi() throws IOException {
+        config = new Config();
+        config.setKeyValue(PORT_PARAM, DEFAULT_PORT);
+
+        this.init(config);
+    }
 
     public WebServerApi(Config config) throws IOException {
-        port = config.getString(PORT_PARAM, "80");
+        this.config = config;
+        this.init(config);
+    }
+
+    public WebServerApi(String webConfigPath) throws IOException {
+
+        try {
+            File configFile = new File(webConfigPath);
+            this.config = new Config(configFile);
+            this.init(config);
+        } catch (IOException e) {
+            logger.info("Error load web-api configuration file: {}", webConfigPath);
+            throw new IOException(e);
+        }
+    }
+
+    private void init(Config config) throws IOException {
+        port = config.getString(PORT_PARAM, DEFAULT_PORT);
         logger.info("Start configure web API server on port: {}", port);
         server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
-        server.createContext("/", new BaseHandler());
-        server.createContext("/useringo", new UserHandler());
+        HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(new JaxRsApplication(), HttpHandler.class);
+        server.createContext("/", handler);
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override

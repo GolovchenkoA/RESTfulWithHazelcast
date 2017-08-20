@@ -9,6 +9,8 @@ package ua.golovchenko.artem.model;
  */
 public interface Result {
 
+    enum ResultStatus {BAD, GOOD, EXCELENT}
+
     /**
      * @return result  result id as {@code Long}
      */

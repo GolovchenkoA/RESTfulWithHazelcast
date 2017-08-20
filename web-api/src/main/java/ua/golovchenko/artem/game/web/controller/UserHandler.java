@@ -1,25 +1,14 @@
 package ua.golovchenko.artem.game.web.controller;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.game.web.dao.StringUserDAO;
-import ua.golovchenko.artem.game.web.dao.UsersManager;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.*;
-
 /**
  * Created by Artem on 05.08.2017.
  *
  * @author Golovchenko Artem
  */
-public class UserHandler implements HttpHandler {
-        private UsersManager<String> userManager = new StringUserDAO();
+//public class UserHandler implements HttpHandler {
+public class UserHandler{
+/*
+        private CRUD<String> userManager = new StringUserDAO();
         private static final Logger logger = LoggerFactory.getLogger(UserHandler.class);
 
 
@@ -42,7 +31,7 @@ public class UserHandler implements HttpHandler {
             String userstr = IOUtils.toString(in, "UTF-8");
             logger.debug("doPost. user: {}", userstr);
 
-            userManager.addUser(userstr);
+            userManager.add(userstr);
             respondToClient(httpExchange, "POST OK", 201);
 
         } catch (Exception e) {
@@ -82,5 +71,6 @@ public class UserHandler implements HttpHandler {
         }
      }
 
+*/
 
 }

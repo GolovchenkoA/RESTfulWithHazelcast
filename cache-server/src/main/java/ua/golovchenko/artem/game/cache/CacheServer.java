@@ -29,5 +29,7 @@ public class CacheServer {
         User user = new UserBase("email@com.com","user2","nick2");
         user.setId(2L);
         users.put(user.getId(), user);
+
+        logger.debug("Cache Server. Map (users) created. Map content: {}", users.entrySet());
     }
 }
