@@ -39,9 +39,12 @@ public class Main {
 
         try {
             RootContext.init();
+            Thread.currentThread().join();
         } catch (Exception e) {
             logger.info("Root context initialization fail. StackTrace: ", e);
             e.printStackTrace();
         }
+
+
     }
 }

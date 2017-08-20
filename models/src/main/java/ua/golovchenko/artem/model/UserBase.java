@@ -1,6 +1,10 @@
 package ua.golovchenko.artem.model;
 
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -12,9 +16,22 @@ import java.io.Serializable;
  * @see ua.golovchenko.artem.model.User
  */
 public class UserBase implements User, Serializable{
+
+    @NotNull(message = "id is blank")
+    @Digits(integer = 6, fraction = 1)
     private Long id;
+
+    @Pattern(regexp="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     private String email;
+
+    @NotNull(message = "name is blank")
+    @Size(min=6, max=25,message="Name must be at least 6 characters long and maximum 25 characters.")
+    @Pattern(regexp="^[a-zA-Z0-9]+$",message="Username must be alphanumeric with no spaces. Max 25 characters")
     private String name;
+
+    @NotNull
+    @Size(min=6, max=25,
+            message="Nick must be at least 6 characters long and maximum 25 characters.")
     private String nick;
 
     public UserBase(){};

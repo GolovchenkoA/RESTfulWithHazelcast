@@ -48,6 +48,16 @@ public class RootContext {
 
 
     private static void initServices() throws IOException {
+
+        //Cache Server config
+        if(Boolean.parseBoolean(System.getProperty((CACHE_SERVER)))){
+            logger.info("Config. Cache server: enabled");
+            cacheServer = new CacheServer();
+        }else {
+            logger.info("Config. Cache server disabled");
+        }
+
+        //Web Server config
         if(Boolean.parseBoolean(System.getProperty((WEB_SERVER)))){
 
             logger.info("Config. Web API server: enabled");
@@ -55,14 +65,6 @@ public class RootContext {
             webApiServer.start();
         }else {
             logger.info("Config. Web API server disabled");
-        }
-
-
-        if(Boolean.parseBoolean(System.getProperty((CACHE_SERVER)))){
-            logger.info("Config. Cache server: enabled");
-            cacheServer = new CacheServer();
-        }else {
-            logger.info("Config. Cache server disabled");
         }
 
     }

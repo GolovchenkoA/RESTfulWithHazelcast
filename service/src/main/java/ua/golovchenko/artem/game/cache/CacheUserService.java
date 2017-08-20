@@ -26,7 +26,7 @@ public class CacheUserService implements UserService {
 
     @Override
     public void add(User obj) throws Exception {
-
+        userDAO.add(obj);
     }
 
     @Override

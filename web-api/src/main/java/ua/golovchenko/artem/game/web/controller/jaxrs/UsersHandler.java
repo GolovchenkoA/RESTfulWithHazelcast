@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheUserService;
 import ua.golovchenko.artem.game.service.UserService;
 import ua.golovchenko.artem.model.User;
+import ua.golovchenko.artem.model.UserBase;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.validation.Valid;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Map;
@@ -50,10 +50,43 @@ public class UsersHandler {
         } catch (Exception e) {
             logger.info("Error get all user from cache server: {}", e);
             e.printStackTrace();
-            return Response.noContent().build();
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         }
 
     }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newUser(@Valid UserBase user){
+
+        try {
+            userService.add(user);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            logger.info("Error create new user: {}", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    /*
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response newUser(@Context ContainerRequest request){
+        InputStream in = request.getEntityStream();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            User user = mapper.readValue(in,User.class);
+            userService.add(user);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            logger.info("Error create new user: {}", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+        //User user = mapper.readValues(in, UserBase.class)
+
+    }*/
 
 
     //@PUT   convert json to pojo https://stackoverflow.com/questions/21918081/jersey-2-6-with-jackson-json-deserialization
