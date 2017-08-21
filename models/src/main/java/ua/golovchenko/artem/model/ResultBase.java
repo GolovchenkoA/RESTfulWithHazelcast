@@ -1,7 +1,5 @@
 package ua.golovchenko.artem.model;
 
-import java.util.Date;
-
 /**
  * Created by головченко on 04.08.2017.
  *
@@ -11,53 +9,39 @@ import java.util.Date;
  * @see ua.golovchenko.artem.model.Result
  */
 public class ResultBase implements Result {
-    private Long id;
-    private String result;
-    private Long userId;
-    private Integer levelId;
-    private Date date;
+    private Long user_id;
+    private Integer level_id;
+    private Long result;
 
     public ResultBase(){}
-    public ResultBase(String result, Long userId, Integer levelId, Date date) {
+
+    public ResultBase(Long result, Long user_id, Integer level_id) {
+        this.level_id = level_id;
+        this.user_id = user_id;
         this.result = result;
-        this.userId = userId;
-        this.levelId = levelId;
-        this.date = date;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getResult() {
+    public Long getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(Long result) {
         this.result = result;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
-    public Integer getLevelId() {
-        return levelId;
+    public Integer getLevel_id() {
+        return level_id;
     }
 
-    public void setLevelId(Integer levelId) {
-        this.levelId = levelId;
+    public void setLevel_id(Integer level_id) {
+        this.level_id = level_id;
     }
-
-    public Date getDate() {return date; }
-
-    public void setDate(Date date) {this.date = date;}
 }

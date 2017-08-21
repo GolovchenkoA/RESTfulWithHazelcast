@@ -7,7 +7,6 @@ import ua.golovchenko.artem.game.service.UserService;
 import ua.golovchenko.artem.model.User;
 import ua.golovchenko.artem.model.UserBase;
 
-import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -58,6 +57,27 @@ public class UsersHandler {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    public Response newUser(UserBase user){
+
+        //this.jsonValidation(user);
+
+        try {
+            userService.add(user);
+            return Response.status(Response.Status.CREATED).build();
+        } catch (Exception e) {
+            logger.info("Error create new user: {}", e);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+ /*   private void jsonValidation(User user) {
+        JsonSchemaFactory jsonSchemaFactory =  JsonSchemaFactory.getJsonSchema(JsonNode)
+
+    }*/
+
+/*      //Save User
+        @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(@Valid UserBase user){
 
         try {
@@ -68,6 +88,8 @@ public class UsersHandler {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+*/
+
 
 
     /*

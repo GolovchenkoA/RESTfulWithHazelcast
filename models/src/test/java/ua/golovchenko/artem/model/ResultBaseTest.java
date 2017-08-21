@@ -24,7 +24,7 @@ public class ResultBaseTest {
 
     @Test
     public void testSetResultThenGetResultEquals() {
-        String description = "Level Description";
+        Long description = "Level Description";
         result.setResult(description);
 
         assertEquals(description, result.getResult());
@@ -32,16 +32,16 @@ public class ResultBaseTest {
 
     @Test
     public void testSetUserIdThenGetUserIdEquals(){
-        result.setUserId(1L);
-        Long actualId = result.getUserId();
+        result.setUser_id(1L);
+        Long actualId = result.getUser_id();
 
         assertEquals(Long.valueOf(1L),actualId);
     }
 
     @Test
     public void testSetLevelIdThenGetLevelIdEquals() throws Exception {
-        result.setLevelId(1);
-        Integer actualId = result.getLevelId();
+        result.setLevel_id(1);
+        Integer actualId = result.getLevel_id();
 
         assertEquals(new Integer(1),actualId);
     }

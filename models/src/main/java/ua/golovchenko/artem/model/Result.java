@@ -9,58 +9,43 @@ package ua.golovchenko.artem.model;
  */
 public interface Result {
 
-    enum ResultStatus {BAD, GOOD, EXCELENT}
-
-    /**
-     * @return result  result id as {@code Long}
-     */
-
-    public Long getId();
-
-    /**
-     * Sets the result id
-     * @param id Long
-     */
-
-    public void setId(Long id);
-
     /**
      * @return String user result on the level {@code String}
      */
 
-    public String getResult() ;
+    public Long getResult() ;
 
     /**
      * Sets user result on the level
      * @param result String
      */
 
-    public void setResult(String result);
+    public void setResult(Long result);
 
     /**
      * @return user id as {@code Long}
      */
 
-    public Long getUserId();
+    public Long getUser_id();
 
     /**
      * Sets the user id
      * @param userId Long
      */
 
-    public void setUserId(Long userId);
+    public void setUser_id(Long userId);
 
     /**
      * @return level id as {@code Long}
      */
 
-    public Integer getLevelId();
+    public Integer getLevel_id();
 
     /**
      * Sets the level id
      * @param levelId Long
      */
 
-    public void setLevelId(Integer levelId);
+    public void setLevel_id(Integer levelId);
 
 }
