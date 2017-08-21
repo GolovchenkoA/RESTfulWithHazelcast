@@ -190,6 +190,7 @@ project('service'){
     dependencies{
         compile project(':dao')
         compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.26-b09'
+        compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
         //compile project(':config')
         //compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
     }

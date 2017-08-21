@@ -1,6 +1,6 @@
 package ua.golovchenko.artem.game.cache;
 
-import ua.golovchenko.artem.game.dao.BaseUserDAO;
+import ua.golovchenko.artem.game.cache.dao.BaseUserDAO;
 import ua.golovchenko.artem.game.dao.UserDAO;
 import ua.golovchenko.artem.game.service.UserService;
 import ua.golovchenko.artem.model.User;

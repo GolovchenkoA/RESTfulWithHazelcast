@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.game.cache.dao;
 
+import com.hazelcast.core.HazelcastInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.dao.DataManager;
@@ -16,8 +17,23 @@ public class CacheInfoDAO implements InfoDAO {
     private static final DataManager dataManager = new DataManager();
 
 
+    public CacheInfoDAO() {
+        logger.debug("Class constructor");
+        logger.debug("load DataManager");
+
+    }
+
     @Override
     public void add(Info item) throws Exception {
-        dataManager.getCache().getMap("info");
+        getCache().getMultiMap("info_by_level").put(item.getLevel_id(), item);
+    }
+
+    private HazelcastInstance getCache() throws Exception {
+        try {
+            return dataManager.getCache();
+        } catch (Exception e) {
+            logger.debug("Connection to cache server failed. StackTrace {}",e);
+            throw new Exception(e);
+        }
     }
 }

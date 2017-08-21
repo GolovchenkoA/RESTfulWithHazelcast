@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheServer;
 import ua.golovchenko.artem.game.config.Config;
-import ua.golovchenko.artem.game.web.server.WebServerApi;
+import ua.golovchenko.artem.game.web.WebServerApi;
 
 import java.io.IOException;
 

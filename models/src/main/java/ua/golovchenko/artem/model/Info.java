@@ -13,14 +13,14 @@ public interface Info {
      * @return String user result on the level {@code String}
      */
 
-    public Long getResult() ;
+    public Integer getResult() ;
 
     /**
      * Sets user result on the level
      * @param result String
      */
 
-    public void setResult(Long result);
+    public void setResult(Integer result);
 
     /**
      * @return user id as {@code Long}

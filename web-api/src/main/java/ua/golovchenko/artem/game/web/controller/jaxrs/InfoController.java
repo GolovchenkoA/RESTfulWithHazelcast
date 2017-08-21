@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheInfoService;
 import ua.golovchenko.artem.game.service.InfoService;
-import ua.golovchenko.artem.model.Info;
+import ua.golovchenko.artem.model.InfoBase;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -21,13 +21,13 @@ import javax.ws.rs.core.Response;
 @Path("setinfo")
 public class InfoController {
     private InfoService infoService = new CacheInfoService();
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newInfo(Info info){
+    public Response newInfo(InfoBase info){
 
-        logger.info("newInfo(). Info: {}", info);
+        logger.info("newInfo(). Info: {}", info.toString());
 
         try {
             infoService.add(info);

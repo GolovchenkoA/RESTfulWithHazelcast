@@ -50,7 +50,7 @@ public class InfoJSONValidatorTest {
 
     @Test
     public void testValidResultBase(){
-        JSONObject jsonSubject = new JSONObject(new InfoBase(1L,1L,5));
+        JSONObject jsonSubject = new JSONObject(new InfoBase(1L,1,5));
         System.out.println(jsonSubject);
         Schema schema = SchemaLoader.load(jsonSchemaResult);
         schema.validate(jsonSubject);
@@ -60,7 +60,7 @@ public class InfoJSONValidatorTest {
     @Test(expected = ValidationException.class)
     public void testInvalidResultBase(){
         Info info = new InfoBase();
-        info.setResult(5L);
+        info.setResult(5);
 
         JSONObject jsonSubject = new JSONObject(info);
         System.out.println(jsonSubject);

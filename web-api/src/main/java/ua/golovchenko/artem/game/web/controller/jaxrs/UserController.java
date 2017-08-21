@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserController {
     private UserService userService = new CacheUserService();
     //private CRUD<String> userManager = new StringUserDAO();
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 /*
     @GET

@@ -1,4 +1,4 @@
-package ua.golovchenko.artem.game.web.server;
+package ua.golovchenko.artem.game.web;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
