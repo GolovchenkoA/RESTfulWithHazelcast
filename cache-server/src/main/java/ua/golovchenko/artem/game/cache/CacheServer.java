@@ -27,11 +27,11 @@ public class CacheServer {
         instance = Hazelcast.newHazelcastInstance();
         users = instance.getMap("users");
         User user = new UserBase("email@com.com","user2","nick2");
-        user.setId(2L);
-        users.put(user.getId(), user);
+        user.setUser_id(2L);
+        users.put(user.getUser_id(), user);
         User user3 = new UserBase("email3@com.com","user3","nick3");
-        user3.setId(3L);
-        users.put(user3.getId(), user3);
+        user3.setUser_id(3L);
+        users.put(user3.getUser_id(), user3);
 
         logger.debug("Cache Server. Map (users) created. Map content: {}", users.entrySet());
     }

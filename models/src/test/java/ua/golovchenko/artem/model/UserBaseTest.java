@@ -23,8 +23,8 @@ public class UserBaseTest{
 
     @Test
     public void testSetIdThenGetIdEquals() throws Exception {
-        user.setId(1L);
-        Long actualId = user.getId();
+        user.setUser_id(1L);
+        Long actualId = user.getUser_id();
 
         assertEquals(Long.valueOf(1L),actualId);
     }

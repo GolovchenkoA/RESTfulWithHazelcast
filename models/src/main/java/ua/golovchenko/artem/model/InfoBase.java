@@ -6,16 +6,16 @@ package ua.golovchenko.artem.model;
  * Base class implemented Result-interface
  *
  * @author Golovchenko Artem
- * @see ua.golovchenko.artem.model.Result
+ * @see Info
  */
-public class ResultBase implements Result {
+public class InfoBase implements Info {
     private Long user_id;
     private Integer level_id;
     private Long result;
 
-    public ResultBase(){}
+    public InfoBase(){}
 
-    public ResultBase(Long result, Long user_id, Integer level_id) {
+    public InfoBase(Long result, Long user_id, Integer level_id) {
         this.level_id = level_id;
         this.user_id = user_id;
         this.result = result;

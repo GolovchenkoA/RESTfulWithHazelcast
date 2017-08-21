@@ -16,10 +16,10 @@ import java.util.Map;
  * Created by Artem on 13.08.2017.
  */
 @Path("userinfo")
-public class UsersHandler {
+public class UserController {
     private UserService userService = new CacheUserService();
     //private CRUD<String> userManager = new StringUserDAO();
-    private static final Logger logger = LoggerFactory.getLogger(UsersHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 /*
     @GET
@@ -59,7 +59,7 @@ public class UsersHandler {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(UserBase user){
 
-        //this.jsonValidation(user);
+        logger.info("newUser(). User: {}", user);
 
         try {
             userService.add(user);

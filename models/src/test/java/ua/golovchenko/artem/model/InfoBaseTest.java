@@ -5,43 +5,35 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ResultBaseTest {
+public class InfoBaseTest {
 
-    Result result;
+    Info info;
 
     @Before
     public void init(){
-        result = new ResultBase();
+        info = new InfoBase();
     }
 
     @Test
     public void testSetIdThenGetIdEquals(){
-        result.setId(1L);
-        Long actualId = result.getId();
+        info.setUser_id(1L);
+        Long actualId = info.getUser_id();
 
         assertEquals(Long.valueOf(1L),actualId);
     }
 
     @Test
-    public void testSetResultThenGetResultEquals() {
-        Long description = "Level Description";
-        result.setResult(description);
-
-        assertEquals(description, result.getResult());
-    }
-
-    @Test
     public void testSetUserIdThenGetUserIdEquals(){
-        result.setUser_id(1L);
-        Long actualId = result.getUser_id();
+        info.setUser_id(1L);
+        Long actualId = info.getUser_id();
 
         assertEquals(Long.valueOf(1L),actualId);
     }
 
     @Test
     public void testSetLevelIdThenGetLevelIdEquals() throws Exception {
-        result.setLevel_id(1);
-        Integer actualId = result.getLevel_id();
+        info.setLevel_id(1);
+        Integer actualId = info.getLevel_id();
 
         assertEquals(new Integer(1),actualId);
     }

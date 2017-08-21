@@ -20,9 +20,9 @@ import java.io.Serializable;
 @XmlRootElement
 public class UserBase implements User, Serializable{
 
-    @NotNull(message = "id is blank")
+    @NotNull(message = "user_id is blank")
     @Digits(integer = 6, fraction = 1)
-    private Long id;
+    private Long user_id;
 
     //@Pattern(regexp="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
     @Pattern(regexp="[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
@@ -46,10 +46,10 @@ public class UserBase implements User, Serializable{
         this.nick = nick;
     }
 
-    public Long getId() {return id;}
+    public Long getUser_id() {return user_id;}
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
     public String getEmail() {
@@ -79,7 +79,7 @@ public class UserBase implements User, Serializable{
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "user_id=" + user_id +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 ", nick='" + nick + '\'' +

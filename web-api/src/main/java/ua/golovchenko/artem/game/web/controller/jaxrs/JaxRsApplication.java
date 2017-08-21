@@ -16,7 +16,7 @@ public class JaxRsApplication extends Application {
 
     public JaxRsApplication() {
         Set<Class<?>> c = new HashSet<Class<?>>();
-        c.add(UsersHandler.class);
+        c.add(UserController.class);
         classes = Collections.unmodifiableSet(c);
     }
 

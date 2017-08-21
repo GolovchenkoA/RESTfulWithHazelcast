@@ -13,14 +13,14 @@ public interface User {
      * @return user id as {@code Long}
      */
 
-    public Long getId();
+    public Long getUser_id();
 
     /**
      * Sets the user id
      * @param id Long
      */
 
-    public void setId(Long id);
+    public void setUser_id(Long id);
 
     /**
      * @return user email as {@code String}

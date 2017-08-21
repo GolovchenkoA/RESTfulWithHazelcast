@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
 
         System.setProperty("web","true");
-        System.setProperty("cache","true");
+        System.setProperty("cache","false");
 
         boolean web = Boolean.parseBoolean( System.getProperty("web") );
         boolean cache = Boolean.parseBoolean( System.getProperty("cache") );
