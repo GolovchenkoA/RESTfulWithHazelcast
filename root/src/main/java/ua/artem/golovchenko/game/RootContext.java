@@ -74,7 +74,7 @@ public class RootContext {
         if(config.hasKey(WEB_SERVER)){
 
             logger.info("Config. Web API server: enabled");
-            webApiServer = settings.get(WEB_CONFIG) ? new WebServerApi(WEB_CONFIG) : new WebServerApi();
+            webApiServer = settings.getTop(WEB_CONFIG) ? new WebServerApi(WEB_CONFIG) : new WebServerApi();
             webApiServer.start();
         }else {
             logger.info("Config. Web API server disabled");

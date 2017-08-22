@@ -4,12 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheUserService;
 import ua.golovchenko.artem.game.service.UserService;
+import ua.golovchenko.artem.model.Info;
 import ua.golovchenko.artem.model.User;
 import ua.golovchenko.artem.model.UserBase;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +23,7 @@ public class UserController {
     private UserService userService = new CacheUserService();
     //private CRUD<String> userManager = new StringUserDAO();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Long TOP_RESULTS = 20L;
 
 /*
     @GET
@@ -47,12 +51,34 @@ public class UserController {
             builder = Response.ok(users.entrySet());
             return builder.build();
         } catch (Exception e) {
-            logger.info("Error get all user from cache server: {}", e);
+            logger.info("Error getTop all user from cache server: {}", e);
             e.printStackTrace();
             return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         }
 
     }
+
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getUserResultsByUserId(@PathParam("id") Long id) {
+        List<Info> users = null;
+        Response.ResponseBuilder builder = null;
+        try {
+            Collection<Info> results = userService.getTop(id, TOP_RESULTS);
+            builder = Response.ok(results);
+            return builder.build();
+        } catch (Exception e) {
+            logger.info("Error getTop results user with id {} from cache server: {}",id, e);
+            e.printStackTrace();
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+        }
+
+    }
+
+
+
 
 
     @POST

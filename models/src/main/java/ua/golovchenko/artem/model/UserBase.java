@@ -7,6 +7,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by головченко on 04.08.2017.
@@ -38,6 +40,8 @@ public class UserBase implements User, Serializable{
             message="Nick must be at least 6 characters long and maximum 25 characters.")
     private String nick;
 
+    private List<Info> results = new ArrayList<>();
+
     public UserBase(){};
 
     public UserBase(String email, String name, String nick) {
@@ -46,34 +50,52 @@ public class UserBase implements User, Serializable{
         this.nick = nick;
     }
 
+    @Override
     public Long getUser_id() {return user_id;}
 
+    @Override
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getNick() {
         return nick;
     }
 
+    @Override
     public void setNick(String nick) {
         this.nick = nick;
+    }
+
+    @Override
+    public List<Info> getResults() {
+        return results;
+    }
+
+    @Override
+    public void setResults(List<Info> results) {
+        this.results = results;
     }
 
     @Override

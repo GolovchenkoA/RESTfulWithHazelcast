@@ -9,7 +9,7 @@ import java.util.Map;
  * The interface for working with the interface User
  */
 public interface CRUD<T> {
-    public T get(Long id);
+    public T get(Long id) throws Exception;
     public void add(T obj) throws Exception;
     public boolean delete(Long id);
     public Map<Long,T> findAll() throws Exception;

@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class BaseUserDAO implements UserDAO {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final String USERS_MAP = "users";
     private static final DataManager dataManager = new DataManager();
     //private DataManager dataManager = Context.getDataManager();
     //private static Map<Long, User> users = new HashMap<>();
@@ -33,8 +34,8 @@ public class BaseUserDAO implements UserDAO {
     }
 
     @Override
-    public User get(Long id) {
-        return null;
+    public User get(Long id) throws Exception {
+        return this.findAll().get(id);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class BaseUserDAO implements UserDAO {
     @Override
     public Map<Long,User> findAll() throws Exception {
         logger.debug("findAll() . result: {}", getCache().getMap("users"));
-        return getCache().getMap("users");
+        return getCache().getMap(USERS_MAP);
     }
 
     private HazelcastInstance getCache() throws Exception {

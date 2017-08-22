@@ -1,5 +1,7 @@
 package ua.golovchenko.artem.model;
 
+import java.util.List;
+
 /**
  * Created by головченко on 04.08.2017.
  *
@@ -54,4 +56,9 @@ public interface User {
      * @param nick String  Numbers and letters are allowed without spaces
      */
     public void setNick(String nick);
+
+    public List<Info> getResults();
+
+    public void setResults(List<Info> results);
+
 }

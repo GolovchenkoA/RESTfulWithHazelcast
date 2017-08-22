@@ -18,33 +18,33 @@ import java.util.List;
  */
 public class CacheLevelService implements LevelService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String LEVELS_MAP = "info_by_level";
+    private static final String INFO_LEVEL_MAP = "info_by_level";
     DataManager dataManager = new DataManager();
 
     @Override
-    public List<User> get(Integer level, Integer topCount) throws Exception {
-        MultiMap<Integer, User> map = dataManager.getCache().getMultiMap(LEVELS_MAP);
-        logger.info("get users on level {}. All users: {}", level, map);
+    public List<User> getTop(Integer level, Integer topCount) throws Exception {
+        MultiMap<Integer, User> map = dataManager.getCache().getMultiMap(INFO_LEVEL_MAP);
+        logger.info("getTop users on level {}. All users: {}", level, map);
         Collection<User> values = map.get(level);
 /*        for ( Integer key : map.keySet() ){
-            logger.info("ALL get users on level {}. key: {} , value", level, key);
+            logger.info("ALL getTop users on level {}. key: {} , value", level, key);
             if(key == level){
                 map.keySet().stream().forEach(key.equals(level)).collect(Collectors.toList());
                 values.add();
-                logger.info("EQUALS get users on level {}. key: {} , value", level, key);
+                logger.info("EQUALS getTop users on level {}. key: {} , value", level, key);
             }
         }*/
 
 /*        Collection<User> values = new LinkedList<>();
         for (Integer key : map.keySet()) {
-            logger.info("get users on level {}. users(all): {}", level, key);
+            logger.info("getTop users on level {}. users(all): {}", level, key);
             if (key == level) {
-                values.add(map.get(key));
+                values.add(map.getTop(key));
             }
 
             //System.out.println( "%s -> %s\n",key, values );
 
-            //return dataManager.getCache().getMap(LEVELS_MAP).get
+            //return dataManager.getCache().getMap(LEVELS_MAP).getTop
             //.stream().filter(entry -> entry.getKey().equals(level)).collect(Collectors.toList());
 
         }*/
