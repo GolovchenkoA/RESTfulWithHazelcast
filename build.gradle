@@ -49,6 +49,16 @@ ext{
         runtime "org.slf4j:slf4j-api:$slf4jVersion"
     }
 
+
+    // For Travis CI
+    sourceSets {
+        test {
+            resources {
+                srcDir "test"
+            }
+        }
+    }
+
 }
 
 
