@@ -53,23 +53,7 @@ public class InfoController {
 
     private void validateInput(InfoBase info) {
         logger.debug("Validation InfoBase: {}", info);
-/*        logger.debug("Classpath:");
-
-
-        //Get the System Classloader
-        ClassLoader sysClassLoader = ClassLoader.getSystemClassLoader();
-
-        //Get the URLs
-        URL[] urls = ((URLClassLoader)sysClassLoader).getURLs();
-
-        for(int i=0; i< urls.length; i++)
-        {
-            System.out.println(urls[i].getFile());
-        }
-*/
-
         org.json.JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(this.getClass().getResourceAsStream(JSON_SCHEMA_INFO)));
-        //org.json.JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(this.getClass().getResourceAsStream(JSON_SCHEMA_INFO)));
         JSONObject jsonSubject = new JSONObject(info);
         Schema schema = SchemaLoader.load(jsonSchemaResult);
         schema.validate(jsonSubject);
