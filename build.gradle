@@ -48,7 +48,7 @@ ext{
         compile group: 'ch.qos.logback', name: 'logback-classic', version: "$LogbackVersion"
         runtime "org.slf4j:slf4j-api:$slf4jVersion"
     }
-    
+
 }
 
 

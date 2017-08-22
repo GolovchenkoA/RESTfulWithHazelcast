@@ -38,8 +38,6 @@ public class InfoJSONValidatorTest {
         schema.validate(jsonSubject);
     }
 
-
-
     @Test(expected = ValidationException.class)
     public void testInvalidResult(){
         JSONObject jsonSubject = new JSONObject(new JSONTokener(InfoJSONValidatorTest.class.getResourceAsStream(JSON_INFO_INVALID)));
@@ -56,7 +54,6 @@ public class InfoJSONValidatorTest {
         schema.validate(jsonSubject);
     }
 
-
     @Test(expected = ValidationException.class)
     public void testInvalidResultBase(){
         Info info = new InfoBase();
@@ -68,7 +65,6 @@ public class InfoJSONValidatorTest {
         schema.validate(jsonSubject);
     }
 
-
     @Test
     public void testValidUser(){
         JSONObject jsonSubject = new JSONObject(new JSONTokener(InfoJSONValidatorTest.class.getResourceAsStream(JSON_USER_VALID)));
@@ -77,10 +73,8 @@ public class InfoJSONValidatorTest {
         schema.validate(jsonSubject);
     }
 
-
-
     @Test(expected = ValidationException.class)
-    public void testInvalid(){
+    public void testInvalidUserBaseFromJsonScheme(){
         JSONObject jsonSubject = new JSONObject(new JSONTokener(InfoJSONValidatorTest.class.getResourceAsStream(JSON_USER_INVALID)));
 
         Schema schema = SchemaLoader.load(jsonSchemaUser);
