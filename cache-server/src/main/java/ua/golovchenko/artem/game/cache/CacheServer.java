@@ -33,7 +33,6 @@ public class CacheServer {
         logger.debug("Class constructor. Cache Server initialization");
         this.configureServer();
         this.configureMaps();
-        logger.debug("Cache Server. Map (users) created. Map content: {}\n MultiMap content: {}", users.entrySet(), infoByLevel.entrySet());
     }
 
     private void configureServer() {
@@ -63,6 +62,7 @@ public class CacheServer {
         users       = instance.getMap(USERS_MAP);
         infoByLevel = instance.getMultiMap(RESULTS_LEVEL_MAP);
         //infoByUser  = instance.getMultiMap(RESULTS_USER_MAP);
+        logger.debug("Map {} created. Map content: {}\n Map {} created content: {}",USERS_MAP, users.entrySet(),RESULTS_LEVEL_MAP, infoByLevel.entrySet());
     }
 
 }
