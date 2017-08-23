@@ -58,7 +58,13 @@ public class CacheUserService implements UserService {
 
     @Override
     public List<Result> getTop(Long id, Integer topCount) throws Exception {
+
         User user = userDAO.get(id);
+        if (user == null){
+            logger.info("User with id: [{}] not found",user.getUser_id());
+            throw new Exception("User with id: ["+ user.getUser_id() + "] not found");
+        }
+
         user.getResults().sort((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
         List<Result> results = user.getResults();
         logger.debug("All results before getTop {} results. UserId: {}, allResults: {}",topCount, id, results);
