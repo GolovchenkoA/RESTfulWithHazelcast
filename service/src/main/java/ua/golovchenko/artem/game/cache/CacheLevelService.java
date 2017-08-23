@@ -11,6 +11,7 @@ import ua.golovchenko.artem.model.User;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -22,7 +23,8 @@ import java.util.stream.Collectors;
  */
 public class CacheLevelService implements LevelService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String INFO_LEVEL_MAP = "info_by_level";
+    private static final String USERS_MAP = "users";
+    private static final String RESULTS_LEVEL_MAP = "info_by_level";
     private static final int TOP_COUNT = 2;
     DataManager dataManager = new DataManager();
 
@@ -38,7 +40,7 @@ public class CacheLevelService implements LevelService{
     @Override
     public List<Result> getTop(Integer level, Integer topCount) throws Exception {
         logger.debug("Generate report of top users result on level {}.", level);
-        MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(INFO_LEVEL_MAP);
+        MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("getTop users on level {}. All users: {}", level, map);
         Collection<Result> allResultsOnLevel = map.get(level);
         List<Result> allResultsOnLevelModifiedList = new ArrayList<>(allResultsOnLevel);
@@ -70,9 +72,6 @@ public class CacheLevelService implements LevelService{
         // По этому мы должны с общего списка удалить все результаты, кроме этих айдишников
         logger.debug("получаем все результаты топовых пользователей на этом уровне");
         List<Result> allResultsOfTopUsersOnLevel = new ArrayList<>();
-/*                allResultsOnLevelModifiedList.stream().filter(res -> usersIds.stream().
-                allMatch(id -> res.getUser_id().equals(id))).collect(Collectors.toList());
-        */
 
         for(int u = 0; u < usersIds.size(); u++){
             final int userId = u;
@@ -86,58 +85,18 @@ public class CacheLevelService implements LevelService{
         // Необходимо сравнить результаты пользователей
 
 
-
-
-
-
-
-        //List<User> users = allResultsOfTopUsers.stream()
-
-/*        List<Info> allResultsOfTopUsers = allResultsOnLevel.stream().
-                filter(res -> (usersIds.stream().
-                        forEach(id -> res.getUser_id().equals(id)))).collect(Collectors.toList());
-
-        List<Info> allResultsOfTopUsers2 = usersIds.stream().forEach(
-                id -> (allResultsOnLevel.stream().
-                        filter(res -> res.getUser_id().equals(id))
-                )
-        );
-
-        List<Info> allResultsOfTopUsers = usersIds.stream().forEach(allResultsOnLevel.stream().fi);*/
-
-
-/*        for ( Integer key : map.keySet() ){
-            logger.info("ALL getTop users on level {}. key: {} , value", level, key);
-            if(key == level){
-                map.keySet().stream().forEach(key.equals(level)).collect(Collectors.toList());
-                values.add();
-                logger.info("EQUALS getTop users on level {}. key: {} , value", level, key);
-            }
-        }*/
-
-/*        Collection<User> values = new LinkedList<>();
-        for (Integer key : map.keySet()) {
-            logger.info("getTop users on level {}. users(all): {}", level, key);
-            if (key == level) {
-                values.add(map.getTop(key));
-            }
-
-            //System.out.println( "%s -> %s\n",key, values );
-
-            //return dataManager.getCache().getMap(LEVELS_MAP).getTop
-            //.stream().filter(entry -> entry.getKey().equals(level)).collect(Collectors.toList());
-
-        }*/
-
         return allResultsOfTopUsersOnLevel;
     }
 
     @Override
     public void update(User user) throws Exception {
-        logger.debug("Updating user [id]: {} results in map: {}", user.getUser_id(),INFO_LEVEL_MAP);
-        MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(INFO_LEVEL_MAP);
-        map.values().removeIf(res -> res.getUser_id().equals(user.getUser_id()));
-        user.getResults().forEach(res -> map.put(res.getLevel_id(),res));
+        logger.debug("Updating user with id: [{}].  results in maps: {},", user.getUser_id(), RESULTS_LEVEL_MAP,USERS_MAP);
+        ConcurrentMap<Long, User> usersMap = dataManager.getCache().getMap(USERS_MAP);
+        usersMap.put(user.getUser_id(),user); //update users map
+        MultiMap<Integer, Result> resultsLevelMap = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);  //update results on level
+        logger.debug("Results in map: {} \n before update user [{}] results : {}",RESULTS_LEVEL_MAP, user, resultsLevelMap.values() );
+        //resultsLevelMap.values().removeIf(res -> res.getUser_id().equals(user.getUser_id()));
+        user.getResults().forEach(res -> resultsLevelMap.put(res.getLevel_id(),res));
     }
 
     private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)

@@ -3,6 +3,7 @@ package ua.golovchenko.artem.game.cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.dao.CacheResultDAO;
+import ua.golovchenko.artem.game.dao.DataManager;
 import ua.golovchenko.artem.game.dao.ResultDAO;
 import ua.golovchenko.artem.game.service.ResultService;
 import ua.golovchenko.artem.model.Result;
@@ -16,8 +17,9 @@ import java.util.Collections;
  * @author Artem Golovchenko
  */
 public class CacheResultService implements ResultService {
-    private static final int MAX_RESULTS_COUNT = 20;
+    private static final int MAX_RESULTS_COUNT = 3;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    DataManager dataManager = new DataManager();
     ResultDAO resultDAO = new CacheResultDAO();
     CacheUserService userService = new CacheUserService();
     CacheLevelService levelService = new CacheLevelService();
@@ -26,19 +28,25 @@ public class CacheResultService implements ResultService {
     @Override
     public void add(Result result) throws Exception {
 
-/*        Old variant
-        try{
-            resultDAO.add(item);
-        } catch (Exception e) {
-            logger.info("Error add new Info item: {}", e);
-            throw new Exception("Error add new Info item");
-
-        }*/
-
-        //Update User in User-MAP
-
         User user = userService.get(result.getUser_id());
-        int items_cont = user.getResults().size();
+        if(user == null){
+            logger.debug("User with id [{}] does not exists. Create new user ", result.getUser_id());
+            user = userService.generateNewUser(result.getUser_id());
+            userService.add(user);
+
+            //update maps
+            levelService.update(user);
+/*            infoByLevel.put(result.getLevel_id(), result);
+            infoByUser.put(result.getUser_id(), result);*/
+        }
+
+        int items_cont;
+        try{
+            items_cont = user.getResults().size();
+        }catch (Exception e){
+            logger.debug("User [id: {}] have no results.",user.getUser_id());
+            items_cont = 0;
+        }
 
         if(items_cont >= MAX_RESULTS_COUNT){
             Collections.sort(user.getResults());

@@ -46,7 +46,7 @@ public class InfoController {
             resultService.add(info);
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
-            logger.info("Error create new user: {}", e);
+            logger.info("Error add result. StackTrace: {}", e);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -7,6 +7,7 @@ import ua.golovchenko.artem.game.dao.UserDAO;
 import ua.golovchenko.artem.game.service.UserService;
 import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.User;
+import ua.golovchenko.artem.model.UserBase;
 
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,14 @@ public class CacheUserService implements UserService {
     }
 
     @Override
-    public void add(User obj) throws Exception {
-        userDAO.add(obj);
+    public void add(User user) throws Exception {
+     try{
+        userDAO.add(user);
+        logger.debug("User creatyed: {}",user);
+    } catch (Exception e) {
+        logger.debug("Error create user. StackTrace {}", e);
+        throw new Exception(e);
+    }
     }
 
     @Override
@@ -66,5 +73,15 @@ public class CacheUserService implements UserService {
             logger.debug("Error update user. StackTrace {}", e);
             throw new Exception(e);
         }
+    }
+
+    @Override
+    public User generateNewUser(Long id) {
+        String email = (new StringBuilder("email" + id + "@auto.generate")).toString();
+        String name = (new StringBuilder("name_" + id + "auto.generate")).toString();
+        String nick = (new StringBuilder("nick_" + id + "auto.generate")).toString();
+        User user = new UserBase(email,name,nick);
+        user.setUser_id(id);
+        return user;
     }
 }
