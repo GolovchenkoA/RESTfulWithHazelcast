@@ -13,4 +13,5 @@ public interface CRUD<T> {
     public void add(T obj) throws Exception;
     public boolean delete(Long id);
     public Map<Long,T> findAll() throws Exception;
+    public void update(T item) throws Exception;
 }

@@ -41,9 +41,13 @@ public class BaseUserDAO implements UserDAO {
     @Override
     public void add(User user) throws Exception {
         //users.put(user.getUser_id(), user);
-
-        getCache().getMap("users").put(user.getUser_id(), user);
-        logger.debug("added User {}",user);
+        try {
+            getCache().getMap("users").put(user.getUser_id(), user);
+            logger.debug("added User {}",user);
+        } catch (Exception e) {
+            logger.debug("Error update user. StackTrace {}",e);
+            throw new Exception(e);
+        }
     }
 
     @Override
@@ -55,6 +59,17 @@ public class BaseUserDAO implements UserDAO {
     public Map<Long,User> findAll() throws Exception {
         logger.debug("findAll() . result: {}", getCache().getMap("users"));
         return getCache().getMap(USERS_MAP);
+    }
+
+    @Override
+    public void update(User user) throws Exception  {
+        try {
+            getCache().getMap(USERS_MAP).put(user.getUser_id(), user);
+            logger.debug("User updated: {}",user);
+        } catch (Exception e) {
+            logger.debug("Error update user. StackTrace {}",e);
+            throw new Exception(e);
+        }
     }
 
     private HazelcastInstance getCache() throws Exception {

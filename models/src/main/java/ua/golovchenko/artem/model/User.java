@@ -57,8 +57,8 @@ public interface User {
      */
     public void setNick(String nick);
 
-    public List<Info> getResults();
+    public List<Result> getResults();
 
-    public void setResults(List<Info> results);
+    public void setResults(List<Result> results);
 
 }

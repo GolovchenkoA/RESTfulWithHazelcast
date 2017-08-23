@@ -1,7 +1,7 @@
 package ua.golovchenko.artem.game.service;
 
 import ua.golovchenko.artem.game.dao.CRUD;
-import ua.golovchenko.artem.model.Info;
+import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.User;
 
 /**
@@ -9,5 +9,5 @@ import ua.golovchenko.artem.model.User;
  *
  * @author Artem Golovchenko
  */
-public interface UserService extends CRUD<User>,Top<Info,Long,Long> {
+public interface UserService extends CRUD<User>,Top<Result,Long,Long> {
 }

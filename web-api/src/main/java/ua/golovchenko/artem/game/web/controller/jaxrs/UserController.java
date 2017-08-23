@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheUserService;
 import ua.golovchenko.artem.game.service.UserService;
-import ua.golovchenko.artem.model.Info;
+import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.User;
 import ua.golovchenko.artem.model.UserBase;
 
@@ -63,10 +63,10 @@ public class UserController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserResultsByUserId(@PathParam("id") Long id) {
-        List<Info> users = null;
+        List<Result> users = null;
         Response.ResponseBuilder builder = null;
         try {
-            Collection<Info> results = userService.getTop(id, TOP_RESULTS);
+            Collection<Result> results = userService.getTop(id, TOP_RESULTS);
             builder = Response.ok(results);
             return builder.build();
         } catch (Exception e) {

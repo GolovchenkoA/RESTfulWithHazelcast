@@ -8,16 +8,16 @@ import java.io.Serializable;
  * Base class implemented Result-interface
  *
  * @author Golovchenko Artem
- * @see Info
+ * @see Result
  */
-public class InfoBase implements Info, Serializable {
+public class ResultBase implements Result, Serializable,Comparable {
     private Long user_id;
     private Integer level_id;
     private Integer result;
 
-    public InfoBase(){}
+    public ResultBase(){}
 
-    public InfoBase(Long user_id, Integer level_id, Integer result) {
+    public ResultBase(Long user_id, Integer level_id, Integer result) {
         this.user_id = user_id;
         this.level_id = level_id;
         this.result = result;
@@ -52,7 +52,7 @@ public class InfoBase implements Info, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        InfoBase infoBase = (InfoBase) o;
+        ResultBase infoBase = (ResultBase) o;
 
         if (!level_id.equals(infoBase.level_id)) return false;
         if (!result.equals(infoBase.result)) return false;
@@ -74,7 +74,11 @@ public class InfoBase implements Info, Serializable {
         return "InfoBase{" +
                 "user_id=" + user_id +
                 ", level_id=" + level_id +
-                ", result=" + result +
-                '}';
+                ", result=" + result +"}\n";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return ((Result)o).getResult().compareTo(this.getResult());
     }
 }

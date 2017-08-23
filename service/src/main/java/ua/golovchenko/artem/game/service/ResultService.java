@@ -1,13 +1,12 @@
 package ua.golovchenko.artem.game.service;
 
 import ua.golovchenko.artem.model.Result;
-import ua.golovchenko.artem.model.User;
 
 /**
  * Created by Artem on 21.08.2017.
  *
  * @author Artem Golovchenko
  */
-public interface LevelService extends Top<Result,Integer,Integer> {
-    public void update(User user) throws Exception;
+public interface ResultService {
+    public void add(Result item) throws Exception;
 }

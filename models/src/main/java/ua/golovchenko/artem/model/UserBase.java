@@ -40,7 +40,7 @@ public class UserBase implements User, Serializable{
             message="Nick must be at least 6 characters long and maximum 25 characters.")
     private String nick;
 
-    private List<Info> results = new ArrayList<>();
+    private List<Result> results = new ArrayList<>();
 
     public UserBase(){};
 
@@ -89,12 +89,12 @@ public class UserBase implements User, Serializable{
     }
 
     @Override
-    public List<Info> getResults() {
+    public List<Result> getResults() {
         return results;
     }
 
     @Override
-    public void setResults(List<Info> results) {
+    public void setResults(List<Result> results) {
         this.results = results;
     }
 

@@ -7,7 +7,7 @@ package ua.golovchenko.artem.model;
  * Class implemented Result-interface stores the result of the user and the level at which the result was obtained
  * @author Golovchenko Artem
  */
-public interface Info {
+public interface Result extends Comparable {
 
     /**
      * @return String user result on the level {@code String}

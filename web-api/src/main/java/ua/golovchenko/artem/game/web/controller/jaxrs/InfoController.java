@@ -6,9 +6,9 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.game.cache.CacheInfoService;
-import ua.golovchenko.artem.game.service.InfoService;
-import ua.golovchenko.artem.model.InfoBase;
+import ua.golovchenko.artem.game.cache.CacheResultService;
+import ua.golovchenko.artem.game.service.ResultService;
+import ua.golovchenko.artem.model.ResultBase;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -25,12 +25,12 @@ import javax.ws.rs.core.Response;
 @Path("setinfo")
 public class InfoController {
     private static final String JSON_SCHEMA_INFO = "/jsonSchema/info.json";
-    private InfoService infoService = new CacheInfoService();
+    private ResultService resultService = new CacheResultService();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newInfo(InfoBase info){
+    public Response newInfo(ResultBase info){
 
         logger.info("newInfo(). Info: {}", info.toString());
 
@@ -43,7 +43,7 @@ public class InfoController {
         }
 
         try {
-            infoService.add(info);
+            resultService.add(info);
             return Response.status(Response.Status.CREATED).build();
         } catch (Exception e) {
             logger.info("Error create new user: {}", e);
@@ -51,7 +51,7 @@ public class InfoController {
         }
     }
 
-    private void validateInput(InfoBase info) {
+    private void validateInput(ResultBase info) {
         logger.debug("Validation InfoBase: {}", info);
         org.json.JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(this.getClass().getResourceAsStream(JSON_SCHEMA_INFO)));
         JSONObject jsonSubject = new JSONObject(info);
