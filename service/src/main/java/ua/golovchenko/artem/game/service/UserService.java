@@ -9,6 +9,6 @@ import ua.golovchenko.artem.model.User;
  *
  * @author Artem Golovchenko
  */
-public interface UserService extends CRUD<User>,Top<Result,Long,Long> {
+public interface UserService extends CRUD<User>,Top<Result,Long,Integer> {
     User generateNewUser(Long id);
 }

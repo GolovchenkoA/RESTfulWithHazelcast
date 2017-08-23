@@ -21,9 +21,8 @@ import java.util.Map;
 @Path("userinfo")
 public class UserController {
     private UserService userService = new CacheUserService();
-    //private CRUD<String> userManager = new StringUserDAO();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final Long TOP_RESULTS = 20L;
+    private static final int TOP_RESULTS = 4;
 
 /*
     @GET
@@ -77,10 +76,6 @@ public class UserController {
 
     }
 
-
-
-
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(UserBase user){
@@ -96,68 +91,4 @@ public class UserController {
         }
     }
 
- /*   private void jsonValidation(User user) {
-        JsonSchemaFactory jsonSchemaFactory =  JsonSchemaFactory.getJsonSchema(JsonNode)
-
-    }*/
-
-/*      //Save User
-        @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response newUser(@Valid UserBase user){
-
-        try {
-            userService.add(user);
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            logger.info("Error create new user: {}", e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-*/
-
-
-
-    /*
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response newUser(@Context ContainerRequest request){
-        InputStream in = request.getEntityStream();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            User user = mapper.readValue(in,User.class);
-            userService.add(user);
-            return Response.status(Response.Status.CREATED).build();
-        } catch (Exception e) {
-            logger.info("Error create new user: {}", e);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-        //User user = mapper.readValues(in, UserBase.class)
-
-    }*/
-
-
-    //@PUT   convert json to pojo https://stackoverflow.com/questions/21918081/jersey-2-6-with-jackson-json-deserialization
-
-
-
-    /*    with manager dao
-
-    @GET
-    @Path("{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public StreamingOutput getUserResults(@PathParam("id") int id) {
-        try {
-            List<String> users = new ArrayList<String>(userManager  .findAll().values());
-            logger.info("doGet: users: {}",users);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return ;
-    }
-
-
-
-    */
 }

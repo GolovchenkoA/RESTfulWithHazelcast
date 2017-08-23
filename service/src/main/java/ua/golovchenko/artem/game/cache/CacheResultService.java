@@ -27,49 +27,49 @@ public class CacheResultService implements ResultService {
 
     @Override
     public void add(Result result) throws Exception {
-
-        User user = userService.get(result.getUser_id());
+        Long user_id = result.getUser_id();
+        User user = userService.get(user_id);
         if(user == null){
-            logger.debug("User with id [{}] does not exists. Create new user ", result.getUser_id());
-            user = userService.generateNewUser(result.getUser_id());
+            logger.debug("User with id [{}] does not exists. Create new user ", user_id);
+            user = userService.generateNewUser(user_id);
             userService.add(user);
-
-            //update maps
-            levelService.update(user);
-/*            infoByLevel.put(result.getLevel_id(), result);
-            infoByUser.put(result.getUser_id(), result);*/
         }
+
 
         int items_cont;
         try{
             items_cont = user.getResults().size();
         }catch (Exception e){
-            logger.debug("User [id: {}] have no results.",user.getUser_id());
+            logger.debug("User [id: {}] have no results.",user_id);
             items_cont = 0;
         }
 
         if(items_cont >= MAX_RESULTS_COUNT){
             Collections.sort(user.getResults());
-            logger.debug("User with id [{}] have maximum results count [{}]. removing item", result.getUser_id(),MAX_RESULTS_COUNT);
+            logger.debug("User with id [{}] have maximum results count [{}]. removing item", user_id,MAX_RESULTS_COUNT);
             user.getResults().subList(MAX_RESULTS_COUNT, items_cont).clear();
         }
 
-        logger.debug("Add new result [{}] to user with id [{}] .start ", result.getUser_id(), result);
+        logger.debug("Add new result [{}] to user with id [{}] .start ", user_id, result);
         user.getResults().add(result);
+
 
         try {
             userService.update(user);
-            logger.debug("Add new result [{}] to user with id [{}] . finish", result.getUser_id(), result);
+            logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", user_id, result);
         } catch (Exception e) {
             logger.debug("Error update user. StackTrace {}", e);
             throw new Exception(e);
         }
 
-
         //Update Results in Level-MultiMap
-
-        levelService.update(user);
-
+        try{
+            levelService.update(user);
+            logger.debug("LevelService. Add new result [{}] to user with id [{}] . finish", user_id, result);
+        } catch (Exception e) {
+            logger.debug("Error update user. StackTrace {}", e);
+            throw new Exception(e);
+        }
 
     }
 }

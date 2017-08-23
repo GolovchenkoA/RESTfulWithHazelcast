@@ -19,18 +19,11 @@ public class BaseUserDAO implements UserDAO {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String USERS_MAP = "users";
     private static final DataManager dataManager = new DataManager();
-    //private DataManager dataManager = Context.getDataManager();
-    //private static Map<Long, User> users = new HashMap<>();
 
 
     public BaseUserDAO() {
-/*        User user = new UserBase("email@com.com","user10","nick10");
-        user.setUser_id(10L);
-        users.put(user.getUser_id(), user);*/
         logger.debug("Class constructor");
         logger.debug("load DataManager");
-        //dataManager = new DataManager();
-
     }
 
     @Override
@@ -40,9 +33,8 @@ public class BaseUserDAO implements UserDAO {
 
     @Override
     public void add(User user) throws Exception {
-        //users.put(user.getUser_id(), user);
         try {
-            getCache().getMap("users").put(user.getUser_id(), user);
+            getCache().getMap(USERS_MAP).put(user.getUser_id(), user);
             logger.debug("added User {}",user);
         } catch (Exception e) {
             logger.debug("Error update user. StackTrace {}",e);

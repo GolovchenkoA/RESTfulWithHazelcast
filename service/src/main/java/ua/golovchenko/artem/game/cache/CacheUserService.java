@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class CacheUserService implements UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final int TOP_COUNT = 40;
     private UserDAO userDAO = new BaseUserDAO();
 
 /*    public CacheUserService(){
@@ -27,8 +26,13 @@ public class CacheUserService implements UserService {
     }*/
 
     @Override
-    public User get(Long id) {
-        return null;
+    public User get(Long id) throws Exception {
+        try{
+            return userDAO.get(id);
+        } catch (Exception e) {
+            logger.debug("Error get user by id: {}. StackTrace {}", id, e);
+            throw new Exception(e);
+        }
     }
 
     @Override
@@ -53,12 +57,12 @@ public class CacheUserService implements UserService {
     }
 
     @Override
-    public List<Result> getTop(Long id, Long topCount) throws Exception {
+    public List<Result> getTop(Long id, Integer topCount) throws Exception {
         User user = userDAO.get(id);
         user.getResults().sort((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
         List<Result> results = user.getResults();
-        logger.debug("All results before getTop {} results. UserId: {}, allResults: {}",TOP_COUNT, id, results);
-        int end = (results.size() < TOP_COUNT) ? results.size() : TOP_COUNT;
+        logger.debug("All results before getTop {} results. UserId: {}, allResults: {}",topCount, id, results);
+        int end = (results.size() < topCount) ? results.size() : topCount;
         List<Result> resultList = user.getResults().subList(0,end);
 
         return resultList;

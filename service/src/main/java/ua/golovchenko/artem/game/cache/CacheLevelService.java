@@ -91,9 +91,13 @@ public class CacheLevelService implements LevelService{
     @Override
     public void update(User user) throws Exception {
         logger.debug("Updating user with id: [{}].  results in maps: {},", user.getUser_id(), RESULTS_LEVEL_MAP,USERS_MAP);
+        //Update results in users map
         ConcurrentMap<Long, User> usersMap = dataManager.getCache().getMap(USERS_MAP);
-        usersMap.put(user.getUser_id(),user); //update users map
-        MultiMap<Integer, Result> resultsLevelMap = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);  //update results on level
+        User updatedUser = usersMap.get(user.getUser_id());
+        updatedUser.setResults(user.getResults());
+        usersMap.put(updatedUser.getUser_id(),updatedUser);
+        //Update results on levels
+        MultiMap<Integer, Result> resultsLevelMap = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("Results in map: {} \n before update user [{}] results : {}",RESULTS_LEVEL_MAP, user, resultsLevelMap.values() );
         //resultsLevelMap.values().removeIf(res -> res.getUser_id().equals(user.getUser_id()));
         user.getResults().forEach(res -> resultsLevelMap.put(res.getLevel_id(),res));

@@ -23,7 +23,7 @@ public class CacheServer {
     private static final Logger logger = LoggerFactory.getLogger(CacheServer.class);
     private static final String USERS_MAP = "users";
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
-    private static final String RESULTS_USER_MAP = "info_by_user" ;
+    //private static final String RESULTS_USER_MAP = "info_by_user" ;
     ConcurrentMap<Long, User> users;
     MultiMap<Integer , Result> infoByLevel;
     MultiMap<Long , Result> infoByUser;
@@ -62,7 +62,7 @@ public class CacheServer {
     private void configureMaps() {
         users       = instance.getMap(USERS_MAP);
         infoByLevel = instance.getMultiMap(RESULTS_LEVEL_MAP);
-        infoByUser  = instance.getMultiMap(RESULTS_USER_MAP);
+        //infoByUser  = instance.getMultiMap(RESULTS_USER_MAP);
     }
 
 }
