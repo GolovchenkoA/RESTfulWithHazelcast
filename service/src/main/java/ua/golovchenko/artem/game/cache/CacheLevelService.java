@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.dao.DataManager;
 import ua.golovchenko.artem.game.service.LevelService;
+import ua.golovchenko.artem.game.service.UserService;
 import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.User;
 
@@ -27,6 +28,7 @@ public class CacheLevelService implements LevelService{
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
     private static final int TOP_COUNT = 2;
     DataManager dataManager = new DataManager();
+    UserService userService = new CacheUserService();
 
 
     /**
@@ -38,7 +40,7 @@ public class CacheLevelService implements LevelService{
      */
 
     @Override
-    public List<Result> getTop(Integer level, Integer topCount) throws Exception {
+    public List<User> getTop(Integer level, Integer topCount) throws Exception {
         logger.debug("Generate report of top users result on level {}.", level);
         MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("getTop users on level {}. All users: {}", level, map);
@@ -68,22 +70,15 @@ public class CacheLevelService implements LevelService{
         logger.debug("//3. Получаем список ID пользователей");
         List<Long> usersIds = uniqueTopResultsByUser.stream().map(Result::getUser_id).collect(Collectors.toList());
         logger.debug("//3.ID пользователей из TOP [{}] результатов: {}",TOP_COUNT, usersIds);
-        // По этим пользователям надо получить все результаты на уровне
-        // По этому мы должны с общего списка удалить все результаты, кроме этих айдишников
-        logger.debug("получаем все результаты топовых пользователей на этом уровне");
-        List<Result> allResultsOfTopUsersOnLevel = new ArrayList<>();
-
-        for(int u = 0; u < usersIds.size(); u++){
-            final int userId = u;
-            allResultsOfTopUsersOnLevel.addAll((allResultsOnLevelModifiedList.stream().filter(res -> res.getUser_id().equals(usersIds.get(userId)))).collect(Collectors.toList()));
-        }
-
-        logger.debug("Список результатов:\n {}", allResultsOfTopUsersOnLevel);
 
 
         //4.!!!!!!!!!!! Надо вернуть пользователей (с результатами) в порядке убывания
-        // Необходимо сравнить результаты пользователей
+        List<User> allResultsOfTopUsersOnLevel = new ArrayList<>();
 
+        for(int u = 0; u < usersIds.size(); u++) {
+            final int userId = u;
+            allResultsOfTopUsersOnLevel.addAll(userService.findAll().values().stream().filter(user -> user.getUser_id().equals(usersIds.get(userId))).collect(Collectors.toList()));
+        }
 
         return allResultsOfTopUsersOnLevel;
     }

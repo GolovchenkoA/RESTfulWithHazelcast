@@ -1,6 +1,5 @@
 package ua.golovchenko.artem.game.service;
 
-import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.User;
 
 /**
@@ -8,6 +7,6 @@ import ua.golovchenko.artem.model.User;
  *
  * @author Artem Golovchenko
  */
-public interface LevelService extends Top<Result,Integer,Integer> {
+public interface LevelService extends Top<User,Integer,Integer> {
     public void update(User user) throws Exception;
 }

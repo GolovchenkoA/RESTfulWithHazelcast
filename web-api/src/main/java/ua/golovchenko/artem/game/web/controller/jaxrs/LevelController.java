@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheLevelService;
 import ua.golovchenko.artem.game.service.LevelService;
-import ua.golovchenko.artem.model.Result;
+import ua.golovchenko.artem.model.User;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -33,7 +33,7 @@ public class LevelController {
     public Response getTopUsersAtLevel(@PathParam("level") Integer level) {
         logger.info("Method getTopUsersAtLevel ({}) call", level);
         //Collection<User> top_users = new LinkedList<>();
-        Collection<Result> top_users = new LinkedList<>();
+        Collection<User> top_users = new LinkedList<>();
         Response.ResponseBuilder builder = null;
         try {
 
