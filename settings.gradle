@@ -2,7 +2,6 @@ rootProject.name = 'Game'
 
 include 'web-api'
 include 'cache-server'
-include 'application-server'
 include 'models'
 include 'service'
 include 'root'
