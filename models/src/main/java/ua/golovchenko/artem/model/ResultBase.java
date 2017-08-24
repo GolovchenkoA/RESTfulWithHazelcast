@@ -74,7 +74,7 @@ public class ResultBase implements Result, Serializable,Comparable {
         return "InfoBase{" +
                 "user_id=" + user_id +
                 ", level_id=" + level_id +
-                ", result=" + result +"}\n";
+                ", result=" + result +"}";
     }
 
     @Override
