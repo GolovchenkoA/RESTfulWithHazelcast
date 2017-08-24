@@ -23,26 +23,32 @@ public class ResultBase implements Result, Serializable,Comparable {
         this.result = result;
     }
 
+    @Override
     public Integer getResult() {
         return result;
     }
 
+    @Override
     public void setResult(Integer result) {
         this.result = result;
     }
 
+    @Override
     public Long getUser_id() {
         return user_id;
     }
 
+    @Override
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
+    @Override
     public Integer getLevel_id() {
         return level_id;
     }
 
+    @Override
     public void setLevel_id(Integer level_id) {
         this.level_id = level_id;
     }

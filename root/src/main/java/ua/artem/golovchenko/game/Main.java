@@ -24,19 +24,6 @@ public class Main {
 
         logger.info("\n Web server enabled: {} \n Cache server enabled {}", web,cache);
 
-
-/*        boolean web = Boolean.parseBoolean( System.getProperty( "web" ) );
-        //String webconfig = System.getProperty("webconf");
-        boolean cache = Boolean.parseBoolean( System.getProperty( "cache" ) );
-        //String cacheconfig = System.getProperty( "cacheconf" );
-
-        settings.put("web_server.enable", web);
-        //settings.put("web_server.config", webconfig);
-        settings.put("cache_server.enable", cache);
-        //settings.put("cache_server.config", cacheconfig);
-
-        logger.info("Web server enabled: {} \n Cache server enabled {}", web,cache);*/
-
         try {
             RootContext.init();
             Thread.currentThread().join();

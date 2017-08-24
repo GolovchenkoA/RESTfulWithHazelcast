@@ -8,7 +8,6 @@ import ua.golovchenko.artem.game.config.Config;
 import ua.golovchenko.artem.game.web.controller.jaxrs.JaxRsApplication;
 
 import javax.ws.rs.ext.RuntimeDelegate;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -29,25 +28,12 @@ public class WebServerApi {
     public WebServerApi() throws IOException {
         config = new Config();
         config.setKeyValue(PORT_PARAM, DEFAULT_PORT);
-
         this.init(config);
     }
 
     public WebServerApi(Config config) throws IOException {
         this.config = config;
         this.init(config);
-    }
-
-    public WebServerApi(String webConfigPath) throws IOException {
-
-        try {
-            File configFile = new File(webConfigPath);
-            this.config = new Config(configFile);
-            this.init(config);
-        } catch (IOException e) {
-            logger.info("Error load web-api configuration file: {}", webConfigPath);
-            throw new IOException(e);
-        }
     }
 
     private void init(Config config) throws IOException {

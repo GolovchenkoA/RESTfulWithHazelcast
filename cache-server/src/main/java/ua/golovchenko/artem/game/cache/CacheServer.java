@@ -23,10 +23,9 @@ public class CacheServer {
     private static final Logger logger = LoggerFactory.getLogger(CacheServer.class);
     private static final String USERS_MAP = "users";
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
-    //private static final String RESULTS_USER_MAP = "info_by_user" ;
+
     ConcurrentMap<Long, User> users;
     MultiMap<Integer , Result> infoByLevel;
-    MultiMap<Long , Result> infoByUser;
     private HazelcastInstance instance;
 
     public CacheServer() {
@@ -48,21 +47,13 @@ public class CacheServer {
         config.getGroupConfig().setName("PRODUCTION").setPassword("production-password");
         instance = Hazelcast.newHazelcastInstance(config);
 
-
-        //config.getNetworkConfig().setPort( 5900 ).setPortAutoIncrement( false );
-/*        MapConfig mapConfig = new MapConfig();
-        mapConfig.setName( "testMap" )
-                .setBackupCount( 2 )
-                .setTimeToLiveSeconds( 300 );
-        config.addMapConfig( mapConfig );*/
-
     }
 
     private void configureMaps() {
         users       = instance.getMap(USERS_MAP);
         infoByLevel = instance.getMultiMap(RESULTS_LEVEL_MAP);
-        //infoByUser  = instance.getMultiMap(RESULTS_USER_MAP);
-        logger.debug("Map {} created. Map content: {}\n Map {} created content: {}",USERS_MAP, users.entrySet(),RESULTS_LEVEL_MAP, infoByLevel.entrySet());
+        logger.debug("Map {} created. Map content: {}\n Map {} created content: {}",
+                USERS_MAP, users.entrySet(),RESULTS_LEVEL_MAP, infoByLevel.entrySet());
     }
 
 }
