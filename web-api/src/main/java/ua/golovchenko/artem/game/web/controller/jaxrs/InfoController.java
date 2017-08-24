@@ -1,13 +1,10 @@
 package ua.golovchenko.artem.game.web.controller.jaxrs;
 
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheResultService;
 import ua.golovchenko.artem.game.service.ResultService;
+import ua.golovchenko.artem.game.web.validators.InfoJSONValidator;
 import ua.golovchenko.artem.model.ResultBase;
 
 import javax.ws.rs.Consumes;
@@ -35,7 +32,7 @@ public class InfoController {
         logger.info("newInfo(). Info: {}", info.toString());
 
         try {
-            this.validateInput(info);
+            InfoJSONValidator.validate(info, JSON_SCHEMA_INFO);
         } catch (Exception e) {
             logger.info("Invalid input object 'info': {}", info);
             logger.info("StackTrace: {}", e);
@@ -52,11 +49,7 @@ public class InfoController {
     }
 
     private void validateInput(ResultBase info) {
-        logger.debug("Validation InfoBase: {}", info);
-        org.json.JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(this.getClass().getResourceAsStream(JSON_SCHEMA_INFO)));
-        JSONObject jsonSubject = new JSONObject(info);
-        Schema schema = SchemaLoader.load(jsonSchemaResult);
-        schema.validate(jsonSubject);
+
     }
 
 }
