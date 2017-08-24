@@ -81,15 +81,20 @@ public class CacheLevelService implements LevelService{
 
         //5. Сортируем пользователей.;
         logger.debug("Сортировка пользователей. В самом верху пользователи с наибольшей суммой очков на текущем уровне");
-        Collections.sort(allResultsOfTopUsersOnLevel, new Comparator<User>() {
+        this.sortInDescending(allResultsOfTopUsersOnLevel);
+
+        return allResultsOfTopUsersOnLevel;
+    }
+
+
+    protected void sortInDescending(List<User> users) {
+        Collections.sort(users, new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {
                 return ((u2.getResults().stream().mapToInt(res -> res.getResult()).sum()) -
                         (u1.getResults().stream().mapToInt(res -> res.getResult()).sum()));
             }
         });
-
-        return allResultsOfTopUsersOnLevel;
     }
 
     @Override
