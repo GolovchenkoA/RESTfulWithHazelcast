@@ -47,7 +47,6 @@ public class CacheLevelService implements LevelService{
         Collection<Result> allResultsOnLevel = map.get(level);
         List<Result> allResultsOnLevelModifiedList = new ArrayList<>(allResultsOnLevel);
         logger.debug(" Не сортированый список:\n {}", allResultsOnLevelModifiedList);
-        //////////////////Пример http://howtodoinjava.com/java-8/java-stream-distinct-examples/
 
         // 1. Сортировать результаты на уровне по убыванию
         logger.debug("// 1. Сортировать результаты на уровне по убыванию");
@@ -79,6 +78,16 @@ public class CacheLevelService implements LevelService{
             final int userId = u;
             allResultsOfTopUsersOnLevel.addAll(userService.findAll().values().stream().filter(user -> user.getUser_id().equals(usersIds.get(userId))).collect(Collectors.toList()));
         }
+
+        //5. Сортируем пользователей.;
+        logger.debug("Сортировка пользователей. В самом верху пользователи с наибольшей суммой очков на текущем уровне");
+        Collections.sort(allResultsOfTopUsersOnLevel, new Comparator<User>() {
+            @Override
+            public int compare(User u1, User u2) {
+                return ((u2.getResults().stream().mapToInt(res -> res.getResult()).sum()) -
+                        (u1.getResults().stream().mapToInt(res -> res.getResult()).sum()));
+            }
+        });
 
         return allResultsOfTopUsersOnLevel;
     }
