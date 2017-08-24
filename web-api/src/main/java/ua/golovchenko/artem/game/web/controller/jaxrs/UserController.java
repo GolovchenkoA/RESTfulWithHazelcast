@@ -69,9 +69,12 @@ public class UserController {
             builder = Response.ok(results);
             return builder.build();
         } catch (Exception e) {
-            logger.info("Error getTop results user with id {} from cache server: {}",id, e);
+            logger.info("Error get top results. user with id {} from cache server: {}",id, e);
             e.printStackTrace();
-            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+            if(e.getMessage().startsWith("User not found. id:"))
+                return Response.status(Response.Status.NO_CONTENT).build();
+            else
+                return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         }
 
     }

@@ -58,11 +58,10 @@ public class CacheUserService implements UserService {
 
     @Override
     public List<Result> getTop(Long id, Integer topCount) throws Exception {
-
-        User user = userDAO.get(id);
-        if (user == null){
-            logger.info("User with id: [{}] not found",user.getUser_id());
-            throw new Exception("User with id: ["+ user.getUser_id() + "] not found");
+        User user = user = userDAO.get(id);
+        if(user == null){
+            logger.info("User not found. id: [{}]",id);
+            throw new NullPointerException("User not found. id: ["+ id + "]");
         }
 
         user.getResults().sort((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
