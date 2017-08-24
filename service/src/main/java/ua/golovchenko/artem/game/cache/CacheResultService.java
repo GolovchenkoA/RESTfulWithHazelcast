@@ -14,26 +14,35 @@ import java.util.Collections;
  * @author Artem Golovchenko
  */
 public class CacheResultService implements ResultService {
-    private static final int MAX_RESULTS_COUNT = 3;
+    private static final int MAX_RESULTS_COUNT = 2;
     private final Logger logger     = LoggerFactory.getLogger(this.getClass());
-    CacheUserService userService    = new CacheUserService();
-    CacheLevelService levelService  = new CacheLevelService();
+    private CacheUserService userService;
+    private CacheLevelService levelService;
 
+    public CacheResultService() {
+        this.userService  = new CacheUserService();
+        this.levelService = new CacheLevelService();
+    }
+
+    public CacheResultService(CacheUserService userService, CacheLevelService levelService) {
+        this.userService = userService;
+        this.levelService = levelService;
+    }
 
     @Override
     public void add(Result result) throws Exception {
         Long user_id =  result.getUser_id();
         User user =  userService.get(user_id);
+
         user = this.createUserIfNotExists(user,user_id);
 
         this.checkMaximumNumberOfResultsAllowed(user, MAX_RESULTS_COUNT);
-        logger.debug("Add new result [{}] to user with id [{}] .start ", user_id, result);
-        user.getResults().add(result);
         this.updateCacheCollections(user,result);
     }
 
-    private void checkMaximumNumberOfResultsAllowed(User user, int maximum_number) {
+    protected int checkMaximumNumberOfResultsAllowed(User user, int maximum_number) {
         int items_cont;
+        int removedItemCount = 0;
 
         try{
             items_cont = user.getResults().size();
@@ -44,13 +53,16 @@ public class CacheResultService implements ResultService {
 
         if(items_cont >= MAX_RESULTS_COUNT){
             Collections.sort(user.getResults());
-            logger.debug("User with id [{}] have maximum results count [{}]. removing item", user.getUser_id(),maximum_number);
+            logger.debug("User with id [{}] have maximum results count [{}]. removing item", user.getUser_id(), maximum_number);
+            removedItemCount =user.getResults().subList(MAX_RESULTS_COUNT, items_cont).size();
             user.getResults().subList(MAX_RESULTS_COUNT, items_cont).clear();
         }
 
+        logger.debug("Removed {} results. User id: {} ", removedItemCount, user.getUser_id());
+        return removedItemCount;
     }
 
-    private User createUserIfNotExists(User user, Long user_id) throws Exception {
+    protected User createUserIfNotExists(User user, Long user_id) throws Exception {
         if(user == null){
             logger.debug("User with id [{}] does not exists. Create new user ", user_id);
             user = userService.generateNewUser(user_id);
@@ -59,7 +71,9 @@ public class CacheResultService implements ResultService {
         return user;
     }
 
-    private void updateCacheCollections(User user, Result result) throws Exception {
+    protected void updateCacheCollections(User user, Result result) throws Exception {
+        logger.debug("Add new result [{}] to user with id [{}] .start ", user.getUser_id(), result);
+        user.getResults().add(result);
         try {
             userService.update(user);
             logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", user.getUser_id(), result);
