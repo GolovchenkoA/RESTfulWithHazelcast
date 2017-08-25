@@ -22,9 +22,6 @@ public class CacheClient {
         clientConfig.getGroupConfig().setName("PRODUCTION").setPassword("production-password");
         this.client = HazelcastClient.newHazelcastClient(clientConfig);
         System.out.println(clientConfig.toString());
-
-/*        logger.debug("Try to load map from server");
-        Context.getDataManager().getCacheDataManager().getCacheClient().getCache().getMap("users");*/
     }
 
     public HazelcastInstance getCache(){

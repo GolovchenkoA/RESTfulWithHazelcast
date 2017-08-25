@@ -22,12 +22,6 @@ public class Context {
      */
 
     public static void init(String file) throws IOException {
-/*        logger.info("PATH: {}",Context.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        logger.info("File: {}",Context.class.getProtectionDomain().getCodeSource().getLocation().getFile());*/
-
-        //System.out.println("Config file::: " + Context.class.getResource("cache-server-config.xml").getFile());
-        //System.out.println("Config file::: " + Resources.getResource(("./" + file)));
-
         try {
             config = new Config();
             config.load(file);
