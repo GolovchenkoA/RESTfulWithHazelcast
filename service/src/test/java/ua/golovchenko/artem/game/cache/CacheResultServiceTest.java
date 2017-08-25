@@ -3,6 +3,8 @@ package ua.golovchenko.artem.game.cache;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import ua.golovchenko.artem.game.cache.dao.BaseUserDAO;
+import ua.golovchenko.artem.game.dao.UserDAO;
 import ua.golovchenko.artem.model.Result;
 import ua.golovchenko.artem.model.ResultBase;
 import ua.golovchenko.artem.model.User;
@@ -16,23 +18,32 @@ import static org.mockito.Mockito.*;
 
 public class CacheResultServiceTest {
     private CacheResultService resultService;
-    private CacheUserService userService = mock(CacheUserService.class);
+    private CacheUserService userService;
     private CacheLevelService levelService = mock(CacheLevelService.class);
+    private UserDAO userDAO = mock(BaseUserDAO.class);
     private User user;
     private Long userId;
 
     @Before
     public void init(){
+        userService = spy(new CacheUserService(userDAO));
         userId = 1L;
         this.resultService = new CacheResultService(userService,levelService);
         this.user = new UserBase("email@com.ua","name", "nick");
         this.user.setUser_id(userId);
     }
 
+    @Test
+    public void testConstructorByDefault(){
+        CacheResultService resultService = new CacheResultService();
+        assertNotNull(resultService.getLevelService());
+        assertNotNull(resultService.getUserService());
+    }
+
     @Ignore
     @Test
     public void testAdd() throws Exception {
-        when(userService.get(userId)).thenReturn(user);
+        when(userDAO.get(userId)).thenReturn(user);
         Result result = new ResultBase(1L,1,1);
         assertTrue(userService.get(1L).getResults().equals(new ArrayList<>()));
         assertTrue("a".equals("a"));
@@ -92,7 +103,7 @@ public class CacheResultServiceTest {
         user.setUser_id(userId);
         user.getResults().add(new ResultBase(userId, 1, 1));
 
-        when(userService.get(any())).thenReturn(user);
+        when(userDAO.get(any())).thenReturn(user);
         resultService.add(new ResultBase(userId,1,2));
 
         assertEquals(2,user.getResults().size());
