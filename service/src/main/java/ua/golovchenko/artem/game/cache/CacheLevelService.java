@@ -43,32 +43,32 @@ public class CacheLevelService implements LevelService{
     public List<User> getTop(Integer level, Integer topCount) throws Exception {
         logger.debug("Generate report of top users result on level {}.", level);
         MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
-        logger.debug("getTop users on level {}. All users: {}", level, map);
+        logger.debug("Get top users on level {}. All users: {}", level, map);
         Collection<Result> allResultsOnLevel = map.get(level);
         List<Result> allResultsOnLevelModifiedList = new ArrayList<>(allResultsOnLevel);
         logger.debug(" Не сортированый список:\n {}", allResultsOnLevelModifiedList);
 
         // 1. Сортировать результаты на уровне по убыванию
-        logger.debug("// 1. Сортировать результаты на уровне по убыванию");
+        logger.debug("1. Сортировать результаты на уровне по убыванию");
         Collections.sort((List) allResultsOnLevelModifiedList);
         //allResultsOnLevel.stream().sorted((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
         logger.debug("Сортированый список:\n {}", allResultsOnLevelModifiedList);
 
         //1.1  и оставить уникальные результаты (по признаку id-пользователя)
-        logger.debug("//1.1  и оставить уникальные результаты (по признаку id-пользователя)");
+        logger.debug("1.1  и оставить уникальные результаты (по признаку id-пользователя)");
         List<Result> uniqueAllResultsByUser = allResultsOnLevelModifiedList.stream().filter(distinctByKey(o -> o.getUser_id())).collect(Collectors.toList());
         logger.debug("Уникальные результаты на уровне:\n {}", uniqueAllResultsByUser);
 
         // 2. Надо выбрать топ уникальных пользователей
-        logger.debug("// 2. Надо выбрать топ уникальных пользователей");
+        logger.debug("2. Надо выбрать топ уникальных пользователей");
         int end = (uniqueAllResultsByUser.size() < TOP_COUNT) ? uniqueAllResultsByUser.size() : TOP_COUNT;
         List<Result>  uniqueTopResultsByUser = uniqueAllResultsByUser.subList(0,end);
         logger.debug("Топ результатов уникальных пользователей:\n {}",uniqueTopResultsByUser);
 
         //3. Получаем список ID пользователей
-        logger.debug("//3. Получаем список ID пользователей");
+        logger.debug("3. Получаем список ID пользователей");
         List<Long> usersIds = uniqueTopResultsByUser.stream().map(Result::getUser_id).collect(Collectors.toList());
-        logger.debug("//3.ID пользователей из TOP [{}] результатов: {}",TOP_COUNT, usersIds);
+        logger.debug("3.ID пользователей из TOP [{}] результатов: {}",TOP_COUNT, usersIds);
 
 
         //4.!!!!!!!!!!! Надо вернуть пользователей (с результатами) в порядке убывания
@@ -80,7 +80,7 @@ public class CacheLevelService implements LevelService{
         }
 
         //5. Сортируем пользователей.;
-        logger.debug("Сортировка пользователей. В самом верху пользователи с наибольшей суммой очков на текущем уровне");
+        logger.debug("4. Сортировка пользователей. В самом верху пользователи с наибольшей суммой очков на текущем уровне");
         this.sortInDescending(allResultsOfTopUsersOnLevel);
 
         return allResultsOfTopUsersOnLevel;
@@ -99,16 +99,19 @@ public class CacheLevelService implements LevelService{
 
     @Override
     public void update(User user) throws Exception {
-        logger.debug("Updating user with id: [{}].  results in maps: {},", user.getUser_id(), RESULTS_LEVEL_MAP,USERS_MAP);
+        Long userId = user.getUser_id();
+        logger.debug("Updating user with id: [{}].  results in maps: {},", userId, RESULTS_LEVEL_MAP,USERS_MAP);
         //Update results in users map
         ConcurrentMap<Long, User> usersMap = dataManager.getCache().getMap(USERS_MAP);
-        User updatedUser = usersMap.get(user.getUser_id());
+
+        User updatedUser = usersMap.get(userId);
+        //  userId = updatedUser.getUser_id();
         updatedUser.setResults(user.getResults());
-        usersMap.put(updatedUser.getUser_id(),updatedUser);
+        usersMap.put(userId,updatedUser);
+
         //Update results on levels
         MultiMap<Integer, Result> resultsLevelMap = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("Results in map: {} \n before update user [{}] results : {}",RESULTS_LEVEL_MAP, user, resultsLevelMap.values() );
-        //resultsLevelMap.values().removeIf(res -> res.getUser_id().equals(user.getUser_id()));
         user.getResults().forEach(res -> resultsLevelMap.put(res.getLevel_id(),res));
     }
 
