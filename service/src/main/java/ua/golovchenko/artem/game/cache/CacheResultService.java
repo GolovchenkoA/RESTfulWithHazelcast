@@ -40,7 +40,7 @@ public class CacheResultService implements ResultService {
         this.updateCacheCollections(user,result);
     }
 
-    protected int checkMaximumNumberOfResultsAllowed(User user, int maximum_number) {
+    int checkMaximumNumberOfResultsAllowed(User user, int maximum_number) {
         int items_cont;
         int removedItemCount = 0;
 
@@ -62,7 +62,7 @@ public class CacheResultService implements ResultService {
         return removedItemCount;
     }
 
-    protected User createUserIfNotExists(User user, Long user_id) throws Exception {
+    User createUserIfNotExists(User user, Long user_id) throws Exception {
         if(user == null){
             logger.debug("User with id [{}] does not exists. Create new user ", user_id);
             user = userService.generateNewUser(user_id);
@@ -71,16 +71,19 @@ public class CacheResultService implements ResultService {
         return user;
     }
 
-    protected void updateCacheCollections(User user, Result result) throws Exception {
+    void updateCacheCollections(User user, Result result) throws Exception {
         logger.debug("Add new result [{}] to user with id [{}] .start ", user.getUser_id(), result);
         user.getResults().add(result);
-        try {
-            userService.update(user);
-            logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", user.getUser_id(), result);
-        } catch (Exception e) {
-            logger.debug("Error update user. StackTrace {}", e);
-            throw new Exception(e);
-        }
+
+        //Update Results in UsersMap
+            try {
+                userService.update(user);
+                logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", user.getUser_id(), result);
+            } catch (Exception e) {
+                logger.debug("Error update user. StackTrace {}", e);
+                throw new Exception(e);
+            }
+
 
         //Update Results in Level-MultiMap
         try{
@@ -90,5 +93,13 @@ public class CacheResultService implements ResultService {
             logger.debug("Error update user. StackTrace {}", e);
             throw new Exception(e);
         }
+    }
+
+    CacheUserService getUserService() {
+        return userService;
+    }
+
+    CacheLevelService getLevelService() {
+        return levelService;
     }
 }

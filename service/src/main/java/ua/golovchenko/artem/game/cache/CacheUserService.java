@@ -2,6 +2,7 @@ package ua.golovchenko.artem.game.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.golovchenko.artem.game.cache.dao.BaseUserDAO;
 import ua.golovchenko.artem.game.dao.UserDAO;
 import ua.golovchenko.artem.game.service.UserService;
@@ -19,11 +20,15 @@ import java.util.Map;
  */
 public class CacheUserService implements UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    private UserDAO userDAO = new BaseUserDAO();
+    private UserDAO userDAO;
 
-/*    public CacheUserService(){
-        userDAO = DataManager.getUserDAO();
-    }*/
+    public CacheUserService(){
+        this.userDAO = new BaseUserDAO();
+    }
+
+    public CacheUserService(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
 
     @Override
     public User get(Long id) throws Exception {
@@ -37,18 +42,20 @@ public class CacheUserService implements UserService {
 
     @Override
     public void add(User user) throws Exception {
+
      try{
         userDAO.add(user);
-        logger.debug("User creatyed: {}",user);
+        logger.debug("User created: {}",user);
     } catch (Exception e) {
         logger.debug("Error create user. StackTrace {}", e);
         throw new Exception(e);
     }
+
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        throw new NotImplementedException();
     }
 
     @Override
@@ -75,6 +82,7 @@ public class CacheUserService implements UserService {
 
     @Override
     public void update(User user) throws Exception {
+
         try {
             userDAO.update(user);
             logger.debug("User updated: {}",user);
@@ -82,6 +90,7 @@ public class CacheUserService implements UserService {
             logger.debug("Error update user. StackTrace {}", e);
             throw new Exception(e);
         }
+
     }
 
     @Override
