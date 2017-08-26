@@ -11,8 +11,15 @@ import ua.golovchenko.artem.game.cache.dao.CacheClient;
 public class DataManager {
     private static final Logger logger = LoggerFactory.getLogger(DataManager.class);
 
-    public DataManager(){
-        logger.info("Class constructor");
+    private DataManager(){}
+
+    public static class SingltonDataManager{
+        public static final DataManager CLASS_INSTANCE = new DataManager();
+    }
+
+    public static DataManager getInstance(){
+        logger.info("get DataManager.class instance");
+        return SingltonDataManager.CLASS_INSTANCE;
     }
 
     public HazelcastInstance getCache() throws Exception {

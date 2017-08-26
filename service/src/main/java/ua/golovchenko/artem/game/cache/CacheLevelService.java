@@ -22,14 +22,22 @@ import java.util.stream.Collectors;
  *
  * @author Artem Golovchenko
  */
+
 public class CacheLevelService implements LevelService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String USERS_MAP = "users";
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
     private static final int TOP_COUNT = 2;
-    DataManager dataManager = new DataManager();
-    UserService userService = new CacheUserService();
+    private UserService userService;
 
+
+    public CacheLevelService(){
+        this.userService = new CacheUserService();
+    }
+
+    public CacheLevelService(UserService userService){
+        this.userService = userService;
+    }
 
     /**
      *
@@ -42,7 +50,7 @@ public class CacheLevelService implements LevelService{
     @Override
     public List<User> getTop(Integer level, Integer topCount) throws Exception {
         logger.debug("Generate report of top users result on level {}.", level);
-        MultiMap<Integer, Result> map = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
+        MultiMap<Integer, Result> map = DataManager.getInstance().getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("Get top users on level {}. All users: {}", level, map);
         Collection<Result> allResultsOnLevel = map.get(level);
         List<Result> allResultsOnLevelModifiedList = new ArrayList<>(allResultsOnLevel);
@@ -87,7 +95,7 @@ public class CacheLevelService implements LevelService{
     }
 
 
-    protected void sortInDescending(List<User> users) {
+    void sortInDescending(List<User> users) {
         Collections.sort(users, new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {
@@ -101,16 +109,15 @@ public class CacheLevelService implements LevelService{
     public void update(User user) throws Exception {
         Long userId = user.getUser_id();
         logger.debug("Updating user with id: [{}].  results in maps: {},", userId, RESULTS_LEVEL_MAP,USERS_MAP);
-        //Update results in users map
-        ConcurrentMap<Long, User> usersMap = dataManager.getCache().getMap(USERS_MAP);
 
+        //Update results in users map
+        ConcurrentMap<Long, User> usersMap = DataManager.getInstance().getCache().getMap(USERS_MAP);
         User updatedUser = usersMap.get(userId);
-        //  userId = updatedUser.getUser_id();
         updatedUser.setResults(user.getResults());
         usersMap.put(userId,updatedUser);
 
         //Update results on levels
-        MultiMap<Integer, Result> resultsLevelMap = dataManager.getCache().getMultiMap(RESULTS_LEVEL_MAP);
+        MultiMap<Integer, Result> resultsLevelMap = DataManager.getInstance().getCache().getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("Results in map: {} \n before update user [{}] results : {}",RESULTS_LEVEL_MAP, user, resultsLevelMap.values() );
         user.getResults().forEach(res -> resultsLevelMap.put(res.getLevel_id(),res));
     }

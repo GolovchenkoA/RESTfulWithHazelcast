@@ -3,6 +3,7 @@ package ua.golovchenko.artem.game.cache.dao;
 import com.hazelcast.core.HazelcastInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.golovchenko.artem.game.dao.DataManager;
 import ua.golovchenko.artem.game.dao.UserDAO;
 import ua.golovchenko.artem.model.User;
@@ -18,12 +19,9 @@ import java.util.Map;
 public class BaseUserDAO implements UserDAO {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String USERS_MAP = "users";
-    private static final DataManager dataManager = new DataManager();
-
 
     public BaseUserDAO() {
         logger.debug("Class constructor");
-        logger.debug("load DataManager");
     }
 
     @Override
@@ -37,14 +35,14 @@ public class BaseUserDAO implements UserDAO {
             getCache().getMap(USERS_MAP).put(user.getUser_id(), user);
             logger.debug("added User {}",user);
         } catch (Exception e) {
-            logger.debug("Error update user. StackTrace {}",e);
+            logger.debug("Error create user. StackTrace {}",e);
             throw new Exception(e);
         }
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        throw new NotImplementedException();
     }
 
     @Override
@@ -66,7 +64,7 @@ public class BaseUserDAO implements UserDAO {
 
     private HazelcastInstance getCache() throws Exception {
         try {
-            return dataManager.getCache();
+            return DataManager.getInstance().getCache();
         } catch (Exception e) {
             logger.debug("Connection to cache server failed. StackTrace {}",e);
             throw new Exception(e);

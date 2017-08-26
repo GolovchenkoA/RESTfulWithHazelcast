@@ -16,12 +16,9 @@ public class CacheResultDAO implements ResultDAO {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String INFO_LEVEL_MAP = "info_by_level";
     private static final String INFO_USER_MAP = "info_by_user" ;
-    private static final DataManager dataManager = new DataManager();
-
 
     public CacheResultDAO() {
         logger.debug("Class constructor");
-        logger.debug("load DataManager");
     }
 
     @Override
@@ -32,7 +29,7 @@ public class CacheResultDAO implements ResultDAO {
 
     private HazelcastInstance getCache() throws Exception {
         try {
-            return dataManager.getCache();
+            return DataManager.getInstance().getCache();
         } catch (Exception e) {
             logger.debug("Connection to cache server failed. StackTrace {}",e);
             throw new Exception(e);
