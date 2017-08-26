@@ -18,7 +18,12 @@ public class CacheClient {
     public CacheClient() throws Exception{
         logger.debug("Class constructor");
         ClientConfig clientConfig = new ClientConfig();
-        clientConfig.getNetworkConfig().addAddress("127.0.0.1");
+        clientConfig.setExecutorPoolSize(2);
+        clientConfig.getNetworkConfig()
+                .addAddress("127.0.0.1")
+                .setSmartRouting(true)
+                .setConnectionTimeout(5000)
+                .setConnectionAttemptLimit(3);
         clientConfig.getGroupConfig().setName("PRODUCTION").setPassword("production-password");
         this.client = HazelcastClient.newHazelcastClient(clientConfig);
         System.out.println(clientConfig.toString());
