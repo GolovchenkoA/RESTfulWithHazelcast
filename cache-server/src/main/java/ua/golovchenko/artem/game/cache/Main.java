@@ -9,14 +9,12 @@ import org.slf4j.LoggerFactory;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
-        
+
         try {
-            boolean cache = Boolean.parseBoolean( System.getProperty("cache") );
-            logger.info("\n Cache server enabled {}",cache);
             Context.init();
             logger.info("Cache server started");
         } catch (Exception e) {
-            logger.info("Context initialization error. StackTrace", e);
+            logger.info("Error start cache server. StackTrace", e);
             e.printStackTrace();
         }
     }
