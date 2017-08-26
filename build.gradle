@@ -3,7 +3,7 @@ description = 'simple RESTful application with memory cache (hazelcast)'
 ext{
     gradleVersion = '3.4.1'
     javaVersion = '1.8.0_73'
-    projectIds = ['group': 'ua.golovchenko.artem.webserver', 'version': '1.0.1-SNAPSHOT']
+    projectIds = ['group': 'ua.golovchenko.artem.game', 'version': '1.0.1-SNAPSHOT']
     jacocoVersion = '0.7.9'
     LogbackVersion = '1.2.3'
     hazelcastVersion =  '3.8.4'
@@ -23,6 +23,7 @@ configurations.all {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'project-report'
+    apply plugin: 'jacoco'
 ext{
     slf4jVersion =  '1.7.25'
 }
@@ -44,28 +45,42 @@ ext{
         runtime "org.slf4j:slf4j-api:$slf4jVersion"
     }
 
+
+
+        jacocoTestReport.dependsOn(test){
+            test.finalizedBy(project.tasks.jacocoTestReport)
+        }
+
+
+        jacoco {
+            toolVersion = "$jacocoVersion"
+            reportsDir = file("$buildDir/JacocoReport")
+        }
+
+        jacocoTestReport {
+            reports {
+                xml.enabled false
+                csv.enabled false
+            }
+        }
+
 }
 
 
 subprojects {
 
     apply plugin: 'java'
-    apply plugin: "jacoco"
 
         ext {
             junitVersion = '4.12'
             LogbackVersion = '1.2.3'
             slf4jVersion = '1.5.8'
-            mockitoVersion = '1.9.5'
-        }
-
-        repositories {
-            mavenCentral()
+            mockitoVersion = '1.10.19'
         }
 
         dependencies {
             testCompile "org.mockito:mockito-all:$mockitoVersion"
-            testImplementation "junit:junit:$junitVersion" ///
+            testImplementation "junit:junit:$junitVersion"
         }
 
 /* Addition settings for testing in footer
@@ -112,31 +127,8 @@ subprojects {
             gradleVersion = "$gradleVersion"
         }
 
-        jacocoTestReport {
-            afterEvaluate {
-                classDirectories = files(classDirectories.files.collect {
-                    fileTree(dir: it, exclude: ['*MyTest.class',])
-                })
-            }
-        }
-
-        jacocoTestReport.dependsOn(test)
-        test.finalizedBy(project.tasks.jacocoTestReport)
-        build.dependsOn(jacocoTestReport)
-
-        jacoco {
-            toolVersion = "$jacocoVersion"
-            reportsDir = file("$buildDir/customJacocoReportDir")
-        }
-
-        jacocoTestReport {
-            reports {
-                xml.enabled false
-                csv.enabled false
-                html.destination "${buildDir}/jacocoHtml"
-            }
-        }
     }
+
     project('root') {
         version = '1.0.0-SNAPSHOT'
         description = 'Root Project'

@@ -44,7 +44,8 @@ public class CacheServer {
         manCenter.setUrl("http://localhost:8080/mancenter");
         config.setManagementCenterConfig(manCenter);
         config.setInstanceName("Game-instance");
-        config.getGroupConfig().setName("PRODUCTION").setPassword("production-password");
+        config.getGroupConfig().setName("PRODUCTION")
+                                .setPassword("production-password");
         instance = Hazelcast.newHazelcastInstance(config);
 
     }
