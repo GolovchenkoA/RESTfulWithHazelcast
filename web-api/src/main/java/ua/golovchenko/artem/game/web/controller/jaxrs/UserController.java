@@ -68,13 +68,14 @@ public class UserController {
             Collection<Result> results = userService.getTop(id, TOP_RESULTS);
             builder = Response.ok(results);
             return builder.build();
-        } catch (Exception e) {
+        } catch(NullPointerException e){
+            logger.info("User not found. id: [{}]",id);
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        catch (Exception e) {
             logger.info("Error get top results. user with id {} from cache server: {}",id, e);
             e.printStackTrace();
-            if(e.getMessage().startsWith("User not found. id:"))
-                return Response.status(Response.Status.NO_CONTENT).build();
-            else
-                return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+            return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
         }
 
     }
