@@ -29,6 +29,13 @@ public class UserBase implements User, Serializable{
         this.nick = nick;
     }
 
+    public UserBase(Long id, String email, String name, String nick) {
+        this.user_id = id;
+        this.email = email;
+        this.name = name;
+        this.nick = nick;
+    }
+
     @Override
     public Long getUser_id() {return user_id;}
 
