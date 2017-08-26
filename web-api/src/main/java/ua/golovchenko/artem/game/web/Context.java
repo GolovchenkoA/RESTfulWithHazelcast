@@ -18,7 +18,6 @@ public class Context {
     private static final String CACHE_SERVER = "cache_server.enable";
     private static WebServerApi webApiServer;
     private static CacheServer CacheServer;
-    //private static DataManager dataManager;
     private static Config config;
 
     private Context() {
@@ -39,8 +38,6 @@ public class Context {
             throw new IOException(e);
         }
 
-        //dataManager = new DataManager();
-
         // Web API Server Configuration
         if (config.hasKey(WEB_API_SERVER) && config.getBoolean(WEB_API_SERVER)) {
             logger.info("Config. Web API server: enabled");
@@ -49,14 +46,5 @@ public class Context {
         }else {
             logger.info("Config. Web API server disabled");
         }
-
-
     }
-
-
-
-
-/*    public static DataManager getDataManager() {
-        return dataManager;
-    }*/
 }
