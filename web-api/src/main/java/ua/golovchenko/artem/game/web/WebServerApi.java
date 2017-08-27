@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.golovchenko.artem.game.config.Config;
 import ua.golovchenko.artem.game.web.controller.jaxrs.JaxRsApplication;
 
 import javax.ws.rs.ext.RuntimeDelegate;
@@ -18,38 +17,18 @@ import java.net.InetSocketAddress;
  */
 public class WebServerApi {
     private static final Logger logger = LoggerFactory.getLogger(WebServerApi.class);
-    private static final String PORT_PARAM = "web_api_server.port";
-    private static final String DEFAULT_PORT = "80";
-    private static String port;
-    private Config config;
+    private static int DEFAULT_WEB_PORT = 80;
+    private static int port;
 
     private HttpServer server;
 
     public WebServerApi() throws IOException {
-        config = new Config();
-        config.setKeyValue(PORT_PARAM, DEFAULT_PORT);
-        this.init(config);
-    }
-
-    public WebServerApi(Config config) throws IOException {
-        this.config = config;
-        this.init(config);
-    }
-
-    private void init(Config config) throws IOException {
-        port = config.getString(PORT_PARAM, DEFAULT_PORT);
+        port = Boolean.parseBoolean(System.getProperty("webport")) ? Integer.parseInt(System.getProperty("webport")) : DEFAULT_WEB_PORT;
         logger.info("Start configure web API server on port: {}", port);
-        server = HttpServer.create(new InetSocketAddress(Integer.parseInt(port)), 0);
+        server = HttpServer.create(new InetSocketAddress(port), 0);
         HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(new JaxRsApplication(), HttpHandler.class);
         server.createContext("/", handler);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            @Override
-            public void run() {
-                logger.info("Shutdown web API server on port: {}", port);
-                server.stop(0);
-            }
-        }));
     }
 
     public void start() {
@@ -59,6 +38,14 @@ public class WebServerApi {
         } catch (Exception e) {
             logger.info("Failed start web API server. StackTrace: {}",e);
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("Shutdown web API server on port: {}", port);
+                server.stop(0);
+            }
+        }));
     }
 
 }
