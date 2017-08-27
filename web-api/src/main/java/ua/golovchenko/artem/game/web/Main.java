@@ -10,10 +10,15 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
+
+        int webport = Integer.parseInt(System.getProperty("webport"));
+        if(webport == 0){
+            System.setProperty("webport","80");
+        }
+
         try {
-            Context.init("web-api-config.xml");
-            logger.info("Web API initialization complete. Current config: {}", Context.getConfig());
-            Thread.currentThread().join();
+            Context.init();
+            logger.info("Web API initialization complete.");
         } catch (Exception e) {
             logger.info("Web API context initialization error. StackTrace", e);
             e.printStackTrace();
