@@ -54,29 +54,29 @@ public class CacheLevelService implements LevelService{
         logger.debug("Get top users on level {}. All users: {}", level, map);
         Collection<Result> allResultsOnLevel = map.get(level);
         List<Result> allResultsOnLevelModifiedList = new ArrayList<>(allResultsOnLevel);
-        logger.debug(" Не сортированый список:\n {}", allResultsOnLevelModifiedList);
+        logger.debug(" Unsorted List:\n {}", allResultsOnLevelModifiedList);
 
         // 1. Сортировать результаты на уровне по убыванию
-        logger.debug("1. Сортировать результаты на уровне по убыванию");
+        logger.debug("1. Sort results on level by descending");
         Collections.sort((List) allResultsOnLevelModifiedList);
         //allResultsOnLevel.stream().sorted((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
-        logger.debug("Сортированый список:\n {}", allResultsOnLevelModifiedList);
+        logger.debug("Sorted list:\n {}", allResultsOnLevelModifiedList);
 
         //1.1  и оставить уникальные результаты (по признаку id-пользователя)
         logger.debug("1.1  и оставить уникальные результаты (по признаку id-пользователя)");
         List<Result> uniqueAllResultsByUser = allResultsOnLevelModifiedList.stream().filter(distinctByKey(o -> o.getUser_id())).collect(Collectors.toList());
-        logger.debug("Уникальные результаты на уровне:\n {}", uniqueAllResultsByUser);
+        logger.debug("Unique results on level:\n {}", uniqueAllResultsByUser);
 
         // 2. Надо выбрать топ уникальных пользователей
-        logger.debug("2. Надо выбрать топ уникальных пользователей");
+        logger.debug("2. Top unique users");
         int end = (uniqueAllResultsByUser.size() < TOP_COUNT) ? uniqueAllResultsByUser.size() : TOP_COUNT;
         List<Result>  uniqueTopResultsByUser = uniqueAllResultsByUser.subList(0,end);
-        logger.debug("Топ результатов уникальных пользователей:\n {}",uniqueTopResultsByUser);
+        logger.debug("Top unique users:\n {}",uniqueTopResultsByUser);
 
         //3. Получаем список ID пользователей
-        logger.debug("3. Получаем список ID пользователей");
+        logger.debug("3. Getting list users ids");
         List<Long> usersIds = uniqueTopResultsByUser.stream().map(Result::getUser_id).collect(Collectors.toList());
-        logger.debug("3.ID пользователей из TOP [{}] результатов: {}",TOP_COUNT, usersIds);
+        logger.debug("3.TOP [{}] users ids : {}",TOP_COUNT, usersIds);
 
 
         //4.!!!!!!!!!!! Надо вернуть пользователей (с результатами) в порядке убывания
@@ -88,7 +88,7 @@ public class CacheLevelService implements LevelService{
         }
 
         //5. Сортируем пользователей.;
-        logger.debug("4. Сортировка пользователей. В самом верху пользователи с наибольшей суммой очков на текущем уровне");
+        logger.debug("4. Sorting users. By Descending (On top, users with the highest score)");
         this.sortInDescending(allResultsOfTopUsersOnLevel);
 
         return allResultsOfTopUsersOnLevel;
