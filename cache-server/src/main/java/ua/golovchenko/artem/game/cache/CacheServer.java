@@ -48,6 +48,17 @@ public class CacheServer {
                                 .setPassword("production-password");
         instance = Hazelcast.newHazelcastInstance(config);
 
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                logger.info("Shutdown cache server. instance address: {}",
+                        instance.getLocalEndpoint().getSocketAddress());
+
+                instance.shutdown();
+            }
+        }));
+
     }
 
     private void configureMaps() {
