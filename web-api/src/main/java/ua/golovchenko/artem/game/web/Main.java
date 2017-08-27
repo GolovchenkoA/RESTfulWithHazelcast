@@ -11,11 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int webport = Integer.parseInt(System.getProperty("webport"));
-        if(webport == 0){
-            System.setProperty("webport","80");
-        }
-
         try {
             Context.init();
             logger.info("Web API initialization complete.");

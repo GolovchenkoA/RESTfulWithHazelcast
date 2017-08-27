@@ -23,7 +23,14 @@ public class WebServerApi {
     private HttpServer server;
 
     public WebServerApi() throws IOException {
-        port = Boolean.parseBoolean(System.getProperty("webport")) ? Integer.parseInt(System.getProperty("webport")) : DEFAULT_WEB_PORT;
+
+        try{
+            port = Integer.parseInt(System.getProperty("webport"));
+        } catch (Exception e){
+            logger.info("Web port is not specified. Default port: {}",DEFAULT_WEB_PORT);
+            port = DEFAULT_WEB_PORT;
+        }
+
         logger.info("Start configure web API server on port: {}", port);
         server = HttpServer.create(new InetSocketAddress(port), 0);
         HttpHandler handler = RuntimeDelegate.getInstance().createEndpoint(new JaxRsApplication(), HttpHandler.class);
