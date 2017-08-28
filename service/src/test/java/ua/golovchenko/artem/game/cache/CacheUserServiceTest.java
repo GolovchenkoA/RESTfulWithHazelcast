@@ -83,18 +83,6 @@ public class CacheUserServiceTest {
         this.userService.findAll();
     }
 
-
-/*
-    @Test
-    public void testGetTop() throws Exception {
-
-    }
-
-        @Test
-    public void testGenerateNewUser() throws Exception {
-
-    }*/
-
     @Test
     public void testuUserServiceUpdateMustCallUserDaoUpdate() throws Exception {
         userService.update(user);
