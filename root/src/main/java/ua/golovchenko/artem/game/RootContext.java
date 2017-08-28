@@ -1,4 +1,4 @@
-package ua.artem.golovchenko.game;
+package ua.golovchenko.artem.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
