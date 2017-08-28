@@ -77,6 +77,7 @@ public class CacheUserService implements UserService {
         int end = (results.size() < topCount) ? results.size() : topCount;
         List<Result> resultList = user.getResults().subList(0,end);
 
+        logger.debug("return user [id: {}] results", id);
         return resultList;
     }
 
