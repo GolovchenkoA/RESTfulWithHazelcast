@@ -1,10 +1,7 @@
-package ua.artem.golovchenko.game;
+package ua.golovchenko.artem.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Artem on 20.08.2017.
@@ -13,16 +10,13 @@ import java.util.Map;
  */
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
-    private static Map<String,Boolean> settings = new HashMap<>();
     public static void main(String[] args) {
-
-        System.setProperty("web","true");
-        System.setProperty("cache","true");
 
         boolean web = Boolean.parseBoolean( System.getProperty("web") );
         boolean cache = Boolean.parseBoolean( System.getProperty("cache") );
+        int webport = Boolean.parseBoolean(System.getProperty("webport")) ? Integer.parseInt(System.getProperty("webport")) : 0;
 
-        logger.info("\n Web server enabled: {} \n Cache server enabled {}", web,cache);
+        logger.info("\n Web server [on port: {}] enabled: {}  \n Cache server enabled {}", webport,web, cache);
 
         try {
             RootContext.init();
