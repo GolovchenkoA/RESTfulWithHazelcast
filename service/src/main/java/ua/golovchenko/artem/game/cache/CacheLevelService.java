@@ -27,16 +27,21 @@ public class CacheLevelService implements LevelService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String USERS_MAP = "users";
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
-    private static final int TOP_COUNT = 2;
+    private static final int TOP_COUNT_DEFAULT = 20;
+    private static int TOP_COUNT;
     private UserService userService;
 
 
     public CacheLevelService(){
+
         this.userService = new CacheUserService();
+        this.setTopCount();
     }
+
 
     public CacheLevelService(UserService userService){
         this.userService = userService;
+        this.setTopCount();
     }
 
     /**
@@ -59,7 +64,6 @@ public class CacheLevelService implements LevelService{
         // 1. Сортировать результаты на уровне по убыванию
         logger.debug("1. Sort results on level by descending");
         Collections.sort((List) allResultsOnLevelModifiedList);
-        //allResultsOnLevel.stream().sorted((r1, r2) -> r2.getResult().compareTo(r1.getResult()));
         logger.debug("Sorted list:\n {}", allResultsOnLevelModifiedList);
 
         //1.1  и оставить уникальные результаты (по признаку id-пользователя)
@@ -122,10 +126,22 @@ public class CacheLevelService implements LevelService{
         user.getResults().forEach(res -> resultsLevelMap.put(res.getLevel_id(),res));
     }
 
-    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
-    {
+    private static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor){
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
+
+    private void setTopCount() {
+
+        try{
+            int i = Integer.parseInt(System.getProperty("itemcount"));
+            TOP_COUNT = i >=1 ? i : TOP_COUNT_DEFAULT;
+            logger.info("Top results count per user on level: {}",TOP_COUNT);
+        } catch (Exception e){
+            logger.info("Top results count per user on level is not specified or incorrect. Default: {}",TOP_COUNT_DEFAULT);
+            TOP_COUNT = TOP_COUNT_DEFAULT;
+        }
+
     }
 
 }

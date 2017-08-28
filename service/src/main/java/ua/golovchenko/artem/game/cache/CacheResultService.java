@@ -14,20 +14,27 @@ import java.util.Collections;
  * @author Artem Golovchenko
  */
 public class CacheResultService implements ResultService {
-    private static final int MAX_RESULTS_COUNT = 2;
-    private final Logger logger     = LoggerFactory.getLogger(this.getClass());
+    private static final int MAX_RESULTS_COUNT_DEFAULT = 20;
+    private static int MAX_RESULTS_COUNT;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private CacheUserService userService;
     private CacheLevelService levelService;
 
     public CacheResultService() {
         this.userService  = new CacheUserService();
         this.levelService = new CacheLevelService();
+        this.setTopCount();
     }
 
     public CacheResultService(CacheUserService userService, CacheLevelService levelService) {
         this.userService = userService;
         this.levelService = levelService;
+        this.setTopCount();
     }
+
+    /**
+     * Set maximum results count per user
+     */
 
     @Override
     public void add(Result result) throws Exception {
@@ -40,22 +47,28 @@ public class CacheResultService implements ResultService {
         this.updateCacheCollections(user,result);
     }
 
+    /**
+     *
+     * @param user owner of results
+     * @param maximum_number stored results item
+     * @return int deleted items count
+     */
     int checkMaximumNumberOfResultsAllowed(User user, int maximum_number) {
-        int items_cont;
+        int items_count;
         int removedItemCount = 0;
 
         try{
-            items_cont = user.getResults().size();
+            items_count = user.getResults().size();
         }catch (Exception e){
             logger.debug("User [id: {}] have no results.",user.getUser_id());
-            items_cont = 0;
+            items_count = 0;
         }
 
-        if(items_cont >= MAX_RESULTS_COUNT){
+        if(items_count >= MAX_RESULTS_COUNT){
             Collections.sort(user.getResults());
             logger.debug("User with id [{}] have maximum results count [{}]. removing item", user.getUser_id(), maximum_number);
-            removedItemCount =user.getResults().subList(MAX_RESULTS_COUNT, items_cont).size();
-            user.getResults().subList(MAX_RESULTS_COUNT, items_cont).clear();
+            removedItemCount = user.getResults().subList(MAX_RESULTS_COUNT-1, items_count).size();
+            user.getResults().subList(MAX_RESULTS_COUNT-1, items_count).clear();
         }
 
         logger.debug("Removed {} results. User id: {} ", removedItemCount, user.getUser_id());
@@ -101,5 +114,18 @@ public class CacheResultService implements ResultService {
 
     CacheLevelService getLevelService() {
         return levelService;
+    }
+
+    private void setTopCount() {
+
+        try{
+            int i = Integer.parseInt(System.getProperty("itemcount"));
+            MAX_RESULTS_COUNT = i >=1 ? i : MAX_RESULTS_COUNT_DEFAULT;
+            logger.info("Maximum results count per user : {}",MAX_RESULTS_COUNT);
+        } catch (Exception e){
+            logger.info("Maximum results count per user is not specified or incorrect. Default: {}",MAX_RESULTS_COUNT_DEFAULT);
+            MAX_RESULTS_COUNT = MAX_RESULTS_COUNT_DEFAULT;
+        }
+
     }
 }
