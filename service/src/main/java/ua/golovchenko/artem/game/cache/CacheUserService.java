@@ -20,14 +20,19 @@ import java.util.Map;
  */
 public class CacheUserService implements UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final int MAX_RESULTS_COUNT_DEFAULT = 20;
+    private static int MAX_RESULTS_COUNT;
     private UserDAO userDAO;
 
     public CacheUserService(){
         this.userDAO = new BaseUserDAO();
+        this.setTopCount();
     }
 
     public CacheUserService(UserDAO userDAO){
+
         this.userDAO = userDAO;
+        this.setTopCount();
     }
 
     @Override
@@ -61,6 +66,12 @@ public class CacheUserService implements UserService {
     @Override
     public Map<Long, User> findAll() throws Exception {
         return userDAO.findAll();
+    }
+
+
+    @Override
+    public List<Result> getTop(Long id) throws Exception {
+        return getTop(id, MAX_RESULTS_COUNT);
     }
 
     @Override
@@ -102,5 +113,18 @@ public class CacheUserService implements UserService {
         User user = new UserBase(email,name,nick);
         user.setUser_id(id);
         return user;
+    }
+
+    private void setTopCount() {
+
+        try{
+            int i = Integer.parseInt(System.getProperty("itemcount"));
+            MAX_RESULTS_COUNT = i >=1 ? i : MAX_RESULTS_COUNT_DEFAULT;
+            logger.info("Maximum results count per user : {}",MAX_RESULTS_COUNT);
+        } catch (Exception e){
+            logger.info("Maximum results count per user is not specified or incorrect. Default: {}",MAX_RESULTS_COUNT_DEFAULT);
+            MAX_RESULTS_COUNT = MAX_RESULTS_COUNT_DEFAULT;
+        }
+
     }
 }

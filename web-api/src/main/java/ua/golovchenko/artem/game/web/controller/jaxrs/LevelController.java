@@ -26,7 +26,6 @@ import java.util.LinkedList;
 public class LevelController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private LevelService levelService = new CacheLevelService();
-    private static final int TOP_COUNT = 20;
 
     @GET
     @Path("/{level}")
@@ -36,7 +35,7 @@ public class LevelController {
         Collection<User> top_users = new LinkedList<>();
         Response.ResponseBuilder builder = null;
         try {
-            top_users = levelService.getTop(level, TOP_COUNT);
+            top_users = levelService.getTop(level);
             Gson gson = new Gson();
             String top_usersJson = gson.toJson(top_users);
             logger.debug("Get top users finish. start build response");

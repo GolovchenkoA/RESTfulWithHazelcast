@@ -45,6 +45,17 @@ public class CacheLevelService implements LevelService{
     }
 
     /**
+     * @param level Level number
+     * @return Top users with results on this level
+     * @throws Exception
+     */
+
+    @Override
+    public List<User> getTop(Integer level) throws Exception {
+        return getTop(level, TOP_COUNT);
+    }
+
+    /**
      *
      * @param level Level number
      * @param topCount Maximum number of users

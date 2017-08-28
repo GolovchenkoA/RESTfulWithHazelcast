@@ -7,4 +7,5 @@ import java.util.Collection;
  */
 public interface Top<T, I, C> {
     public Collection<T> getTop(I id, C topCount) throws Exception;
+    public Collection<T> getTop(I id) throws Exception;
 }

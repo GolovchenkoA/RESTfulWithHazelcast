@@ -1,6 +1,5 @@
 package ua.golovchenko.artem.game.web.controller.jaxrs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +26,13 @@ public class InfoController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String JSON_SCHEMA_INFO = "/jsonSchema/info.json";
     private ResultService resultService = new CacheResultService();
-    ObjectMapper mapper = new ObjectMapper();
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newInfo(String jsonInfo){
         Gson gson = new Gson();
         Result info = gson.fromJson(jsonInfo,ResultBase.class);
-        
+
         logger.info("newInfo(). Info: {}", info.toString());
         try {
             InfoJSONValidator.validate(info, JSON_SCHEMA_INFO);

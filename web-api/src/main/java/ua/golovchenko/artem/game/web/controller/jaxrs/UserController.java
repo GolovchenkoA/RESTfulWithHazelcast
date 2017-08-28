@@ -22,7 +22,6 @@ import java.util.Collection;
 public class UserController {
     private UserService userService = new CacheUserService();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final int TOP_RESULTS = 4;
 
     @GET
     @Path("/{id}")
@@ -30,7 +29,7 @@ public class UserController {
     public Response getUserResultsByUserId(@PathParam("id") Long id) {
         Response.ResponseBuilder builder = null;
         try {
-            Collection<Result> results = userService.getTop(id, TOP_RESULTS);
+            Collection<Result> results = userService.getTop(id);
             logger.debug("build response");
             Gson gson = new Gson();
             String resultsJson = gson.toJson(results);
