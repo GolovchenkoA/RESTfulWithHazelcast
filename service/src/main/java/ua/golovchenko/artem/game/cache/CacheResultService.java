@@ -14,8 +14,6 @@ import java.util.Collections;
  * @author Artem Golovchenko
  */
 public class CacheResultService implements ResultService {
-    private static final int MAX_RESULTS_COUNT_DEFAULT = 20;
-    private static int MAX_RESULTS_COUNT;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private CacheUserService userService;
     private CacheLevelService levelService;
@@ -23,13 +21,11 @@ public class CacheResultService implements ResultService {
     public CacheResultService() {
         this.userService  = new CacheUserService();
         this.levelService = new CacheLevelService();
-        this.setTopCount();
     }
 
     public CacheResultService(CacheUserService userService, CacheLevelService levelService) {
         this.userService = userService;
         this.levelService = levelService;
-        this.setTopCount();
     }
 
     /**
@@ -43,7 +39,7 @@ public class CacheResultService implements ResultService {
 
         user = this.createUserIfNotExists(user,user_id);
 
-        this.checkMaximumNumberOfResultsAllowed(user, MAX_RESULTS_COUNT);
+        this.checkMaximumNumberOfResultsAllowed(user, ServiceItemManager.getInstance().getMaxResultsCount());
         this.updateCacheCollections(user,result);
     }
 
@@ -114,18 +110,5 @@ public class CacheResultService implements ResultService {
 
     CacheLevelService getLevelService() {
         return levelService;
-    }
-
-    private void setTopCount() {
-
-        try{
-            int i = Integer.parseInt(System.getProperty("itemcount"));
-            MAX_RESULTS_COUNT = i >=1 ? i : MAX_RESULTS_COUNT_DEFAULT;
-            logger.info("Maximum results count per user : {}",MAX_RESULTS_COUNT);
-        } catch (Exception e){
-            logger.info("Maximum results count per user is not specified or incorrect. Default: {}",MAX_RESULTS_COUNT_DEFAULT);
-            MAX_RESULTS_COUNT = MAX_RESULTS_COUNT_DEFAULT;
-        }
-
     }
 }

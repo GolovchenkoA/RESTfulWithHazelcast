@@ -27,7 +27,6 @@ public class CacheLevelService implements LevelService{
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String USERS_MAP = "users";
     private static final String RESULTS_LEVEL_MAP = "info_by_level";
-    private static final int TOP_COUNT_DEFAULT = 20;
     private static int TOP_COUNT;
     private UserService userService;
 
@@ -35,13 +34,13 @@ public class CacheLevelService implements LevelService{
     public CacheLevelService(){
 
         this.userService = new CacheUserService();
-        this.setTopCount();
+        TOP_COUNT = ServiceItemManager.getInstance().getTopUserCount();
     }
 
 
     public CacheLevelService(UserService userService){
         this.userService = userService;
-        this.setTopCount();
+        TOP_COUNT = ServiceItemManager.getInstance().getTopUserCount();
     }
 
     /**
@@ -52,7 +51,7 @@ public class CacheLevelService implements LevelService{
 
     @Override
     public List<User> getTop(Integer level) throws Exception {
-        return getTop(level, TOP_COUNT);
+        return getTop(level, ServiceItemManager.getInstance().getTopUserCount());
     }
 
     /**
@@ -141,18 +140,4 @@ public class CacheLevelService implements LevelService{
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
-
-    private void setTopCount() {
-
-        try{
-            int i = Integer.parseInt(System.getProperty("itemcount"));
-            TOP_COUNT = i >=1 ? i : TOP_COUNT_DEFAULT;
-            logger.info("Top results count per user on level: {}",TOP_COUNT);
-        } catch (Exception e){
-            logger.info("Top results count per user on level is not specified or incorrect. Default: {}",TOP_COUNT_DEFAULT);
-            TOP_COUNT = TOP_COUNT_DEFAULT;
-        }
-
-    }
-
 }

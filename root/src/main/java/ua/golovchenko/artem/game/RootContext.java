@@ -29,8 +29,6 @@ public class RootContext {
         initServices();
     }
 
-
-
     private static void initServices() throws IOException {
 
         //Cache Server config
@@ -45,8 +43,9 @@ public class RootContext {
         if(Boolean.parseBoolean(System.getProperty((WEB_SERVER)))){
 
             logger.info("Config. Web API server: enabled");
-            webApiServer = new WebServerApi();
-            webApiServer.start();
+/*            webApiServer = new WebServerApi();
+            webApiServer.start();*/
+            ua.golovchenko.artem.game.web.Context.init();
         }else {
             logger.info("Config. Web API server disabled");
         }

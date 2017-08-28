@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
     public static void main(String[] args) {
-
+        
         boolean web = Boolean.parseBoolean( System.getProperty("web") );
         boolean cache = Boolean.parseBoolean( System.getProperty("cache") );
         int webport = Boolean.parseBoolean(System.getProperty("webport")) ? Integer.parseInt(System.getProperty("webport")) : 0;

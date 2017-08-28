@@ -3,6 +3,7 @@ package ua.golovchenko.artem.game.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheServer;
+import ua.golovchenko.artem.game.cache.ServiceItemManager;
 
 import java.io.IOException;
 
@@ -20,6 +21,11 @@ public class Context {
     }
 
     public static void init() throws IOException {
+
+        //init  Service Item Manager
+        logger.info("Initialization 'Service Item Manager'");
+        ServiceItemManager.getInstance().init();
+
         // Web API Server Configuration
             logger.info("Config. Web API server: enabled");
             webApiServer = new WebServerApi();
