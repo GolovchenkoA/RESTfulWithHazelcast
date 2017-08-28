@@ -34,9 +34,7 @@ public class InfoController {
     public Response newInfo(String jsonInfo){
         Gson gson = new Gson();
         Result info = gson.fromJson(jsonInfo,ResultBase.class);
-
-        logger.info("Inside setinfo");
-        //Result info1 = null;
+        
         logger.info("newInfo(). Info: {}", info.toString());
         try {
             InfoJSONValidator.validate(info, JSON_SCHEMA_INFO);
