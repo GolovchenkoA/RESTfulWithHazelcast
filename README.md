@@ -13,17 +13,21 @@ RESTful API с Hazelcast кэш сервером.
 
 ### Примеры запуска
 **выполнять комманду необходимо из модуля 'root'. Директория: _root_project\root\build\libs_**
+
 *java -Dweb=true -Dcache=true -jar root-all-_[version]_.jar*
+
 [x] web server enabled
 [x] cache server enabled
 [x] default web-port [80]
 
 *java -Dweb=true -Dwebport=5555 -jar root-all-_[version]_.jar*
+
 [x] web server enabled
 [ ] cache server enabled
 [ ] default web-port [80]
 
 *java -Dcache=true -jar root-all-_[version]_.jar*
+
 [ ] web server enabled
 [x] cache server enabled
 [ ] default web-port [80]
@@ -44,6 +48,3 @@ RESTful API с Hazelcast кэш сервером.
 **выполнять из директории _.\cache-server\build\libs_**
 *java -jar cache-server-all-_[version]_.jar*
 [x] cache server enabled
-
-
-
