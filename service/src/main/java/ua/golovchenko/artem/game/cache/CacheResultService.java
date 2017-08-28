@@ -64,11 +64,11 @@ public class CacheResultService implements ResultService {
             items_count = 0;
         }
 
-        if(items_count >= MAX_RESULTS_COUNT){
+        if(items_count >= maximum_number){
             Collections.sort(user.getResults());
             logger.debug("User with id [{}] have maximum results count [{}]. removing item", user.getUser_id(), maximum_number);
-            removedItemCount = user.getResults().subList(MAX_RESULTS_COUNT-1, items_count).size();
-            user.getResults().subList(MAX_RESULTS_COUNT-1, items_count).clear();
+            removedItemCount = user.getResults().subList(maximum_number, items_count).size();
+            user.getResults().subList(maximum_number, items_count).clear();
         }
 
         logger.debug("Removed {} results. User id: {} ", removedItemCount, user.getUser_id());
@@ -91,7 +91,7 @@ public class CacheResultService implements ResultService {
         //Update Results in UsersMap
             try {
                 userService.update(user);
-                logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", user.getUser_id(), result);
+                logger.debug("UserService. Add new result [{}] to user with id [{}] . finish", result, user.getUser_id());
             } catch (Exception e) {
                 logger.debug("Error update user. StackTrace {}", e);
                 throw new Exception(e);
