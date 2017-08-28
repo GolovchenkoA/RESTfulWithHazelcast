@@ -1,7 +1,7 @@
 description = 'simple RESTful application with memory cache (hazelcast)'
 
 
-rootProject.version= '1.0.3'
+rootProject.version= '1.0.4'
 rootProject.group = 'ua.golovchenko.artem.game'
 ext{
     projectIds = ['group': 'ua.golovchenko.artem.game']
