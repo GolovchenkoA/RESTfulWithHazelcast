@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.game.web.controller.jaxrs;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheUserService;
@@ -13,7 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Artem on 13.08.2017.
@@ -23,16 +23,20 @@ public class UserController {
     private UserService userService = new CacheUserService();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final int TOP_RESULTS = 4;
-    
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserResultsByUserId(@PathParam("id") Long id) {
-        List<Result> users = null;
         Response.ResponseBuilder builder = null;
         try {
             Collection<Result> results = userService.getTop(id, TOP_RESULTS);
-            builder = Response.ok(results);
+            logger.debug("build response");
+            Gson gson = new Gson();
+            String resultsJson = gson.toJson(results);
+            builder = Response.ok(resultsJson);
+            logger.debug("return response");
+
             return builder.build();
         } catch(NullPointerException e){
             logger.info("User not found. id: [{}]",id);

@@ -94,4 +94,29 @@ public class UserBase implements User, Serializable{
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserBase userBase = (UserBase) o;
+
+        if (!email.equals(userBase.email)) return false;
+        if (!name.equals(userBase.name)) return false;
+        if (nick != null ? !nick.equals(userBase.nick) : userBase.nick != null) return false;
+        if (!results.equals(userBase.results)) return false;
+        if (!user_id.equals(userBase.user_id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = user_id.hashCode();
+        result = 31 * result + email.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + (nick != null ? nick.hashCode() : 0);
+        result = 31 * result + results.hashCode();
+        return result;
+    }
 }

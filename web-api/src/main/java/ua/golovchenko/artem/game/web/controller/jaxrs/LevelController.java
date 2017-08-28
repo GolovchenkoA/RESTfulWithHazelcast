@@ -1,5 +1,6 @@
 package ua.golovchenko.artem.game.web.controller.jaxrs;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.game.cache.CacheLevelService;
@@ -32,13 +33,14 @@ public class LevelController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTopUsersAtLevel(@PathParam("level") Integer level) {
         logger.info("Method getTopUsersAtLevel ({}) call", level);
-        //Collection<User> top_users = new LinkedList<>();
         Collection<User> top_users = new LinkedList<>();
         Response.ResponseBuilder builder = null;
         try {
-
             top_users = levelService.getTop(level, TOP_COUNT);
-            builder = Response.ok(top_users);
+            Gson gson = new Gson();
+            String top_usersJson = gson.toJson(top_users);
+            logger.debug("Get top users finish. start build response");
+            builder = Response.ok(top_usersJson);
             return builder.build();
         } catch (Exception e) {
             logger.info("Error getTop top users from cache server: {}", e);

@@ -19,10 +19,11 @@ public class InfoJSONValidator{
     private InfoJSONValidator(){}
 
     public static void validate(Result item, String pathToJsonSchema) throws Exception {
-        logger.debug("Validation InfoBase: {}", item);
-        org.json.JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(InfoJSONValidator.class.getResourceAsStream(pathToJsonSchema)));
-        JSONObject jsonSubject = new JSONObject(item);
-        Schema schema = SchemaLoader.load(jsonSchemaResult);
-        schema.validate(jsonSubject);
+
+            logger.debug("Validation InfoBase: {}", item);
+            JSONObject jsonSchemaResult = new JSONObject(new JSONTokener(InfoJSONValidator.class.getResourceAsStream(pathToJsonSchema)));
+            JSONObject jsonSubject = new JSONObject(item);
+            Schema schema = SchemaLoader.load(jsonSchemaResult);
+            schema.validate(jsonSubject);
     }
 }

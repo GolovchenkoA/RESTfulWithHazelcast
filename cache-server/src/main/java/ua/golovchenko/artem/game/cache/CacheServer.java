@@ -8,8 +8,12 @@ import com.hazelcast.core.MultiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.golovchenko.artem.model.Result;
+import ua.golovchenko.artem.model.ResultBase;
 import ua.golovchenko.artem.model.User;
+import ua.golovchenko.artem.model.UserBase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -66,6 +70,19 @@ public class CacheServer {
         infoByLevel = instance.getMultiMap(RESULTS_LEVEL_MAP);
         logger.debug("Map {} created. Map content: {}\n Map {} created content: {}",
                 USERS_MAP, users.entrySet(),RESULTS_LEVEL_MAP, infoByLevel.entrySet());
+
+        //удалить позже. для теста
+        UserBase user = new UserBase(10L,"email@i.ua","myname","mynick");
+        List results = new ArrayList();
+        Result result1 = new ResultBase(user.getUser_id(), 2, 5);
+        results.add(result1);
+        user.setResults(results);
+
+        //LevelMap
+        infoByLevel.put(result1.getLevel_id(),result1);
+
+        //UserMap
+        users.put(user.getUser_id(), user);
     }
 
 }
