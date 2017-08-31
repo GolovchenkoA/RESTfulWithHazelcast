@@ -238,9 +238,6 @@ subprojects {
         description = 'Cache Server'
 
         dependencies {
-            compile project(':models')
-            compile project(':dao')
-            compile project(':service')
             compile group: 'com.hazelcast', name: 'hazelcast', version: "$hazelcastVersion"
         }
 
