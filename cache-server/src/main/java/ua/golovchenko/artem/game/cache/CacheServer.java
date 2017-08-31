@@ -30,7 +30,7 @@ public class CacheServer {
 
     ConcurrentMap<Long, User> users;
     MultiMap<Integer , Result> infoByLevel;
-    private HazelcastInstance instance;
+    private static HazelcastInstance instance;
 
     public CacheServer() {
         logger.debug("Class constructor. Cache Server initialization");
@@ -83,6 +83,10 @@ public class CacheServer {
 
         //UserMap
         users.put(user.getUser_id(), user);
+    }
+
+    public static HazelcastInstance getInstance(){
+        return instance;
     }
 
 }

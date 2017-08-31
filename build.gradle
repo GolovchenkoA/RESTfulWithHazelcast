@@ -1,7 +1,7 @@
 description = 'simple RESTful application with memory cache (hazelcast)'
 
 
-rootProject.version= '1.0.5-SNAPSHOT'
+rootProject.version= '1.0.5'
 rootProject.group = 'ua.golovchenko.artem.game'
 ext{
     projectIds = ['group': 'ua.golovchenko.artem.game']
@@ -171,6 +171,7 @@ subprojects {
 
         dependencies {
             compile project(':models')
+            compile project(':cache-server')
             compile group: 'com.hazelcast', name: 'hazelcast-client', version: "$hazelcastVersion"
         }
     }
