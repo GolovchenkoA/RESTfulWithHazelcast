@@ -47,7 +47,7 @@ public class BaseUserDAO implements UserDAO {
 
     @Override
     public Map<Long,User> findAll() throws Exception {
-        logger.debug("findAll() . result: {}", getCache().getMap("users"));
+        logger.debug("Call function findAll() 'users'");
         return getCache().getMap(USERS_MAP);
     }
 
